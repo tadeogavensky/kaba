@@ -16,10 +16,14 @@ body {
   width: 0;
 }
 
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
 /* .slider {
   @apply !flex !items-center !gap-6 !justify-start !overflow-x-auto !mt-6 !z-0;
 }
  */
-.swiper-slide-active{
-  @apply !flex !justify-center !mr-0
+.swiper-slide-active {
+  @apply !flex !justify-center !mr-0;
 }

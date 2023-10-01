@@ -15,15 +15,14 @@ const client = {
 
 export default function Home() {
   return (
-    <main className="p-6 min-h-screen">
-      <Header client={client} />
-      <InputSearch />
-      <BannerSlider />
-      <Services />
-      <PopularServices />
-      <BannerSlider />
-      <BannerSlider />
-
+    <main className="min-h-screen">
+      <div className="m-6">
+        <Header client={client} />
+        <InputSearch />
+        <BannerSlider />
+        <Services />
+        <PopularServices />
+      </div>
     </main>
   );
 }

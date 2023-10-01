@@ -1,32 +1,39 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import broom from "/kaba-app/public/assets/services/broom.jpg";
-import tools from "/kaba-app/public/assets/services/tools.jpg";
-import paintBrush from "/kaba-app/public/assets/services/paint-brush.jpg";
-import laundry from "/kaba-app/public/assets/services/laundry.jpg";
-import Service from "./Service";
-import ServicePill from "./ServicePill";
+import Category from "./Category";
+import LoadingSkeleton from "../LoadingSkeleton";
 
 const services = [
   {
-    name: "Cleaning",
-    image: "/assets/services/broom.jpg",
+    name: "cleaning",
+    image: "/assets/categories/broom.jpg",
   },
   {
-    name: "Painting",
-    image: "/assets/services/paint-brush.jpg",
+    name: "painting",
+    image: "/assets/categories/paint-brush.jpg",
   },
   {
-    name: "Laundry",
-    image: "/assets/services/laundry.jpg",
+    name: "laundry",
+    image: "/assets/categories/laundry.jpg",
   },
   {
-    name: "Repairing",
-    image: "/assets/services/tools.jpg",
+    name: "repairing",
+    image: "/assets/categories/tools.jpg",
   },
 ];
 
 const Services = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="flex flex-col mt-6 gap-6">
       <div className="flex justify-between">
@@ -39,11 +46,17 @@ const Services = () => {
         </Link>
       </div>
       <ul className="flex items-baseline justify-evenly gap-6 ">
-        {services.map((service, index) => (
-          <div key={index}>
-            <Service image={service.image} name={service.name} />
-          </div>
-        ))}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <div key={index}>
+                <LoadingSkeleton className="w-[60px] h-[60px] rounded-full bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
+              </div>
+            ))
+          : services.map((service, index) => (
+              <div key={index}>
+                <Category image={service.image} name={service.name} />
+              </div>
+            ))}
       </ul>
     </section>
   );
