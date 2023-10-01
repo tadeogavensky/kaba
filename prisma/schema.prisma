@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id             Int           @id @default(autoincrement())
+  email          String        @unique
+  password       String
+  firstName      String
+  lastName       String
+  addresses      Address[]
+  profilePicture String
+  Booking        Booking[]
+  Review         Review[]
+  Inbox          Inbox[]
+  Transaction    Transaction[]
+}
+
+//KabaProp
+model ServiceProvider {
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  password       String
+  firstName      String
+  lastName       String
+  street         String
+  city           String
+  state          String
+  postalCode     String
+  country        String
+  profilePicture String
+  services       Service[]
+  Booking        Booking[]
+  Review         Review[]
+  Inbox          Inbox[]
+  Transaction    Transaction[]
+  Unavailability Unavailability[]
+}
+
+model Address {
+  id          Int       @id @default(autoincrement())
+  fullAddress String?
+  street      String //address 1 + address 2 on the frontend or street input
+  city        String
+  state       String
+  postalCode  String
+  country     String
+  Client      Client?   @relation(fields: [clientId], references: [id])
+  clientId    Int?
+  Booking     Booking[]
+}
+
+model Service {
+  id                Int              @id @default(autoincrement())
+  name              String
+  description       String           @db.Text
+  image             String
+  ServiceProvider   ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
+  serviceProviderId Int?
+  Category          Category?        @relation(fields: [categoryId], references: [id])
+  categoryId        Int?
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String
+  image   String
+  service Service[]
+}
+
+model Booking {
+  id                Int             @id @default(autoincrement())
+  date              DateTime        @default(now()) @db.Date
+  time              DateTime        @db.Time()
+  address           Address         @relation(fields: [addressId], references: [id])
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  client            Client          @relation(fields: [clientId], references: [id])
+  serviceProviderId Int
+  clientId          Int
+  addressId         Int
+  Transaction       Transaction[]
+}
+
+model Unavailability {
+  id                Int             @id @default(autoincrement())
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  serviceProviderId Int
+  startDateTime     DateTime
+  endDateTime       DateTime
+}
+
+model Review {
+  id                Int             @id @default(autoincrement())
+  rating            Int
+  comment           String?
+  date              DateTime        @default(now())
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  client            Client          @relation(fields: [clientId], references: [id])
+  serviceProviderId Int
+  clientId          Int
+}
+
+model Inbox {
+  id                Int             @id @default(autoincrement())
+  client            Client          @relation(fields: [clientId], references: [id])
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  messages          Message[]
+  clientId          Int
+  serviceProviderId Int
+}
+
+model Message {
+  id             Int      @id @default(autoincrement())
+  text           String
+  sender         String
+  conversation   Inbox    @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  createdAt      DateTime @default(now())
+}
+
+model Transaction {
+  id                Int             @id @default(autoincrement())
+  amount            Float
+  booking           Booking         @relation(fields: [bookingId], references: [id])
+  date              DateTime        @default(now())
+  client            Client          @relation(fields: [clientId], references: [id])
+  clientId          Int
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  serviceProviderId Int
+  bookingId         Int
+}
