@@ -103,7 +103,7 @@ const PopularServices = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <div className="flex items-center gap-3 mt-4">
+        <div className="flex items-center gap-3 mt-6">
           {servicesCategory.map((category, index) => (
             <Pill
               key={index}
@@ -114,7 +114,8 @@ const PopularServices = () => {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-3 grid-flow-row gap-4">
+
+      <div className="grid grid-cols-3 grid-flow-row gap-4 mt-4">
         {isLoading
           ? // Render loading skeletons when data is loading
             Array.from({ length: 9 }).map((_, index) => (
