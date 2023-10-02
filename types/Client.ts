@@ -4,6 +4,7 @@ type Client = {
   password: string;
   firstName: string;
   lastName: string;
+  phone: string;
   profilePicture: string;
   /*   addresses: Address[];
   

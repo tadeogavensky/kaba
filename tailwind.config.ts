@@ -8,7 +8,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        body: ["Roboto", "sans"],
+        body: ["Poppins", "sans"],
         heading: ["Montserrat", "sans"],
       },
       colors: {

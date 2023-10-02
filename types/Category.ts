@@ -1,6 +1,7 @@
 type Category = {
-  name: String;
-  image: String;
+  id: number;
+  name: string;
+  image: string;
 };
 
 export default Category;

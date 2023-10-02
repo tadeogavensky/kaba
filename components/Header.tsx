@@ -28,9 +28,12 @@ const Header: React.FC<HeaderProps> = ({ client }) => {
           alt="profilePic"
         />
 
-        <p className="font-bold font-body">
-          {client.firstName} {client.lastName}
-        </p>
+        <div className="flex flex-col gap-1">
+          <p className="font-normal font-heading text-sm text-gray-600">Good Morning</p>
+          <p className="font-bold font-heading text-xl">
+            {client.firstName} {client.lastName}
+          </p>
+        </div>
       </div>
 
       <div className="flex items-center gap-4 sm:hidden">

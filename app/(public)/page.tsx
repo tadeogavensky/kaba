@@ -8,8 +8,8 @@ const client = {
   id: 1,
   email: "cliente@example.com",
   password: "hashedPassword",
-  firstName: "John",
-  lastName: "Doe",
+  firstName: "Tadeo",
+  lastName: "Gavensky",
   profilePicture: "profile.jpg",
 };
 

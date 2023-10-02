@@ -2,74 +2,76 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import Pill from "./Pill";
-import ServiceCard from "./ServiceCard";
+import Card from "./Card";
 import LoadingSkeleton from "../LoadingSkeleton";
 
 const servicesCategory = [
   {
-    name: "all",
+    name: "All",
   },
   {
-    name: "cleaning",
+    name: "Cleaning",
     services: [
       {
-        name: "house cleaning",
+        name: "House Cleaning",
         image: "/assets/services/house-cleaning.jpg",
       },
       {
-        name: "car wash",
+        name: "Car Wash",
         image: "/assets/services/car-wash.jpg",
       },
       {
-        name: "carpet cleaning",
+        name: "Carpet Cleaning",
         image: "/assets/services/carpet-cleaning.jpg",
       },
     ],
   },
   {
-    name: "painting",
+    name: "Painting",
     services: [
       {
-        name: "house painting",
+        name: "House Painting",
         image: "/assets/services/house-painting.jpg",
       },
       {
-        name: "furniture painting",
+        name: "Furniture Painting",
         image: "/assets/services/furniture-painting.jpg",
       },
     ],
   },
   {
-    name: "laundry",
+    name: "Laundry",
     services: [
       {
-        name: "dry cleaning",
+        name: "Dry Cleaning",
         image: "/assets/services/dry-cleaning.jpg",
       },
     ],
   },
   {
-    name: "repairing",
+    name: "Repairing",
     services: [
       {
-        name: "electrical repair",
+        name: "Electrical Repair",
         image: "/assets/services/electrical-repair.jpg",
       },
       {
-        name: "ac installations",
+        name: "AC Installation",
         image: "/assets/services/ac-installation.jpg",
       },
       {
-        name: "plumbing repair",
+        name: "Plumbing Repair",
         image: "/assets/services/plumbing-repair.jpg",
       },
       {
-        name: "car repair",
+        name: "Car Repair",
         image: "/assets/services/car-repair.jpg",
       },
     ],
   },
 ];
+
+
 
 const PopularServices = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -134,7 +136,7 @@ const PopularServices = () => {
               })
               .map((category) =>
                 category.services?.map((service, index) => (
-                  <ServiceCard
+                  <Card
                     key={index}
                     name={service.name}
                     image={service.image}

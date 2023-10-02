@@ -8,38 +8,41 @@ datasource db {
 }
 
 model Client {
-  id             Int           @id @default(autoincrement())
-  email          String        @unique
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
   password       String
+  phone          String
   firstName      String
   lastName       String
   addresses      Address[]
   profilePicture String
-  Booking        Booking[]
-  Review         Review[]
-  Inbox          Inbox[]
-  Transaction    Transaction[]
+  bookings       Booking[]
+  review         Review[]
+  inbox          Inbox[]
 }
 
 //KabaProp
-model ServiceProvider {
-  id             Int              @id @default(autoincrement())
-  email          String           @unique
+model Worker {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
   password       String
   firstName      String
   lastName       String
+  phone          String
+  about          String    @db.Text
   street         String
   city           String
   state          String
   postalCode     String
   country        String
   profilePicture String
-  services       Service[]
-  Booking        Booking[]
-  Review         Review[]
-  Inbox          Inbox[]
-  Transaction    Transaction[]
-  Unavailability Unavailability[]
+  bookings       Booking[]
+  reviews        Review[]
+  inbox          Inbox[]
+  rate           Rate      @relation(fields: [rateId], references: [id])
+  service        Service?  @relation(fields: [serviceId], references: [id])
+  serviceId      Int?
+  rateId         Int
 }
 
 model Address {
@@ -50,20 +53,29 @@ model Address {
   state       String
   postalCode  String
   country     String
-  Client      Client?   @relation(fields: [clientId], references: [id])
+  client      Client?   @relation(fields: [clientId], references: [id])
   clientId    Int?
-  Booking     Booking[]
+  bookings    Booking[]
 }
 
 model Service {
-  id                Int              @id @default(autoincrement())
-  name              String
-  description       String           @db.Text
-  image             String
-  ServiceProvider   ServiceProvider? @relation(fields: [serviceProviderId], references: [id])
-  serviceProviderId Int?
-  Category          Category?        @relation(fields: [categoryId], references: [id])
-  categoryId        Int?
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String    @db.Text
+  image       String
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  rates       Rate[]
+  workers     Worker[]
+}
+
+model Rate {
+  id        Int      @id @default(autoincrement())
+  rate      Float
+  service   Service  @relation(fields: [serviceId], references: [id])
+  workerId  Int
+  serviceId Int
+  Worker    Worker[]
 }
 
 model Category {
@@ -74,44 +86,37 @@ model Category {
 }
 
 model Booking {
-  id                Int             @id @default(autoincrement())
-  date              DateTime        @default(now()) @db.Date
-  time              DateTime        @db.Time()
-  address           Address         @relation(fields: [addressId], references: [id])
-  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  client            Client          @relation(fields: [clientId], references: [id])
-  serviceProviderId Int
-  clientId          Int
-  addressId         Int
-  Transaction       Transaction[]
-}
-
-model Unavailability {
-  id                Int             @id @default(autoincrement())
-  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  serviceProviderId Int
-  startDateTime     DateTime
-  endDateTime       DateTime
+  id            Int         @id @default(autoincrement())
+  date          DateTime    @default(now()) @db.Date
+  time          DateTime    @db.Time()
+  address       Address     @relation(fields: [addressId], references: [id])
+  client        Client      @relation(fields: [clientId], references: [id])
+  clientId      Int
+  addressId     Int
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  worker        Worker?     @relation(fields: [workerId], references: [id])
+  workerId      Int?
+  transactionId Int
 }
 
 model Review {
-  id                Int             @id @default(autoincrement())
-  rating            Int
-  comment           String?
-  date              DateTime        @default(now())
-  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  client            Client          @relation(fields: [clientId], references: [id])
-  serviceProviderId Int
-  clientId          Int
+  id       Int      @id @default(autoincrement())
+  rating   Int
+  comment  String?
+  date     DateTime @default(now())
+  client   Client   @relation(fields: [clientId], references: [id])
+  clientId Int
+  worker   Worker?  @relation(fields: [workerId], references: [id])
+  workerId Int?
 }
 
 model Inbox {
-  id                Int             @id @default(autoincrement())
-  client            Client          @relation(fields: [clientId], references: [id])
-  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  messages          Message[]
-  clientId          Int
-  serviceProviderId Int
+  id       Int       @id @default(autoincrement())
+  client   Client    @relation(fields: [clientId], references: [id])
+  messages Message[]
+  clientId Int
+  worker   Worker?   @relation(fields: [workerId], references: [id])
+  workerId Int?
 }
 
 model Message {
@@ -124,13 +129,9 @@ model Message {
 }
 
 model Transaction {
-  id                Int             @id @default(autoincrement())
-  amount            Float
-  booking           Booking         @relation(fields: [bookingId], references: [id])
-  date              DateTime        @default(now())
-  client            Client          @relation(fields: [clientId], references: [id])
-  clientId          Int
-  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  serviceProviderId Int
-  bookingId         Int
+  id        Int       @id @default(autoincrement())
+  amount    Float
+  date      DateTime  @default(now())
+  bookingId Int
+  Booking   Booking[]
 }
