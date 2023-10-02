@@ -11,6 +11,7 @@ const client = {
   firstName: "Tadeo",
   lastName: "Gavensky",
   profilePicture: "profile.jpg",
+  phone:"1160204654"
 };
 
 export default function Home() {
