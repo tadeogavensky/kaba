@@ -1,17 +1,22 @@
 import Form from "@/components/sign-up/Form";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function SignUp() {
   return (
-    <div className="flex flex-col justify-center items-center sm:min-h-screen">
+    <div className="flex flex-col items-center min-h-screen sm:justify-center">
+      <Link href={"/"} className="hidden sm:block">
+        <h1 className="font-bold font-heading text-5xl">Kaba</h1>
+        <h1 className="font-bold font-heading text-sm float-right">To home</h1>
+      </Link>
       <div className="sm:hidden">
         <Image
           src={"/assets/enjoy.jpg"}
           width={400}
           height={300}
           alt="enjoy"
-          className="rounded-b-3xl shadow-xl "
+          className="rounded-b-3xl shadow-xl w-screen"
         />
       </div>
 

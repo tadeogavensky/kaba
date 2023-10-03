@@ -21,7 +21,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = (/* { client } */) => {
-  const [clientLogged, isClientLoggedIn] = useState(true);
+  const [clientLogged, isClientLoggedIn] = useState(false);
   const [client, setClient] = useState<Client>({
     id: 1,
     email: "cliente@example.com",
@@ -61,14 +61,14 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
         {!clientLogged && (
           <div className="flex items-center gap-4 sm:hidden">
             <Link
-              href={"/log-in"}
+              href={"/login"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
               Log In
             </Link>
 
             <Link
-              href={"/sign-up"}
+              href={"/signup"}
               className="bg-primary text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
             >
               Join Now
@@ -89,53 +89,36 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
           <h1 className="font-bold font-heading text-3xl">Kaba</h1>
         </Link>
 
-        {!isClientLoggedIn && (
+        {!clientLogged && (
           <div className="flex items-center gap-2">
             <Link
-              href={"/log-in"}
+              href={"/login"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
               Log In
             </Link>
 
             <Link
-              href={"/sign-up"}
+              href={"/signup"}
               className="bg-primary text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
             >
               Join Now
             </Link>
           </div>
         )}
-
-        {!isClientLoggedIn && (
-          <div className="flex items-center gap-2">
-            <Link
-              href={"/log-in"}
-              className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
-            >
-              Log In
-            </Link>
-
-            <Link
-              href={"/sign-up"}
-              className="bg-primary text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
-            >
-              Join Now
-            </Link>
+        {clientLogged && (
+          <div className="flex items-center gap-12">
+            <div className="flex items-center gap-1 cursor-pointer">
+              <MdOutlineAccountCircle size={30} />
+              <p className="text-xl font-bold font-body">{client.firstName}</p>
+              <AiOutlineDown />
+            </div>
+            <div className="flex items-center gap-6">
+              <BsCalendar size={30} />
+              <IoNotificationsOutline size={30} />
+            </div>
           </div>
         )}
-
-        <div className="flex items-center gap-12">
-          <div className="flex items-center gap-1 cursor-pointer">
-            <MdOutlineAccountCircle size={30} />
-            <p className="text-xl font-bold font-body">{client.firstName}</p>
-            <AiOutlineDown />
-          </div>
-          <div className="flex items-center gap-6">
-            <BsCalendar size={30} />
-            <IoNotificationsOutline size={30} />
-          </div>
-        </div>
       </div>
     </header>
   );
@@ -143,10 +126,6 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
 
 export default Header;
 
-const AccountDropDown = () =>{
-  return(
-    <div>
-      
-    </div>
-  )
-}
+const AccountDropDown = () => {
+  return <div></div>;
+};

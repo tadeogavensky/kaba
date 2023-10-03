@@ -11,11 +11,11 @@ model Client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
-  phone          String
-  firstName      String
-  lastName       String
+  phone          String?
+  firstName      String?
+  lastName       String?
   addresses      Address[]
-  profilePicture String
+  profilePicture String?
   bookings       Booking[]
   review         Review[]
   inbox          Inbox[]
@@ -26,20 +26,20 @@ model Worker {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
-  firstName      String
-  lastName       String
-  phone          String
-  about          String    @db.Text
-  street         String
-  city           String
-  state          String
-  postalCode     String
-  country        String
-  profilePicture String
+  firstName      String?
+  lastName       String?
+  phone          String?
+  about          String?   @db.Text
+  street         String?
+  city           String?
+  state          String?
+  postalCode     String?
+  country        String?
+  profilePicture String?
   bookings       Booking[]
   reviews        Review[]
   inbox          Inbox[]
-  rate           Rate      @relation(fields: [rateId], references: [id])
+  rate           Rate?      @relation(fields: [rateId], references: [id])
   service        Service?  @relation(fields: [serviceId], references: [id])
   serviceId      Int?
   rateId         Int

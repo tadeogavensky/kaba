@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
-import Image from "next/image";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/authContext";
 const LoginForm = () => {
   const [userType, setUserType] = useState("client");
   const [email, setEmail] = useState("");
@@ -14,6 +14,9 @@ const LoginForm = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+
+  const router = useRouter();
+  const { login } = useAuthContext();
 
   const validateEmail = (inputEmail: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,7 +47,7 @@ const LoginForm = () => {
     }
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setIsFormSubmitted(true);
@@ -62,7 +65,14 @@ const LoginForm = () => {
           password,
         });
 
-        // Handle login success, e.g., redirect to a dashboard
+        if (!response) {
+          return console.log("Error");
+        }
+
+        const tokens = response.data();
+        login(tokens);
+
+        return router.push("/");
       } catch (error) {
         // Handle login failure, e.g., display an error message
       }
@@ -85,7 +95,7 @@ const LoginForm = () => {
               userType === "client"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
-            } rounded-l-xl px-3 py-1 font-body font-bold transition duration-300 w-full`}
+            } rounded-l-xl px-3 py-1 font-body font-bold transition w-full`}
             onClick={() => setUserType("client")}
           >
             Client
@@ -190,7 +200,7 @@ const LoginForm = () => {
       </button>
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Not a member yet?</p>
-        <Link href={"/sign-up"} className="text-blue-600">
+        <Link href={"/signup"} className="text-blue-600">
           Sign Up
         </Link>
       </div>

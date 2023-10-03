@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
-import Image from "next/image";
 import Link from "next/link";
 
 const Form = () => {
@@ -72,7 +71,7 @@ const Form = () => {
       onSubmit={handleSubmit}
       className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm"
     >
-      <div className=" flex gap-3 sm:justify-start justify-between items-center flex-1 mt-8">
+      <div className=" flex gap-3  justify-between items-center flex-1 mt-8">
         <label className="font-bold font-body" htmlFor="">
           Who are you?
         </label>
@@ -83,7 +82,7 @@ const Form = () => {
               userType === "client"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
-            } rounded-l-xl px-3 py-1 font-body font-bold transition duration-300 w-full`}
+            } rounded-l-xl px-3 py-1 font-body font-bold transition  w-full`}
             onClick={() => setUserType("client")}
           >
             Client
@@ -187,7 +186,7 @@ const Form = () => {
       </button>
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Already have an account?</p>{" "}
-        <Link href={"/log-in"} className="text-blue-600">
+        <Link href={"/login"} className="text-blue-600">
           Log In
         </Link>
       </div>
