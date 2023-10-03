@@ -11,10 +11,10 @@ const Card: FC<ServiceType> = ({ name, image }) => {
     >
       <Image
         src={image}
-        height={200}
-        width={200}
+        height={500}
+        width={500}
         alt="service"
-        className="rounded-2xl w-[100px] h-[100px] object-cover"
+        className="rounded-2xl sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] object-cover"
       />
       <p className={`font-body font-semibold text-center text-sm`}>{name}</p>
     </Link>

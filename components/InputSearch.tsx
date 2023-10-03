@@ -2,7 +2,7 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 const InputSearch = () => {
   return (
-    <div className="flex items-center bg-gray-100 rounded-lg p-2 px-4 gap-4 mt-10">
+    <div className="flex items-center bg-gray-100 rounded-lg p-2 px-4 gap-4 mt-8">
       <IoSearchOutline size={20} />
       <input
         placeholder="Search"

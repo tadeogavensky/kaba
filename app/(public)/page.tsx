@@ -1,5 +1,5 @@
 import BannerSlider from "@/components/BannerSlider";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import InputSearch from "@/components/InputSearch";
 import PopularServices from "@/components/services/PopularServices";
 import Services from "@/components/services/Services";

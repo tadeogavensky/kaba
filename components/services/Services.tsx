@@ -37,7 +37,7 @@ const Services = () => {
   return (
     <section className="flex flex-col mt-6 gap-6">
       <div className="flex justify-between">
-        <p className="font-heading font-bold">Services</p>
+        <p className="font-heading font-bold sm:text-lg">Services</p>
         <Link
           href={"/services"}
           className="font-heading font-semibold text-sm text-primary hover:text-blue-400 transition"

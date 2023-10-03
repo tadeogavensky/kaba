@@ -15,7 +15,7 @@ const Card: FC<WorkerTypes> = ({
   rate,
   reviews,
   totalJobs,
-  category
+  category,
 }) => {
   const avgRating = calculateAverageRating(reviews);
 
@@ -45,8 +45,8 @@ const Card: FC<WorkerTypes> = ({
         <Link
           href={`/workers/${id}-${service.name
             .replace(/\s+/g, "-")
-            .toLowerCase()}`}
-          className="font-body text-2xl font-semibold"
+            .toLowerCase()}-${firstName.toLowerCase()}-${lastName.toLowerCase()}`}
+          className="font-body text-xl font-semibold"
         >
           {service.name}
         </Link>

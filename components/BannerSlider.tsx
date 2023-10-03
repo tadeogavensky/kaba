@@ -39,8 +39,8 @@ const BannerSlider = () => {
         <SwiperSlide key={index}>
           <Image
             src={img}
-            width={500}
-            height={500}
+            width={800}
+            height={800}
             alt={`Image ${index}`}
             className="rounded-xl w-full h-[200px]  object-cover"
           />

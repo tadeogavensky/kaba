@@ -71,15 +71,13 @@ const servicesCategory = [
   },
 ];
 
-
-
 const PopularServices = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
 
   const handleClick = (pill: string) => {
     setSelectedCategory(pill);
-    setIsLoading(true)
+    setIsLoading(true);
   };
 
   useEffect(() => {
@@ -93,7 +91,7 @@ const PopularServices = () => {
   return (
     <div className="mt-8">
       <div className="flex items-center justify-between">
-        <p className="font-heading font-bold capitalize">
+        <p className="font-heading font-bold capitalize sm:text-lg">
           Most popular services
         </p>
         <Link
@@ -105,7 +103,7 @@ const PopularServices = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <div className="flex items-center gap-3 mt-6">
+        <div className="flex items-center sm:justify-between gap-3 mt-6">
           {servicesCategory.map((category, index) => (
             <Pill
               key={index}
@@ -117,37 +115,38 @@ const PopularServices = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 grid-flow-row gap-4 mt-4">
+      <div className="grid grid-cols-3 sm:flex flex-wrap justify-center gap-4 mt-4 sm:mt-10">
         {isLoading
-          ? // Render loading skeletons when data is loading
-            Array.from({ length: 9 }).map((_, index) => (
-              <div key={index}>
-                <LoadingSkeleton className="w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
+          ? Array.from({
+              length: servicesCategory
+                .filter((category) => {
+                  if (selectedCategory === "All") {
+                    return true;
+                  } else {
+                    return category.name === selectedCategory;
+                  }
+                })
+                .flatMap((category) => category.services || []).length,
+            }).map((_, index) => (
+              <div key={index} className="">
+                <LoadingSkeleton className="sm:w-[300px] sm:h-[300px]  md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
               </div>
             ))
-          : // Render service cards when data is available
-            servicesCategory
+          : servicesCategory
               .filter((category) => {
-                if (selectedCategory === "all") {
+                if (selectedCategory === "All") {
                   return true;
                 } else {
                   return category.name === selectedCategory;
                 }
               })
-              .map((category) =>
-                category.services?.map((service, index) => (
-                  <Card
-                    key={index}
-                    name={service.name}
-                    image={service.image}
-                  />
-                ))
-              )}
+              .flatMap((category) => category.services || [])
+              .map((service, index) => (
+                <Card key={index} name={service.name} image={service.image} />
+              ))}
       </div>
     </div>
   );
 };
-
-
 
 export default PopularServices;

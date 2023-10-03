@@ -4,8 +4,10 @@ import Worker from "@/types/Worker";
 import calculateAverageRating from "@/utils/avgRating";
 import Image from "next/image";
 import React from "react";
-import { BsStarHalf } from "react-icons/bs";
+import { BsStarHalf, BsStarFill, BsStar } from "react-icons/bs";
 import { TiLocation } from "react-icons/ti";
+import { IoIosArrowForward } from "react-icons/io";
+import ReviewsButton from "@/components/worker/ReviewsButton";
 
 const worker: Worker = {
   id: 1,
@@ -72,7 +74,7 @@ const avgRating = calculateAverageRating(worker.reviews);
 
 export default function Worker() {
   return (
-    <div className="pb-10">
+    <div className="min-h-screen mb-10">
       <div className="relative">
         <Image
           src={worker.profilePicture}
@@ -102,7 +104,7 @@ export default function Worker() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <span className="px-3 py-2 bg-blue-100 text-blue-500 font-bold text-xs rounded-2xl">
             {worker.category.name}
           </span>
@@ -112,21 +114,67 @@ export default function Worker() {
             <p>{worker.city}</p>
           </span>
         </div>
-        <h1 className="font-semibold text-primary text-xl">
-          ${worker.rate.rate}
-          <span className="text-gray-400 font-normal">/hr</span>
-        </h1>
-
-        <span className="border-2 border-b-gray-100 mt-3"></span>
-
-        <h1 className="font-bold text-sm">About me</h1>
-
-        <p>{worker.about}</p>
-
-        <div className="flex justify-end">
+        <div className="flex items-center justify-between">
+          <h1 className="font-semibold text-primary text-xl">
+            ${worker.rate.rate}
+            <span className="text-gray-400 font-normal">/hr</span>
+          </h1>
           <BookButton />
+        </div>
+
+        <Border />
+
+        <div className="flex flex-col justify-start gap-2">
+          <h1 className="font-bold text-base font-heading">About me</h1>
+
+          <p>{worker.about}</p>
+        </div>
+
+        <div className="flex flex-col justify-start gap-2">
+          <h1 className="font-heading text-base font-bold">
+            Reviews of{" "}
+            <span>
+              {worker.firstName} {worker.lastName}
+            </span>
+          </h1>
+
+          <ReviewsButton>
+            <div className="flex items-center justify-between mt-3">
+              <div className="flex items-start gap-3">
+                <h1 className="font-bold text-primary text-3xl">{avgRating}</h1>
+                <div className="flex flex-col">
+                  <StarRating rating={avgRating} />
+                  <p className="font-light">{worker.reviews.length} reviews</p>
+                </div>
+              </div>
+              <IoIosArrowForward size={25} />
+            </div>
+          </ReviewsButton>
         </div>
       </div>
     </div>
   );
 }
+
+const Border = () => {
+  return <span className="border-2 border-b-gray-100 mt-3"></span>;
+};
+
+const StarRating = ({ rating }: { rating: number }) => {
+  const MAX_STARS = 5;
+  const roundedRating = Math.round(rating);
+
+  const stars = [];
+
+  for (let i = 1; i <= MAX_STARS; i++) {
+    if (i <= roundedRating) {
+      stars.push(<BsStarFill key={i} size={15} className="text-primary" />);
+    } else if (i === roundedRating + 0.5) {
+      stars.push(<BsStarHalf key={i} size={15} className="text-primary" />);
+    } else {
+      stars.push(<BsStar key={i} size={15} className="text-primary" />);
+    }
+  }
+
+  return <div className="flex items-center gap-1">{stars}</div>;
+};
