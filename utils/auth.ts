@@ -1,4 +1,4 @@
-/* import prisma from "@/libs/prismadb"; */
+/* import prisma from "@/prismadb"; */
 import bcrypt from "bcrypt";
 import findClientByEmailAndRole from "./findClientByEmailAndRole";
 import findWorkerByEmailAndRole from "./findWorkerByEmailAndRole";

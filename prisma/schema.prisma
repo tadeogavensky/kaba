@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("postgresql://tadeogavensky:bethilel1@localhost:5432/kaba?schema=public")
 }
 
 model Account {
@@ -38,7 +38,7 @@ model User {
   id             String    @id @default(cuid())
   firstName      String?
   lastName       String?
-  username String?
+  username       String?
   email          String?
   hashedPassword String?
   emailVerified  DateTime?

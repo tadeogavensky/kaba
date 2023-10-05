@@ -2,12 +2,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import findClientByEmailAndRole from "@/utils/findClientByEmailAndRole";
 import findWorkerByEmailAndRole from "@/utils/findClientByEmailAndRole";
+import prisma from "@/libs/prismadb";
 
-/* import prisma from "@/libs/prismadb"; */
-
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   const body = await request.json();
