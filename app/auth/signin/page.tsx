@@ -12,7 +12,7 @@ export default function SignIn() {
         <h1 className="font-bold font-heading text-sm float-right">To home</h1>
       </Link>
 
-      <div className="sm:hidden">
+      <div className="sm:hidden max-xs:hidden">
         <Image
           src={"/assets/happy.jpg"}
           width={400}

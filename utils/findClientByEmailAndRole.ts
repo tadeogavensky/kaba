@@ -11,7 +11,7 @@ export default async function findClientByEmailAndRole(
       role: role,
     },
     include: {
-      Client: true,
+      client: true,
     },
   });
 

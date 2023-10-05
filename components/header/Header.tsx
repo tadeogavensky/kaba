@@ -17,18 +17,13 @@ import { AiOutlineDown } from "react-icons/ai";
 import HeaderButton from "./HeaderButton";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-interface HeaderProps {
-  client: Client;
-}
 
-const Header: React.FC<HeaderProps> = (/* { client } */) => {
+const Header = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-   console.log('session :>> ', session);
-  }, [session])
-  
-
+    console.log("session :>> ", session);
+  }, [session]);
 
   return (
     <header className="flex flex-col justify-between">
@@ -106,7 +101,14 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
         )}
         {session && (
           <div className="flex items-center gap-12">
-            <button onClick={()=>{signOut()}} className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md ">Sign Out</button>
+            <button
+              onClick={() => {
+                signOut();
+              }}
+              className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
+            >
+              Sign Out
+            </button>
             <div className="flex items-center gap-1 cursor-pointer">
               <MdOutlineAccountCircle size={30} />
               <p className="text-xl font-bold font-body">{}</p>

@@ -86,7 +86,6 @@ const Form = () => {
           router.push("/");
         }, 2000);
       } catch (error) {
-        /*    toast.error(error?.response?.data.message); */
         console.log(error);
       }
     }
@@ -227,13 +226,13 @@ const Form = () => {
         Sign Up
       </button>
 
-      <div className="flex items-center justify-center mt-5">
+    {/*   <div className="flex items-center justify-center mt-5">
         <div className="border-t-2 border-gray-300 w-1/4"></div>
         <span className="mx-4 text-gray-600">or</span>
         <div className="border-t-2 border-gray-300 w-1/4"></div>
       </div>
 
-      <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+      <GoogleSignInButton>Sign up with Google</GoogleSignInButton> */}
 
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Already have an account?</p>{" "}

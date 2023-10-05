@@ -11,7 +11,7 @@ export default async function findWorkerByEmailAndRole(
       role: role,
     },
     include: {
-      Worker: {
+      worker: {
         include: {
           service: true,
           rate: true,

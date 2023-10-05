@@ -53,8 +53,8 @@ model User {
   inbox          Inbox[]
   address        Address?  @relation(fields: [addressId], references: [id])
   addressId      Int?
-  Client         Client?
-  Worker         Worker?
+  client         Client?
+  worker         Worker?
 }
 
 model VerificationRequest {

@@ -10,10 +10,10 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
   },
   providers: [
-    GoogleProvider({
+    /*    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+    }), */
     Credentials({
       name: "credentials",
       credentials: {
@@ -36,6 +36,9 @@ const authOptions: NextAuthOptions = {
             credentials.password,
             credentials.role
           );
+
+          console.log(user);
+
           return user;
         } catch (error) {
           console.error(error);
@@ -45,36 +48,20 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: ({ session, token }) => {
-      console.log({ session, token });
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.email,
-        },
-      };
-    },
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user }) => {
       if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
-          id: u.id,
-        };
+        token.user = user;
       }
       return token;
     },
-    async signIn({ profile }) {
-      console.log("profile :>> ", profile);
-
-      try {
-        return true;
-      } catch (error) {
-        return false;
+    session: ({ session, token }) => {
+      if (token && token.user) {
+        session.user = token.user;
       }
+      return session;
     },
   },
+
   session: {
     strategy: "jwt",
   },

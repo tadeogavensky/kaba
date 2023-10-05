@@ -10,7 +10,7 @@ export default function SignUp() {
         <h1 className="font-bold font-heading text-5xl">Kaba</h1>
         <h1 className="font-bold font-heading text-sm float-right">To home</h1>
       </Link>
-      <div className="sm:hidden">
+      <div className="sm:hidden max-xs:hidden">
         <Image
           src={"/assets/enjoy.jpg"}
           width={400}

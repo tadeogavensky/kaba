@@ -7,6 +7,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "376px",
+      },
       fontFamily: {
         body: ["Poppins", "sans"],
         heading: ["Montserrat", "sans"],
