@@ -13,8 +13,8 @@ const Form = () => {
   const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [hidePassword, setHidePassword] = useState(false);
 
@@ -27,6 +27,7 @@ const Form = () => {
 
   const validatePassword = (inputPassword: string) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    console.log("object :>> ", passwordRegex.test(inputPassword));
     return passwordRegex.test(inputPassword);
   };
 
@@ -50,11 +51,11 @@ const Form = () => {
     const inputPassword = e.target.value;
     setPassword(inputPassword);
 
-    if (inputPassword.trim() !== "") {
+    if (inputPassword.trim() === "") {
+      setIsPasswordValid(false);
+    } else {
       const isPasswordValid = validatePassword(inputPassword);
       setIsPasswordValid(isPasswordValid);
-    } else {
-      setIsPasswordValid(true);
     }
   };
 
@@ -67,18 +68,19 @@ const Form = () => {
     const isEmailValid = emailRegex.test(email);
     setIsEmailValid(isEmailValid);
 
-    const isPasswordValid = password.length >= 8;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const isPasswordValid = passwordRegex.test(password);
     setIsPasswordValid(isPasswordValid);
 
     if (isEmailValid && isPasswordValid) {
       try {
-        const response = await axios.post(`/api/signup`, {
+        axios.post(`/api/signup`, {
           email,
           password,
           role,
         });
 
-        toast.success(response.data.message);
+        toast.success("Account created successfully");
 
         setTimeout(() => {
           router.push("/");
