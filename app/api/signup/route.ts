@@ -49,9 +49,11 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log("user :>> ", user);
-
-    return NextResponse.json({ user, client });
+    return NextResponse.json({
+      msg: "Account created succsessfully",
+      user,
+      client,
+    });
   }
 
   if (role === "worker") {
@@ -82,8 +84,10 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log("user :>> ", user);
-
-    return NextResponse.json({ user, worker });
+    return NextResponse.json({
+      msg: "Account created succsessfully",
+      user,
+      worker,
+    });
   }
 }

@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "@/libs/prismadb";
 import login from "@/utils/auth";
@@ -10,6 +10,10 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
   },
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     Credentials({
       name: "credentials",
       credentials: {
@@ -32,7 +36,6 @@ const authOptions: NextAuthOptions = {
             credentials.password,
             credentials.role
           );
-          console.log("user :>> ", user);
           return user;
         } catch (error) {
           console.error(error);
@@ -41,11 +44,42 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  adapter: PrismaAdapter(prisma),
+  callbacks: {
+    session: ({ session, token }) => {
+      console.log({ session, token });
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.email,
+        },
+      };
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as any;
+        return {
+          ...token,
+          id: u.id,
+        };
+      }
+      return token;
+    },
+    async signIn({ profile }) {
+      console.log("profile :>> ", profile);
+
+      try {
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+  },
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  adapter: PrismaAdapter(prisma),
 };
 
 const handler = NextAuth(authOptions);

@@ -64,7 +64,7 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
         {!session && (
           <div className="flex items-center gap-4 sm:hidden">
             <Link
-              href={"/signin"}
+              href={"/auth/signin"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
               Sign In
@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
         {!session && (
           <div className="flex items-center gap-2">
             <Link
-              href={"/signin"}
+              href={"/auth/signin"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
               Sign In

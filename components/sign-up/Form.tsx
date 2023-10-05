@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
+import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import GoogleSignInButton from "../GoogleSignInButton";
 
 const Form = () => {
   const [role, setRole] = useState("client");
@@ -12,6 +16,9 @@ const Form = () => {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [hidePassword, setHidePassword] = useState(false);
+
+  const router = useRouter();
 
   const validateEmail = (inputEmail: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,6 +28,10 @@ const Form = () => {
   const validatePassword = (inputPassword: string) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     return passwordRegex.test(inputPassword);
+  };
+
+  const handlePasswordShow = () => {
+    setHidePassword(!hidePassword);
   };
 
   const handleEmailChange = (e: any) => {
@@ -66,9 +77,15 @@ const Form = () => {
           password,
           role,
         });
-        console.log("response :>> ", response);
+
+        toast.success(response.data.message);
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
       } catch (error) {
-        console.log("error :>> ", error);
+        /*    toast.error(error?.response?.data.message); */
+        console.log(error);
       }
     }
   };
@@ -76,8 +93,11 @@ const Form = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:p-8"
+      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:shadow-xl lg:rounded-md lg:p-8"
     >
+      <div>
+        <Toaster />
+      </div>
       <div className="flex gap-3 justify-between items-center flex-1 mt-8">
         <label className="font-bold font-body" htmlFor="">
           Who are you?
@@ -163,7 +183,7 @@ const Form = () => {
               <AiOutlineLock size={20} />
               <input
                 placeholder="password"
-                type="password"
+                type={hidePassword ? "text" : "password"}
                 className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full ${
                   (!isPasswordValid && isFormSubmitted) ||
                   (password.trim() === "" && isFormSubmitted) // Display message if password is empty
@@ -172,6 +192,19 @@ const Form = () => {
                 }`}
                 onChange={handlePasswordChange}
               />
+
+              <button
+                type="button"
+                onClick={() => {
+                  handlePasswordShow();
+                }}
+              >
+                {hidePassword ? (
+                  <BiSolidShow size={20} />
+                ) : (
+                  <BiSolidHide size={20} />
+                )}
+              </button>
             </div>
             {(!isPasswordValid && isFormSubmitted) ||
             (password.trim() === "" && isFormSubmitted) ? ( // Display password validation message
@@ -191,9 +224,18 @@ const Form = () => {
       >
         Sign Up
       </button>
+
+      <div className="flex items-center justify-center mt-5">
+        <div className="border-t-2 border-gray-300 w-1/4"></div>
+        <span className="mx-4 text-gray-600">or</span>
+        <div className="border-t-2 border-gray-300 w-1/4"></div>
+      </div>
+
+      <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Already have an account?</p>{" "}
-        <Link href={"/signin"} className="text-blue-600">
+        <Link href={"/auth/signin"} className="text-blue-600">
           Sign In
         </Link>
       </div>

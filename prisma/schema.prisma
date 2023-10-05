@@ -36,12 +36,14 @@ model Session {
 
 model User {
   id             String    @id @default(cuid())
-  name           String?
+  firstName      String?
+  lastName       String?
+  username String?
   email          String?
   hashedPassword String?
   emailVerified  DateTime?
   image          String?
-  role           String? 
+  role           String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   accounts       Account[]
@@ -54,7 +56,6 @@ model User {
   Client         Client?
   Worker         Worker?
 }
-
 
 model VerificationRequest {
   id         String   @id @default(cuid())

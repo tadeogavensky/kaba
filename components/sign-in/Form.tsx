@@ -2,6 +2,8 @@
 import React, { FormEvent, useState } from "react";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
+import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
@@ -15,6 +17,7 @@ const LoginForm = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+  const [hidePassword, setHidePassword] = useState(false);
 
   const router = useRouter();
 
@@ -47,6 +50,10 @@ const LoginForm = () => {
     }
   };
 
+  const handlePasswordShow = () => {
+    setHidePassword(!hidePassword);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -59,8 +66,6 @@ const LoginForm = () => {
     if (isEmailValid && password.trim() !== "") {
       console.log("Form sent");
 
-
-
       try {
         const response = await signIn("credentials", {
           email,
@@ -70,7 +75,7 @@ const LoginForm = () => {
         });
 
         if (response?.error) {
-          console.log('response.error :>> ', response.error);
+          console.log("response.error :>> ", response.error);
           toast.error("Invalid email or password");
           return;
         }
@@ -83,7 +88,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:p-8"
+      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:shadow-xl lg:rounded-md lg:p-8"
     >
       <div>
         <Toaster />
@@ -173,7 +178,7 @@ const LoginForm = () => {
               <AiOutlineLock size={20} />
               <input
                 placeholder="password"
-                type="password"
+                type={hidePassword ? "text" : "password"}
                 className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full ${
                   (!isPasswordValid && isFormSubmitted) ||
                   (password.trim() === "" &&
@@ -183,6 +188,19 @@ const LoginForm = () => {
                 }`}
                 onChange={handlePasswordChange}
               />
+
+              <button
+                type="button"
+                onClick={() => {
+                  handlePasswordShow();
+                }}
+              >
+                {hidePassword ? (
+                  <BiSolidShow size={20} />
+                ) : (
+                  <BiSolidHide size={20} />
+                )}
+              </button>
             </div>
             {(!isPasswordValid && (isFormSubmitted || isPasswordTouched)) ||
             (password.trim() === "" && isFormSubmitted) ? (
