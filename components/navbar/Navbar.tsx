@@ -17,20 +17,20 @@ const Navbar = () => {
       {
         icon: BsCalendar,
         label: "Bookings",
-        active: pathname === "/bookings",
-        href: "/bookings",
+        active: pathname === "/auth/bookings",
+        href: "/auth/bookings",
       },
       {
         icon: LuMailMinus,
         label: "Inbox",
-        active: pathname === "/inbox",
-        href: "/inbox",
+        active: pathname === "/auth/inbox",
+        href: "/auth/inbox",
       },
       {
         icon: RiSettingsLine,
         label: "Settings",
-        active: pathname === "/settings",
-        href: "/settings",
+        active: pathname === "/auth/settings",
+        href: "/auth/settings",
       },
     ],
     [pathname]

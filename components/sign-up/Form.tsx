@@ -6,7 +6,7 @@ import { AiOutlineLock } from "react-icons/ai";
 import Link from "next/link";
 
 const Form = () => {
-  const [userType, setUserType] = useState("client");
+  const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -61,17 +61,24 @@ const Form = () => {
 
     if (isEmailValid && isPasswordValid) {
       try {
-        const response = await axios.post(`/api/${userType}`);
-      } catch (error) {}
+        const response = await axios.post(`/api/signup`, {
+          email,
+          password,
+          role,
+        });
+        console.log("response :>> ", response);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm"
+      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:p-8"
     >
-      <div className=" flex gap-3  justify-between items-center flex-1 mt-8">
+      <div className="flex gap-3 justify-between items-center flex-1 mt-8">
         <label className="font-bold font-body" htmlFor="">
           Who are you?
         </label>
@@ -79,22 +86,22 @@ const Form = () => {
           <button
             type="button"
             className={`${
-              userType === "client"
+              role === "client"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
             } rounded-l-xl px-3 py-1 font-body font-bold transition  w-full`}
-            onClick={() => setUserType("client")}
+            onClick={() => setRole("client")}
           >
             Client
           </button>
           <button
             type="button"
             className={`${
-              userType === "worker"
+              role === "worker"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
             } rounded-r-xl px-3 py-1 font-body font-bold transition duration-300`}
-            onClick={() => setUserType("worker")}
+            onClick={() => setRole("worker")}
           >
             Worker
           </button>
@@ -186,8 +193,8 @@ const Form = () => {
       </button>
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Already have an account?</p>{" "}
-        <Link href={"/login"} className="text-blue-600">
-          Log In
+        <Link href={"/signin"} className="text-blue-600">
+          Sign In
         </Link>
       </div>
     </form>

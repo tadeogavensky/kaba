@@ -1,13 +1,14 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import axios from "axios";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "@/contexts/authContext";
+import { Toaster, toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
+
 const LoginForm = () => {
-  const [userType, setUserType] = useState("client");
+  const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -16,7 +17,6 @@ const LoginForm = () => {
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
 
   const router = useRouter();
-  const { login } = useAuthContext();
 
   const validateEmail = (inputEmail: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,31 +59,35 @@ const LoginForm = () => {
     if (isEmailValid && password.trim() !== "") {
       console.log("Form sent");
 
+
+
       try {
-        const response = await axios.post(`/api/${userType}/login`, {
+        const response = await signIn("credentials", {
           email,
           password,
+          role,
+          redirect: false,
         });
 
-        if (!response) {
-          return console.log("Error");
+        if (response?.error) {
+          console.log('response.error :>> ', response.error);
+          toast.error("Invalid email or password");
+          return;
         }
 
-        const tokens = response.data();
-        login(tokens);
-
-        return router.push("/");
-      } catch (error) {
-        // Handle login failure, e.g., display an error message
-      }
+        router.push("/");
+      } catch (error) {}
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm"
+      className="flex flex-1 min-h-full flex-col justify-center sm:max-w-sm lg:bg-white lg:p-8"
     >
+      <div>
+        <Toaster />
+      </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm flex gap-3 justify-between items-center flex-1 mt-8">
         <label className="font-bold font-body" htmlFor="">
           Who are you?
@@ -92,22 +96,22 @@ const LoginForm = () => {
           <button
             type="button"
             className={`${
-              userType === "client"
+              role === "client"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
             } rounded-l-xl px-3 py-1 font-body font-bold transition w-full`}
-            onClick={() => setUserType("client")}
+            onClick={() => setRole("client")}
           >
             Client
           </button>
           <button
             type="button"
             className={`${
-              userType === "worker"
+              role === "worker"
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-700"
             } rounded-r-xl px-3 py-1 font-body font-bold transition duration-300`}
-            onClick={() => setUserType("worker")}
+            onClick={() => setRole("worker")}
           >
             Worker
           </button>
@@ -196,7 +200,7 @@ const LoginForm = () => {
         className="bg-primary hover:bg-blue-800 transition text-white rounded-md font-body font-semibold mt-4 py-2"
         type="submit"
       >
-        Log In
+        Sign In
       </button>
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Not a member yet?</p>

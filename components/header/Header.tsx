@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Client from "@/types/Client";
 import Image from "next/image";
 import avatar from "../public/assets/avatar.jpg";
@@ -16,55 +16,58 @@ import { AiOutlineDown } from "react-icons/ai";
 
 import HeaderButton from "./HeaderButton";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 interface HeaderProps {
   client: Client;
 }
 
 const Header: React.FC<HeaderProps> = (/* { client } */) => {
-  const [clientLogged, isClientLoggedIn] = useState(false);
-  const [client, setClient] = useState<Client>({
-    id: 1,
-    email: "cliente@example.com",
-    password: "hashedPassword",
-    firstName: "Tadeo",
-    lastName: "Gavensky",
-    profilePicture: "/assets/avatar.jpg",
-    phone: "1160204654",
-  });
+  const { data: session } = useSession();
+
+  useEffect(() => {
+   console.log('session :>> ', session);
+  }, [session])
+  
+
 
   return (
     <header className="flex flex-col justify-between">
       <div className="flex items-center justify-between">
         {/* Mobile */}
-        {clientLogged && (
+        {session && (
           <div className="flex items-center gap-4 sm:hidden">
-            <Image
-              src={client.profilePicture}
+            {/*  <Image
+              src={user?.profilePicture}
               width={100}
               height={100}
               objectFit="cover"
               className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
               alt="profilePic"
-            />
+            /> */}
 
             <div className="flex flex-col gap-1">
               <p className="font-normal font-heading text-sm text-gray-600">
                 Good Morning
               </p>
               <p className="font-bold font-heading text-xl">
-                {client.firstName} {client.lastName}
+                {/*   {user?.firstName} {user?.lastName} */}
               </p>
             </div>
           </div>
         )}
 
-        {!clientLogged && (
+        <div className="flex items-center gap-4 sm:hidden">
+          <IoInformationCircleOutline size={25} />{" "}
+          <IoNotificationsOutline size={25} />
+        </div>
+
+        {!session && (
           <div className="flex items-center gap-4 sm:hidden">
             <Link
-              href={"/login"}
+              href={"/signin"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
-              Log In
+              Sign In
             </Link>
 
             <Link
@@ -75,11 +78,6 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
             </Link>
           </div>
         )}
-
-        <div className="flex items-center gap-4 sm:hidden">
-          <IoInformationCircleOutline size={25} />{" "}
-          <IoNotificationsOutline size={25} />
-        </div>
       </div>
 
       {/* Tablet to Desktop */}
@@ -89,13 +87,13 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
           <h1 className="font-bold font-heading text-3xl">Kaba</h1>
         </Link>
 
-        {!clientLogged && (
+        {!session && (
           <div className="flex items-center gap-2">
             <Link
-              href={"/login"}
+              href={"/signin"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
-              Log In
+              Sign In
             </Link>
 
             <Link
@@ -106,11 +104,12 @@ const Header: React.FC<HeaderProps> = (/* { client } */) => {
             </Link>
           </div>
         )}
-        {clientLogged && (
+        {session && (
           <div className="flex items-center gap-12">
+            <button onClick={()=>{signOut()}} className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md ">Sign Out</button>
             <div className="flex items-center gap-1 cursor-pointer">
               <MdOutlineAccountCircle size={30} />
-              <p className="text-xl font-bold font-body">{client.firstName}</p>
+              <p className="text-xl font-bold font-body">{}</p>
               <AiOutlineDown />
             </div>
             <div className="flex items-center gap-6">

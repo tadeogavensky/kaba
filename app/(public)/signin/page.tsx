@@ -1,10 +1,10 @@
 import Header from "@/components/header/Header";
-import Form from "@/components/log-in/Form";
+import Form from "@/components/sign-in/Form";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function Login() {
+export default function SignIn() {
   return (
     <div className="flex flex-col items-center min-h-screen sm:justify-center">
       <Link href={"/"} className="hidden sm:block">
@@ -23,7 +23,16 @@ export default function Login() {
       </div>
 
       <div className="px-6">
-        <Form />
+        <div className="flex mt-3 lg:shadow-xl">
+          <Image
+            src={"/assets/signin.jpg"}
+            width={900}
+            height={900}
+            className="w-[400px] h-[450px] hidden lg:block"
+            alt="signup"
+          />
+          <Form />
+        </div>
         <h1 className="text-xs mt-4 font-normal font-heading max-w-sm">
           Unlocking a World of Possibilities with Kaba: Where Convenience Meets
           Innovation!

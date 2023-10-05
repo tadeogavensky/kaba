@@ -11,16 +11,18 @@ const client = {
   firstName: "Tadeo",
   lastName: "Gavensky",
   profilePicture: "profile.jpg",
-  phone:"1160204654"
+  phone: "1160204654",
 };
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <div className="m-6">
+      <div className="m-6 sm:mx-32">
         <Header client={client} />
         <InputSearch />
-        <BannerSlider />
+        <div className="sm:hidden">
+          <BannerSlider />
+        </div>
         <Services />
         <PopularServices />
       </div>

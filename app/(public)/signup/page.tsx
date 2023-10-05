@@ -21,7 +21,16 @@ export default function SignUp() {
       </div>
 
       <div className="px-6">
-        <Form />
+        <div className="flex mt-3 lg:shadow-xl">
+          <Image
+            src={"/assets/signup.jpg"}
+            width={900}
+            height={900}
+            className="w-[400px] h-[450px] hidden lg:block"
+            alt="signup"
+          />
+          <Form />
+        </div>
         <h1 className="text-xs mt-4 font-normal font-heading max-w-sm">
           Unlocking Convenience, One Tap at a Time: Choose Kaba for Effortless
           Living!
