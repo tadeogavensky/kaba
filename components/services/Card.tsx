@@ -7,7 +7,7 @@ const Card: FC<ServiceType> = ({ name, image }) => {
   return (
     <Link
       href={`/services/${name.replace(/\s+/g, "-").toLowerCase()}`}
-      className="flex flex-col items-center gap-2"
+      className="flex flex-col items-center gap-2 "
     >
       <Image
         src={image}

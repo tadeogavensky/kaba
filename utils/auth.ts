@@ -1,12 +1,6 @@
-/* import prisma from "@/prismadb"; */
 import bcrypt from "bcrypt";
 import findClientByEmailAndRole from "./findClientByEmailAndRole";
 import findWorkerByEmailAndRole from "./findWorkerByEmailAndRole";
-
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
 
 export default async function login(
   email: string,

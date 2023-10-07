@@ -7,9 +7,13 @@ import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import axios from "axios";
+
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginForm = () => {
+  const { login } = useAuth();
+
   const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,23 +68,25 @@ const LoginForm = () => {
     setIsEmailValid(isEmailValid);
 
     if (isEmailValid && password.trim() !== "") {
-      console.log("Form sent");
-
       try {
-        const response = await signIn("credentials", {
+        const response = await axios.post("/api/auth", {
           email,
           password,
           role,
-          redirect: false,
         });
 
-        if (response?.error) {
-          console.log("response.error :>> ", response.error);
+        if (response?.data.error) {
+          console.log("response.data.error :>> ", response.data.error);
           toast.error("Invalid email or password");
           return;
         }
 
-        router.push("/");
+        console.log("response.data :>> ", response.data);
+        login(response.data)
+        toast.success("Sign up successfully");
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
       } catch (error) {}
     }
   };

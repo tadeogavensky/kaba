@@ -1,8 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect } from "react";
-import Client from "@/types/Client";
-import Image from "next/image";
-import avatar from "../public/assets/avatar.jpg";
+import React, { useState, useContext, useEffect, use } from "react";
 
 import {
   IoBookmarksOutline,
@@ -13,25 +10,32 @@ import { BsCalendar } from "react-icons/bs";
 import { LuMail } from "react-icons/lu";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { AiOutlineDown } from "react-icons/ai";
+import { CgMenuLeft } from "react-icons/cg";
 
 import HeaderButton from "./HeaderButton";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
-  const { data: session } = useSession();
+  const [openMenuMobile, setOpenMenuMobile] = useState(false);
+  const [openMenuDesktop, setOpenMenuDesktop] = useState(false);
 
-  useEffect(() => {
-    console.log("session :>> ", session);
-  }, [session]);
+  const { user, logout } = useAuth();
 
   return (
     <header className="flex flex-col justify-between">
       <div className="flex items-center justify-between">
-        {/* Mobile */}
-        {session && (
-          <div className="flex items-center gap-4 sm:hidden">
-            {/*  <Image
+        {/* Desktop */}
+        {user && (
+          <div className="relative">
+            <div
+              className="flex items-center gap-4 sm:hidden"
+              onClick={() => {
+                setOpenMenuMobile(!openMenuMobile);
+              }}
+            >
+              {/*  <Image
               src={user?.profilePicture}
               width={100}
               height={100}
@@ -40,14 +44,16 @@ const Header = () => {
               alt="profilePic"
             /> */}
 
-            <div className="flex flex-col gap-1">
-              <p className="font-normal font-heading text-sm text-gray-600">
-                Good Morning
-              </p>
-              <p className="font-bold font-heading text-xl">
-                {/*   {user?.firstName} {user?.lastName} */}
-              </p>
+              <div className="flex flex-col gap-1">
+                <p className="font-normal font-heading text-sm text-gray-600">
+                  Good Morning
+                </p>
+                <p className="font-bold font-heading text-xl">
+                  {user?.firstName} {user?.lastName}
+                </p>
+              </div>
             </div>
+            {openMenuMobile && <AccountMobileDropDown logout={logout} />}
           </div>
         )}
 
@@ -56,7 +62,7 @@ const Header = () => {
           <IoNotificationsOutline size={25} />
         </div>
 
-        {!session && (
+        {!user && (
           <div className="flex items-center gap-4 sm:hidden">
             <Link
               href={"/auth/signin"}
@@ -82,7 +88,7 @@ const Header = () => {
           <h1 className="font-bold font-heading text-3xl">Kaba</h1>
         </Link>
 
-        {!session && (
+        {!user && (
           <div className="flex items-center gap-2">
             <Link
               href={"/auth/signin"}
@@ -99,25 +105,50 @@ const Header = () => {
             </Link>
           </div>
         )}
-        {session && (
-          <div className="flex items-center gap-12">
-            <button
-              onClick={() => {
-                signOut();
-              }}
-              className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
-            >
-              Sign Out
-            </button>
-            <div className="flex items-center gap-1 cursor-pointer">
-              <MdOutlineAccountCircle size={30} />
-              <p className="text-xl font-bold font-body">{}</p>
-              <AiOutlineDown />
+        {user && (
+          <div className="flex flex-col items-end">
+            <div className="flex items-center gap-12">
+              <button
+                onClick={() => {
+                  logout();
+                }}
+                className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
+              >
+                Sign Out
+              </button>
+
+              <div className="flex items-center gap-6">
+                <Link href={"/bookings"} className="flex items-center gap-2">
+                  <BsCalendar size={20} />
+                  <p className="font-heading font-semibold text-base">
+                    Bookings
+                  </p>
+                </Link>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <IoNotificationsOutline size={20} />
+                  <p className="font-heading font-semibold text-base">
+                    Notifications
+                  </p>
+                </div>
+
+                <div
+                  className="flex items-center gap-1 cursor-pointer"
+                  onMouseOver={() => {
+                    setOpenMenuDesktop(true);
+                  }}
+                  onMouseLeave={() => {
+                    setOpenMenuDesktop(false);
+                  }}
+                >
+                  <MdOutlineAccountCircle size={20} />
+                  <p className="text-base font-semibold font-heading">
+                    {user.firstName}
+                  </p>
+                  <AiOutlineDown />
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-6">
-              <BsCalendar size={30} />
-              <IoNotificationsOutline size={30} />
-            </div>
+            {openMenuDesktop && <AccountDesktopDropDown logout={logout} />}
           </div>
         )}
       </div>
@@ -127,6 +158,32 @@ const Header = () => {
 
 export default Header;
 
-const AccountDropDown = () => {
-  return <div></div>;
+const AccountMobileDropDown = ({ logout }: { logout: () => void }) => {
+  return (
+    <div className="bg-white w-full absolute shadow-xl flex flex-col rounded-md">
+      <p>hola</p>
+
+      <button
+        onClick={() => {
+          logout();
+        }}
+      >
+        Sign Out
+      </button>
+    </div>
+  );
+};
+
+const AccountDesktopDropDown = ({ logout }: { logout: () => void }) => {
+  return (
+    <div className="bg-white w-[300px] absolute top-16 shadow-xl flex flex-col items-start rounded-md p-4">
+      <button
+        onClick={() => {
+          logout();
+        }}
+      >
+        Sign Out
+      </button>
+    </div>
+  );
 };

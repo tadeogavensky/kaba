@@ -4,6 +4,7 @@ import axios from "axios";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+import { PiIdentificationBadgeBold } from "react-icons/pi";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -13,8 +14,14 @@ const Form = () => {
   const [role, setRole] = useState("client");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isFirstNameValid, setIsFirstNameValid] = useState(false);
+  const [isLastNameValid, setIsLastNameValid] = useState(false);
+
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [hidePassword, setHidePassword] = useState(false);
 
@@ -27,8 +34,17 @@ const Form = () => {
 
   const validatePassword = (inputPassword: string) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-    console.log("object :>> ", passwordRegex.test(inputPassword));
     return passwordRegex.test(inputPassword);
+  };
+
+  const validateFirstName = (inputFirstName: string) => {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    return nameRegex.test(inputFirstName);
+  };
+
+  const validateLastName = (inputLastName: string) => {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    return nameRegex.test(inputLastName);
   };
 
   const handlePasswordShow = () => {
@@ -59,6 +75,30 @@ const Form = () => {
     }
   };
 
+  const handleFirstNameChange = (e: any) => {
+    const inputFirstName = e.target.value;
+    setFirstName(inputFirstName);
+
+    if (inputFirstName.trim() === "") {
+      setIsFirstNameValid(false);
+    } else {
+      const isFirstNameValid = validateFirstName(inputFirstName);
+      setIsFirstNameValid(isFirstNameValid);
+    }
+  };
+
+  const handleLastNameChange = (e: any) => {
+    const inputLastName = e.target.value;
+    setLastName(inputLastName);
+
+    if (inputLastName.trim() === "") {
+      setIsLastNameValid(false);
+    } else {
+      const isLastNameValid = validateLastName(inputLastName);
+      setIsLastNameValid(isLastNameValid);
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -72,11 +112,22 @@ const Form = () => {
     const isPasswordValid = passwordRegex.test(password);
     setIsPasswordValid(isPasswordValid);
 
-    if (isEmailValid && isPasswordValid) {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const isFirstNameValid = nameRegex.test(firstName);
+    const isLastNameValid = nameRegex.test(lastName);
+
+    if (
+      isEmailValid &&
+      isPasswordValid &&
+      isFirstNameValid &&
+      isLastNameValid
+    ) {
       try {
         axios.post(`/api/signup`, {
           email,
           password,
+          firstName,
+          lastName,
           role,
         });
 
@@ -130,14 +181,90 @@ const Form = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-full">
-        <div>
+        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-3">
+            <label
+              htmlFor="first-name"
+              className="block text-base font-body font-semibold leading-6 text-gray-900"
+            >
+              First name
+            </label>
+            <div className="mt-2">
+              <div
+                className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+                  (!isFirstNameValid && isFormSubmitted) ||
+                  (firstName.trim() === "" && isFormSubmitted)
+                    ? "ring-2 ring-red-500"
+                    : ""
+                }`}
+              >
+                <PiIdentificationBadgeBold size={20} />
+                <input
+                  type="text"
+                  placeholder="Stanley"
+                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                  onChange={handleFirstNameChange}
+                />
+              </div>
+              {(!isFirstNameValid &&
+                isFormSubmitted &&
+                firstName.trim() !== "") ||
+              (firstName.trim() === "" && isFormSubmitted) ? (
+                <p className="text-red-500 text-sm mt-1">
+                  {firstName.trim() === ""
+                    ? "First name is required"
+                    : "Can't input numbers"}
+                </p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="sm:col-span-3">
+            <label
+              htmlFor="last-name"
+              className="block text-base font-body font-semibold leading-6 text-gray-900"
+            >
+              Last name
+            </label>
+            <div className="mt-2">
+              <div
+                className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+                  (!isLastNameValid && isFormSubmitted) ||
+                  (lastName.trim() === "" && isFormSubmitted)
+                    ? "ring-2 ring-red-500"
+                    : ""
+                }`}
+              >
+                <PiIdentificationBadgeBold size={20} />
+                <input
+                  type="text"
+                  placeholder="Hudson"
+                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                  onChange={handleLastNameChange}
+                />
+              </div>
+              {(!isLastNameValid &&
+                isFormSubmitted &&
+                lastName.trim() !== "") ||
+              (lastName.trim() === "" && isFormSubmitted) ? (
+                <p className="text-red-500 text-sm mt-1">
+                  {lastName.trim() === ""
+                    ? "Last name is required"
+                    : "Can't input numbers"}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
           <label
             htmlFor="email"
             className="block text-base font-body font-semibold leading-6 text-gray-900"
           >
             Email address
           </label>
-          <div className="flex flex-col mt-2 ">
+          <div className="mt-2">
             <div
               className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                 (!isEmailValid && isFormSubmitted) ||
@@ -226,7 +353,7 @@ const Form = () => {
         Sign Up
       </button>
 
-    {/*   <div className="flex items-center justify-center mt-5">
+      {/*   <div className="flex items-center justify-center mt-5">
         <div className="border-t-2 border-gray-300 w-1/4"></div>
         <span className="mx-4 text-gray-600">or</span>
         <div className="border-t-2 border-gray-300 w-1/4"></div>

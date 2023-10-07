@@ -77,7 +77,8 @@ const workers = [
     state: "Statetown",
     postalCode: "54321",
     country: "Countrytown",
-    about:"I am a professional lawn care expert with a passion for keeping your lawn healthy and beautiful. With years of experience, I provide top-quality lawn maintenance services. Your satisfaction is my top priority, and I am committed to delivering exceptional results.",
+    about:
+      "I am a professional lawn care expert with a passion for keeping your lawn healthy and beautiful. With years of experience, I provide top-quality lawn maintenance services. Your satisfaction is my top priority, and I am committed to delivering exceptional results.",
     phone: "987-654-3210",
     category: {
       id: 1,
@@ -161,10 +162,7 @@ const workers = [
 export default function ServicesByName({ params }: any) {
   return (
     <div className="p-6">
-      <div className="flex items-center gap-2 group hover:text-neutral-600 transition cursor-pointer">
-        <GoBack className="hover:text-neutral-600" />
-        <p className="font-bold font-body text-2xl">Home</p>
-      </div>
+      <GoBack label="Home" />
       <div className="flex flex-col gap-4 mt-3">
         {workers.map((worker, index) => {
           return (

@@ -2,8 +2,8 @@ import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
 const inter = Inter({ subsets: ["latin"] });
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "Kaba",
@@ -18,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextAuthProvider>
-          <Navbar />
+        <AuthProvider>
+          <div id="home">
+            <Navbar />
+          </div>
           {children}
-        </NextAuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <div className="m-6 sm:mx-32">
-        <Header client={client} />
+        <Header />
         <InputSearch />
         <div className="sm:hidden">
           <BannerSlider />
