@@ -16,6 +16,10 @@ export default async function login(
         if (passwordMatch) {
           return user;
         }
+        return {
+          error: "Invalid email or password",
+          status: 409,
+        };
       }
     }
   }
@@ -29,9 +33,13 @@ export default async function login(
         if (passwordMatch) {
           return user;
         }
+        return {
+          error: "Invalid email or password",
+          status: 409,
+        };
       }
     }
   }
 
-  return null;
+  return { error: "User not found", status: 409 };
 }

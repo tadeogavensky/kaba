@@ -6,6 +6,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 // Define the user type as per your user data structure.
@@ -28,6 +29,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
 
   // Function to log in a user (you can modify this)
@@ -41,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Remove the user cookie and set user state to null.
     Cookies.remove("user");
     setUser(null);
+    router.refresh();
   };
 
   // Check if a user is already logged in when the app starts

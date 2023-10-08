@@ -75,19 +75,22 @@ const LoginForm = () => {
           role,
         });
 
-        if (response?.data.error) {
-          console.log("response.data.error :>> ", response.data.error);
-          toast.error("Invalid email or password");
+        console.log(response);
+
+        if (response.data.error) {
+          toast.error(response.data.error);
           return;
         }
 
-        console.log("response.data :>> ", response.data);
-        login(response.data)
+        login(response.data);
         toast.success("Sign up successfully");
-        setTimeout(() => {
+          setTimeout(() => {
           router.push("/");
-        }, 1500);
-      } catch (error) {}
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+        
+      }
     }
   };
 
