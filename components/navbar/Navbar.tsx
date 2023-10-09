@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { BiHomeAlt } from "react-icons/bi";
+import { BiHomeAlt,BiUser } from "react-icons/bi";
 import { LuMailMinus } from "react-icons/lu";
 import { BsCalendar } from "react-icons/bs";
 import { RiSettingsLine } from "react-icons/ri";
@@ -27,10 +27,10 @@ const Navbar = () => {
         href: "/auth/inbox",
       },
       {
-        icon: RiSettingsLine,
-        label: "Settings",
-        active: pathname === "/auth/settings",
-        href: "/auth/settings",
+        icon: BiUser,
+        label: "Profile",
+        active: pathname === "/auth/account",
+        href: "/auth/account",
       },
     ],
     [pathname]

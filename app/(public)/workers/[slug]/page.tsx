@@ -84,7 +84,7 @@ export default function Worker() {
           className="rounded-b-3xl shadow-xl"
         />
         <div className="absolute top-0 m-6 ">
-          <GoBack className="text-white hover:text-neutral-300 transition" />
+          <GoBack label={"Workers"} />
         </div>
       </div>
       <div className="p-6 flex flex-col justify-start gap-4 mt-2">

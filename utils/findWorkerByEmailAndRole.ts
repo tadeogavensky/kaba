@@ -11,6 +11,7 @@ export default async function findWorkerByEmailAndRole(
       role: role,
     },
     include: {
+      activateTokens:true,
       worker: {
         include: {
           service: true,

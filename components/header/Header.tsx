@@ -7,15 +7,17 @@ import {
   IoInformationCircleOutline,
 } from "react-icons/io5";
 import { BsCalendar } from "react-icons/bs";
-import { LuMail } from "react-icons/lu";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { AiOutlineDown } from "react-icons/ai";
-import { CgMenuLeft } from "react-icons/cg";
+
+import avatar from "/public/assets/avatar.jpg";
 
 import HeaderButton from "./HeaderButton";
 import Link from "next/link";
 
 import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
+import Greeting from "../Greeting";
 
 const Header = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -35,21 +37,20 @@ const Header = () => {
                 setOpenMenuMobile(!openMenuMobile);
               }}
             >
-              {/*  <Image
-              src={user?.profilePicture}
-              width={100}
-              height={100}
-              objectFit="cover"
-              className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
-              alt="profilePic"
-            /> */}
+              <Image
+                src={user.image || avatar}
+                width={100}
+                height={100}
+                className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
+                alt="profilePic"
+              />
 
               <div className="flex flex-col gap-1">
                 <p className="font-normal font-heading text-sm text-gray-600">
-                  Good Morning
+                  <Greeting />
                 </p>
-                <p className="font-bold font-heading text-xl">
-                  {user?.firstName} {user?.lastName}
+                <p className="font-bold font-heading text-2xl">
+                  {user?.firstName}
                 </p>
               </div>
             </div>

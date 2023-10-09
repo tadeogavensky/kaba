@@ -75,8 +75,6 @@ const LoginForm = () => {
           role,
         });
 
-        console.log(response);
-
         if (response.data.error) {
           toast.error(response.data.error);
           return;
@@ -84,12 +82,11 @@ const LoginForm = () => {
 
         login(response.data);
         toast.success("Sign up successfully");
-          setTimeout(() => {
+        setTimeout(() => {
           router.push("/");
         }, 1000);
       } catch (error) {
         console.log(error);
-        
       }
     }
   };

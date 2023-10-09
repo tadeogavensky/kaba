@@ -36,14 +36,9 @@ const Form = () => {
     return passwordRegex.test(inputPassword);
   };
 
-  const validateFirstName = (inputFirstName: string) => {
+  const validateName = (inputName: string) => {
     const nameRegex = /^[A-Za-z\s]+$/;
-    return nameRegex.test(inputFirstName);
-  };
-
-  const validateLastName = (inputLastName: string) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    return nameRegex.test(inputLastName);
+    return nameRegex.test(inputName);
   };
 
   const handlePasswordShow = () => {
@@ -78,24 +73,16 @@ const Form = () => {
     const inputFirstName = e.target.value;
     setFirstName(inputFirstName);
 
-    if (inputFirstName.trim() === "") {
-      setIsFirstNameValid(false);
-    } else {
-      const isFirstNameValid = validateFirstName(inputFirstName);
-      setIsFirstNameValid(isFirstNameValid);
-    }
+    const isFirstNameValid = validateName(inputFirstName);
+    setIsFirstNameValid(isFirstNameValid);
   };
 
   const handleLastNameChange = (e: any) => {
     const inputLastName = e.target.value;
     setLastName(inputLastName);
 
-    if (inputLastName.trim() === "") {
-      setIsLastNameValid(false);
-    } else {
-      const isLastNameValid = validateLastName(inputLastName);
-      setIsLastNameValid(isLastNameValid);
-    }
+    const isLastNameValid = validateName(inputLastName);
+    setIsLastNameValid(isLastNameValid);
   };
 
   const handleSubmit = async (e: any) => {
@@ -122,7 +109,7 @@ const Form = () => {
       isLastNameValid
     ) {
       try {
-        axios.post(`/api/signup`, {
+        const response = await axios.post(`/api/signup`, {
           email,
           password,
           firstName,
@@ -130,14 +117,18 @@ const Form = () => {
           role,
         });
 
-        toast.success("Account created successfully");
+        console.log(response);
 
-        setTimeout(() => {
+        if (response.data.error) {
+          toast.error(response.data.error);
+          return;
+        }
+        toast.success(response.data.msg);
+
+            setTimeout(() => {
           router.push("/");
         }, 2000);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -180,7 +171,7 @@ const Form = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-full">
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="first-name"
@@ -351,14 +342,6 @@ const Form = () => {
       >
         Sign Up
       </button>
-
-      {/*   <div className="flex items-center justify-center mt-5">
-        <div className="border-t-2 border-gray-300 w-1/4"></div>
-        <span className="mx-4 text-gray-600">or</span>
-        <div className="border-t-2 border-gray-300 w-1/4"></div>
-      </div>
-
-      <GoogleSignInButton>Sign up with Google</GoogleSignInButton> */}
 
       <div className="flex items-center justify-between mt-3">
         <p className="font-bold">Already have an account?</p>{" "}

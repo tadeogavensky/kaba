@@ -11,6 +11,7 @@ export default async function findClientByEmailAndRole(
       role: role,
     },
     include: {
+      activateTokens: true,
       client: true,
     },
   });
