@@ -1,40 +1,38 @@
 "use client";
 
-import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { BiHomeAlt,BiUser } from "react-icons/bi";
+import { BiHomeAlt, BiUser } from "react-icons/bi";
 import { LuMailMinus } from "react-icons/lu";
 import { BsCalendar } from "react-icons/bs";
 import { RiSettingsLine } from "react-icons/ri";
 import NabvarItem from "./NavbarItem";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
-  const routes = useMemo(
-    () => [
-      { icon: BiHomeAlt, label: "Home", active: pathname === "/", href: "/" },
-      {
-        icon: BsCalendar,
-        label: "Bookings",
-        active: pathname === "/auth/bookings",
-        href: "/auth/bookings",
-      },
-      {
-        icon: LuMailMinus,
-        label: "Inbox",
-        active: pathname === "/auth/inbox",
-        href: "/auth/inbox",
-      },
-      {
-        icon: BiUser,
-        label: "Profile",
-        active: pathname === "/auth/account",
-        href: "/auth/account",
-      },
-    ],
-    [pathname]
-  );
+  const routes = [
+    { icon: BiHomeAlt, label: "Home", active: pathname === "/", href: "/" },
+    {
+      icon: BsCalendar,
+      label: "Bookings",
+      active: pathname === "/auth/bookings",
+      href: "/auth/bookings",
+    },
+    {
+      icon: LuMailMinus,
+      label: "Inbox",
+      active: pathname === "/auth/inbox",
+      href: "/auth/inbox",
+    },
+    {
+      icon: BiUser,
+      label: "Profile",
+      active: pathname === `/auth/account/${user?.id}`,
+      href: `/auth/account/${user?.id}`,
+    },
+  ];
 
   return (
     <nav className="bg-white w-full p-4 rounded-t-3xl custom-top-shadow sm:hidden border-[1px] fixed bottom-0 z-20">

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+import { MdAlternateEmail } from "react-icons/md";
 import { PiIdentificationBadgeBold } from "react-icons/pi";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
@@ -30,15 +30,14 @@ const Form = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(inputEmail);
   };
+  const validateName = (inputName: string) => {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    return nameRegex.test(inputName);
+  };
 
   const validatePassword = (inputPassword: string) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     return passwordRegex.test(inputPassword);
-  };
-
-  const validateName = (inputName: string) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    return nameRegex.test(inputName);
   };
 
   const handlePasswordShow = () => {
@@ -125,11 +124,12 @@ const Form = () => {
         }
         toast.success(response.data.msg);
 
-            setTimeout(() => {
+        setTimeout(() => {
           router.push("/");
         }, 2000);
       } catch (error) {}
     }
+    return;
   };
 
   return (
@@ -181,7 +181,7 @@ const Form = () => {
             </label>
             <div className="mt-2">
               <div
-                className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+                className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                   (!isFirstNameValid && isFormSubmitted) ||
                   (firstName.trim() === "" && isFormSubmitted)
                     ? "ring-2 ring-red-500"
@@ -192,7 +192,7 @@ const Form = () => {
                 <input
                   type="text"
                   placeholder="Stanley"
-                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0"
                   onChange={handleFirstNameChange}
                 />
               </div>
@@ -218,7 +218,7 @@ const Form = () => {
             </label>
             <div className="mt-2">
               <div
-                className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+                className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                   (!isLastNameValid && isFormSubmitted) ||
                   (lastName.trim() === "" && isFormSubmitted)
                     ? "ring-2 ring-red-500"
@@ -229,7 +229,7 @@ const Form = () => {
                 <input
                   type="text"
                   placeholder="Hudson"
-                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                  className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0"
                   onChange={handleLastNameChange}
                 />
               </div>
@@ -256,7 +256,7 @@ const Form = () => {
           </label>
           <div className="mt-2">
             <div
-              className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+              className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                 (!isEmailValid && isFormSubmitted) ||
                 (email.trim() === "" && isFormSubmitted)
                   ? "ring-2 ring-red-500"
@@ -266,7 +266,7 @@ const Form = () => {
               <MdAlternateEmail size={20} />
               <input
                 placeholder="felipe@kaba.com"
-                className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0"
                 onChange={handleEmailChange}
               />
             </div>
@@ -291,7 +291,7 @@ const Form = () => {
           </div>
           <div className="mt-2">
             <div
-              className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+              className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                 (!isPasswordValid && isFormSubmitted) ||
                 (password.trim() === "" && isFormSubmitted) // Display message if password is empty
                   ? "ring-2 ring-red-500"
@@ -302,7 +302,7 @@ const Form = () => {
               <input
                 placeholder="password"
                 type={hidePassword ? "text" : "password"}
-                className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full ${
+                className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0${
                   (!isPasswordValid && isFormSubmitted) ||
                   (password.trim() === "" && isFormSubmitted) // Display message if password is empty
                     ? "text-red-500"

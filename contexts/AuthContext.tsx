@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 // Define the user type as per your user data structure.
 interface User {
@@ -17,6 +18,10 @@ interface User {
   username?: string;
   email?: string;
   image?: string;
+  phone?: string;
+  identity?: string;
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
   role?: string;
 }
 
@@ -24,6 +29,7 @@ interface AuthContextType {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
+  updateSession: (user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Function to log in a user (you can modify this)
   const login = (userData: User) => {
-    Cookies.set("user", JSON.stringify(userData));
+    Cookies.set("user", userData.id);
     setUser(userData);
   };
 
@@ -47,17 +53,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.refresh();
   };
 
+  const updateSession = (user: User) => {
+    setUser(user);
+  };
+
   // Check if a user is already logged in when the app starts
   useEffect(() => {
     const userCookie = Cookies.get("user");
+
+    const fetchUser = async () => {
+      const res = await axios.get(`/api/me`);
+      setUser(res.data);
+    };
+
     if (userCookie) {
-      const userData = JSON.parse(userCookie) as User;
-      setUser(userData);
+      fetchUser();
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateSession }}>
       {children}
     </AuthContext.Provider>
   );

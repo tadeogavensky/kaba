@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   if (role === "client") {
     const possibleUserClient = await findClientByEmailAndRole(email, role);
 
- /*    if (!possibleUserClient) {
+    /*    if (!possibleUserClient) {
       return null;
     }
 
@@ -76,6 +76,7 @@ export async function POST(request: Request) {
         <h1>Hi ${user.firstName} ${user.lastName}!</h1>
         <p>Welcome to <strong>Kaba</strong>, your trusted home services app.</p>
         <p>You have signed up as a <strong>${user.role}</strong>.</p>
+        <p>By clicking this link your active session at Kaba will be closed.</p>
         <p>Please click the following link to confirm your email:</p>
         <a href="${confirmationLink}">Confirm Email</a>
       `,
@@ -83,7 +84,7 @@ export async function POST(request: Request) {
     } catch (error) {}
 
     return NextResponse.json({
-      msg: "Account created succsessfully",
+      msg: "Account created successfully",
       user,
       client,
     });
@@ -92,11 +93,11 @@ export async function POST(request: Request) {
   if (role === "worker") {
     const possibleUserWorker = await findWorkerByEmailAndRole(email, role);
 
- /*    if (!possibleUserWorker) {
+    /*    if (!possibleUserWorker) {
       return null;
     } */
 
-  /*   if (!possibleUserWorker.active) {
+    /*   if (!possibleUserWorker.active) {
       return NextResponse.json({
         error: "User is not active",
       });

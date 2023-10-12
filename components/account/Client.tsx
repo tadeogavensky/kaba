@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import avatar from "/public/assets/avatar.jpg";
 import { TbEdit } from "react-icons/tb";
@@ -10,12 +11,7 @@ import { MdVerified, MdNewReleases } from "react-icons/md";
 import Link from "next/link";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import Language from "../Language";
 const Client = ({ user }: { user: any }) => {
-  const edit = () => {};
-
-  console.log(user);
-
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -75,38 +71,47 @@ const Client = ({ user }: { user: any }) => {
         )}
       </div>
 
-      <div className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer">
+      <Link
+        href={`/auth/account/${user.id}/account-info`}
+        className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
+      >
         <div className="flex items-center gap-4">
           <div className="flex justify-center items-center border-[1px] border-gray-300 rounded-full p-2">
-            <BiUser size={20} className="text-primary" />
+            <BiUser size={25} className="text-primary" />
           </div>
           <div className="flex flex-col items-start font-heading ">
-            <h1 className="font-bold text-lg">Personal Info</h1>
+            <h1 className="font-bold text-lg">Account Info</h1>
             <p className="text-sm">See your info saved</p>
           </div>
         </div>
 
         <IoIosArrowForward size={20} />
-      </div>
+      </Link>
 
-      <div className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer">
+      <Link
+        href={`/auth/account/${user.id}/addresses`}
+        className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
+      >
         <div className="flex items-center gap-4">
           <div className="flex justify-center items-center border-[1px] border-gray-300 rounded-full p-2">
-            <SlLocationPin size={20} className="text-primary" />
+            <SlLocationPin size={25} className="text-primary" />
           </div>
-          <div className="flex flex-col items-start font-heading ">
+          <div className="flex flex-col items-start font-heading">
             <h1 className="font-bold text-lg">Addresses</h1>
             <p className="text-sm">See addresses saved</p>
           </div>
         </div>
 
         <IoIosArrowForward size={20} />
-      </div>
+      </Link>
 
-      <div className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer">
+      <Link
+        href={`/auth/account/${user.id}/cards`}
+        className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
+      >
         <div className="flex items-center gap-4">
           <div className="flex justify-center items-center border-[1px] border-gray-300 rounded-full p-2">
-            <BsCreditCard size={20} className="text-primary" />
+            <BsCreditCard size={25} className="text-primary" />
           </div>
           <div className="flex flex-col items-start font-heading ">
             <h1 className="font-bold text-lg">Cards</h1>
@@ -115,7 +120,7 @@ const Client = ({ user }: { user: any }) => {
         </div>
 
         <IoIosArrowForward size={20} />
-      </div>
+      </Link>
 
       <div className="font-body">
         <p className="font-normal">

@@ -1,15 +1,14 @@
 import prisma from "@/libs/prismadb";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import Cookies from "js-cookie";
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { token: string } }
 ) {
   const { token } = params;
 
-  Cookies.remove("user");
-
+  cookies().delete("user");
   const user = await prisma.user.findFirst({
     where: {
       activateTokens: {
@@ -37,16 +36,16 @@ export async function GET(
     throw new Error("Invalid token");
   }
 
-  const tokenExpirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const tokenExpirationTime = 24 * 60 * 60 * 1000;
   const tokenCreatedAt = user.activateTokens[0].createdAt;
 
   if (Date.now() - new Date(tokenCreatedAt).getTime() > tokenExpirationTime) {
-    return NextResponse.redirect("/auth/expired");
+    return NextResponse.redirect("http://localhost:3000/auth/expired");
   }
 
   await prisma.user.update({
     where: { id: user.id },
-    data: { active: true },
+    data: { active: true, emailVerified: true },
   });
 
   await prisma.activateToken.update({
@@ -58,5 +57,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.redirect("/auth/signin");
+  return NextResponse.redirect("http://localhost:3000/auth/signin");
 }

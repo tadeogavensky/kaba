@@ -1,8 +1,8 @@
 import { mailOptions, transporter } from "@/utils/nodemailer";
 import { refreshToken } from "@/utils/refreshToken";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request, context: any) {
+export async function POST(request: NextRequest, context: any) {
   const body = await request.json();
 
   const { email, firstName, lastName, id } = body;

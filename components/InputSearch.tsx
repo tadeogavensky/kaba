@@ -6,7 +6,7 @@ const InputSearch = () => {
       <IoSearchOutline size={20} />
       <input
         placeholder="Search"
-        className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold shadow-none focus:ring-0 w-full focus:border-0"
+        className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold shadow-none focus:ring-0 w-full focus:border-0 "
       />
     </div>
   );

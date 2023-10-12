@@ -139,7 +139,7 @@ const LoginForm = () => {
           </label>
           <div className="flex flex-col mt-2 ">
             <div
-              className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+              className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                 (!isEmailValid && isFormSubmitted) ||
                 (email.trim() === "" && isFormSubmitted)
                   ? "ring-2 ring-red-500"
@@ -149,7 +149,7 @@ const LoginForm = () => {
               <MdAlternateEmail size={20} />
               <input
                 placeholder="felipe@kaba.com"
-                className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full"
+                className="font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0"
                 onChange={handleEmailChange}
               />
             </div>
@@ -174,7 +174,7 @@ const LoginForm = () => {
           </div>
           <div className="mt-2">
             <div
-              className={`flex items-center flex-1 bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
+              className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full ${
                 (!isPasswordValid && isFormSubmitted) ||
                 (password.trim() === "" && isFormSubmitted)
                   ? "ring-2 ring-red-500"
@@ -185,7 +185,7 @@ const LoginForm = () => {
               <input
                 placeholder="password"
                 type={hidePassword ? "text" : "password"}
-                className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full ${
+                className={`font-heading bg-transparent placeholder:text-sm placeholder:font-bold w-full shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0 ${
                   (!isPasswordValid && isFormSubmitted) ||
                   (password.trim() === "" &&
                     (isFormSubmitted || isPasswordTouched))

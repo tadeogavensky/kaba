@@ -7,10 +7,10 @@ body {
   @apply bg-[#FBFEF9];
 }
 
-input {
+/* input {
   @apply shadow-none border-none outline-none focus:ring-0 ring-0  border-0 focus:border-0;
 }
-
+ */
 .custom-top-shadow {
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -29,4 +29,30 @@ input {
  */
 .swiper-slide-active {
   @apply !flex !justify-center !mr-0;
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #005DFF;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

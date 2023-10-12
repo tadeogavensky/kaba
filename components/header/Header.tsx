@@ -25,6 +25,7 @@ const Header = () => {
 
   const { user, logout } = useAuth();
 
+
   return (
     <header className="flex flex-col justify-between">
       <div className="flex items-center justify-between">

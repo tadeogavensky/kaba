@@ -12,8 +12,11 @@ model User {
   id             String          @id @default(cuid())
   firstName      String?
   lastName       String?
-  username       String?
+  username       String?         @unique
   email          String?
+  phone          String?
+  emailVerified  Boolean         @default(false)
+  phoneVerified  Boolean         @default(false)
   hashedPassword String?
   active         Boolean         @default(false)
   identity       String?
@@ -25,10 +28,10 @@ model User {
   reviews        Review[]
   inbox          Inbox[]
   address        Address?        @relation(fields: [addressId], references: [id])
-  addressId      Int?
+  addressId      String?
   client         Client?
   worker         Worker?
-  activateTokens  ActivateToken[]
+  activateTokens ActivateToken[]
 }
 
 model ActivateToken {
@@ -50,100 +53,106 @@ model Client {
 model Worker {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id])
+  available Boolean?
   userId    String   @unique
   service   Service? @relation(fields: [serviceId], references: [id])
   rate      Rate?    @relation(fields: [rateId], references: [id])
-  serviceId Int?
-  rateId    Int?
+  serviceId String?
+  rateId    String?
 }
 
 model Address {
-  id          Int       @id @default(autoincrement())
-  fullAddress String?
-  street      String
-  city        String
-  state       String
-  postalCode  String
-  country     String
-  clientId    Int?
-  bookings    Booking[]
-  User        User[]
+  id              String    @id @default(cuid())
+  active          Boolean?
+  fullAddress     String?
+  street          String
+  number          String?
+  floorDepartment String?
+  neighbourhood   String?
+  city            String
+  state           String
+  postalCode      String
+  country         String
+  type            String
+  description     String?
+  bookings        Booking[]
+  User            User[]
 }
 
 model Service {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(cuid())
   name        String
   description String    @db.Text
   image       String
   category    Category? @relation(fields: [categoryId], references: [id])
-  categoryId  Int?
+  categoryId  String?
   rates       Rate[]
   Worker      Worker[]
 }
 
 model Rate {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   rate      Float
   service   Service  @relation(fields: [serviceId], references: [id])
-  workerId  Int
-  serviceId Int
+  workerId  String
+  serviceId String
   Worker    Worker[]
 }
 
 model Category {
-  id      Int       @id @default(autoincrement())
+  id      String    @id @default(cuid())
   name    String
   image   String
   service Service[]
 }
 
 model Booking {
-  id            Int         @id @default(autoincrement())
+  id            String      @id @default(cuid())
   date          DateTime    @default(now()) @db.Date
   time          DateTime    @db.Time()
   address       Address     @relation(fields: [addressId], references: [id])
-  clientId      Int
-  addressId     Int
+  clientId      String
+  addressId     String
   transaction   Transaction @relation(fields: [transactionId], references: [id])
-  workerId      Int?
-  transactionId Int
+  workerId      String?
+  transactionId String
   User          User?       @relation(fields: [userId], references: [id])
   userId        String?
 }
 
 model Review {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(cuid())
   rating   Int
   comment  String?
   date     DateTime @default(now())
-  clientId Int
-  workerId Int?
+  clientId String
+  workerId String?
   User     User?    @relation(fields: [userId], references: [id])
   userId   String?
 }
 
 model Inbox {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(cuid())
   messages Message[]
-  clientId Int
-  workerId Int?
+  clientId String
+  workerId String?
   User     User?     @relation(fields: [userId], references: [id])
   userId   String?
 }
 
 model Message {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(cuid())
   text           String
   sender         String
   conversation   Inbox    @relation(fields: [conversationId], references: [id])
-  conversationId Int
+  conversationId String
   createdAt      DateTime @default(now())
 }
 
 model Transaction {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   amount    Float
   date      DateTime  @default(now())
-  bookingId Int
+  bookingId String
   Booking   Booking[]
 }
