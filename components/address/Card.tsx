@@ -5,8 +5,17 @@ import { PiSuitcaseSimpleFill } from "react-icons/pi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GrLocationPin } from "react-icons/gr";
 import { IoIosArrowForward } from "react-icons/io";
+import axios from "axios";
+import { useAuth } from "@/contexts/AuthContext";
 const Card = ({ address }: { address: Address }) => {
   const [isModalOpen, setOpen] = useState(false);
+
+  const {updateSession} = useAuth()
+  const handleDelete = async (id: string) => {
+    const response = await axios.delete(`/api/address/${id}`);
+
+    updateSession(response.data.user)
+  };
 
   return (
     <div className="w-full bg-white relative ">
@@ -45,21 +54,36 @@ const Card = ({ address }: { address: Address }) => {
         </button>
       </div>
 
-      {isModalOpen && <Modal />}
+      {isModalOpen && (
+        <Modal handleDelete={handleDelete} id={address?.id || ""} />
+      )}
     </div>
   );
 };
 
-const Modal = () => {
+const Modal = ({
+  handleDelete,
+  id,
+}: {
+  handleDelete: (id: string) => void;
+  id: string;
+}) => {
   return (
-    <div className="bg-white shadow-md rounded-md absolute z-50 font-body flex flex-col right-8 top-12">
+    <div className="bg-white shadow-md rounded-md absolute z-50 font-body flex flex-col right-8 top-16">
       <button className="px-4 py-2 text-sm hover:bg-slate-100 transition w-full text-left rounded-t-md">
         Edit
       </button>
       <button className="px-4 py-2 text-sm hover:bg-slate-100 transition w-full text-left">
         Set as primary address
       </button>
-      <button className="px-4 py-2 text-sm hover:bg-red-400 hover:text-white transition w-full text-left rounded-b-md">
+      <button
+        className="px-4 py-2 text-sm hover:bg-red-400 hover:text-white transition w-full text-left rounded-b-md"
+        onClick={() => {
+          if (id) {
+            handleDelete(id);
+          }
+        }}
+      >
         Delete
       </button>
     </div>

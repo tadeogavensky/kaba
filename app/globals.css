@@ -41,7 +41,7 @@ body {
 
 .spinner {
   border: 8px solid #f3f3f3;
-  border-top: 8px solid #005DFF;
+  border-top: 8px solid #005dff;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -55,4 +55,13 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }

@@ -8,11 +8,8 @@ import { PiUser, PiIdentificationCard } from "react-icons/pi";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { HiOutlinePencil } from "react-icons/hi";
-import { IoClose } from "react-icons/io5";
+import { IoArrowBack } from "react-icons/io5";
 import { TiBusinessCard } from "react-icons/ti";
-
-import { MdAlternateEmail } from "react-icons/md";
-import { PiIdentificationBadgeBold } from "react-icons/pi";
 
 import { useAuth } from "@/contexts/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
@@ -25,7 +22,6 @@ export default function AccountInfo({
   params: { id: string };
 }) {
   const { user, updateSession } = useAuth();
-  const router = useRouter();
 
   const [updatedUser, setUpdatedUser] = useState({
     email: user?.email || "",
@@ -35,6 +31,8 @@ export default function AccountInfo({
     identity: user?.identity || "",
     phone: user?.phone || "",
   });
+
+  console.log('user', user)
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isFirstNameValid, setIsFirstNameValid] = useState(true);
@@ -273,7 +271,7 @@ export default function AccountInfo({
           >
             <div className="flex items-center justify-between ">
               <button onClick={closeEditForm} type="button">
-                <IoClose size={25} className="text-gray-500" />
+                <IoArrowBack size={25} className="text-gray-500" />
               </button>
               <h1 className="font-bold font-heading text-xl">Edit Account</h1>
               <span></span>
@@ -468,7 +466,7 @@ export default function AccountInfo({
               </div>
 
               <button
-                className="w-full bg-primary text-white font-body font-semibold py-1 rounded-full mt-10"
+                className="w-full bg-primary hover:bg-blue-800 transition text-white font-body font-semibold py-1 rounded-full mt-10"
                 type="submit"
               >
                 Save

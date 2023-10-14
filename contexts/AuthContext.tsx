@@ -9,21 +9,10 @@ import {
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
-
-// Define the user type as per your user data structure.
-interface User {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  email?: string;
-  image?: string;
-  phone?: string;
-  identity?: string;
-  emailVerified?: boolean;
-  phoneVerified?: boolean;
-  role?: string;
-}
+import Address from "@/types/Address";
+import Worker from "@/types/Worker";
+import Client from "@/types/Client";
+import { User } from "@/types/User";
 
 interface AuthContextType {
   user: User | null;
@@ -41,20 +30,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Function to log in a user (you can modify this)
   const login = (userData: User) => {
-    Cookies.set("user", userData.id);
-    setUser(userData);
+    if (userData.id) {
+      Cookies.set("user", userData.id);
+      setUser(userData);
+    } else {
+      // Manejar el caso en el que userData.id es undefined
+    }
   };
 
   // Function to log out the user
   const logout = () => {
-    // Remove the user cookie and set user state to null.
     Cookies.remove("user");
     setUser(null);
     router.refresh();
   };
 
-  const updateSession = (user: User) => {
-    setUser(user);
+  const updateSession = (newUser: User) => {
+    setUser((prevState) => ({ ...prevState, ...newUser }));
   };
 
   // Check if a user is already logged in when the app starts

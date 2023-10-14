@@ -1,4 +1,5 @@
 type Address = {
+  id?: string;
   fullAddress: String;
   street: String;
   city: String;
@@ -9,7 +10,7 @@ type Address = {
   floorDepartment: String;
   neighbourhood: string;
   type: String;
-  description: String;
+  details: String;
   active: Boolean;
 };
 
