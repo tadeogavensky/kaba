@@ -6,7 +6,6 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const userId = cookies().get("user")?.value;
 
   await prisma.address.delete({ where: { id: params.id } });
 

@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       type,
       details,
       active,
-      userId: userId,
+      clientId: userId,
     },
   });
 

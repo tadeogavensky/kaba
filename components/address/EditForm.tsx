@@ -25,7 +25,7 @@ import Select from "react-select";
 import Address from "@/types/Address";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { User } from "@/types/User";
+import User from "@/types/User";
 
 type EditFormProps = {
   closeForm: () => void;
