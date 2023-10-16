@@ -9,12 +9,11 @@ export async function GET(request: Request) {
   const user = await prisma.user.findFirst({
     where: { id: id?.value },
     include: {
-      addresses: true,
       worker: true,
-      client: true,
+      client: { include: { addresses: true } },
       bookings: true,
       reviews: true,
-      notifications:true,
+      notifications: true,
     },
   });
 

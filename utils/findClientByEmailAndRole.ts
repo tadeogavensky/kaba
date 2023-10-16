@@ -12,7 +12,7 @@ export default async function findClientByEmailAndRole(
     },
     include: {
       activateTokens: true,
-      client: true,
+      client: { include: { addresses: true } },
     },
   });
 
