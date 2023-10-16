@@ -10,17 +10,5 @@ export async function DELETE(
 
   await prisma.address.delete({ where: { id: params.id } });
 
-  const user = await prisma.user.findFirst({
-    where: { id: userId },
-    include: {
-      addresses: true,
-      worker: true,
-      client: true,
-      bookings: true,
-      reviews: true,
-      notifications: true,
-    },
-  });
-
-  return NextResponse.json({ msg: "Address deleted", user: user });
+  return NextResponse.json({ msg: "Address deleted" });
 }

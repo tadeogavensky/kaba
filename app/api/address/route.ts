@@ -58,19 +58,5 @@ export async function POST(request: Request) {
     },
   });
 
-  const user = await prisma.user.findFirst({
-    where: { id: userId },
-    include: {
-      addresses: true,
-      worker: true,
-      client: true,
-      bookings: true,
-      reviews: true,
-      notifications: true,
-    },
-  });
-
-  return NextResponse.json({ msg: "Address saved", user: user });
+  return NextResponse.json({ msg: "Address saved" });
 }
-
-

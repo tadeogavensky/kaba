@@ -27,11 +27,12 @@ import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { User } from "@/types/User";
 
-type FormProps = {
+type EditFormProps = {
   closeForm: () => void;
+  id: string;
 };
 
-const Form: React.FC<FormProps> = ({ closeForm }) => {
+const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
   const { updateSession, user } = useAuth();
 
   const countryData: ICountry[] = Country.getAllCountries();
@@ -65,7 +66,8 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
   const [type, setType] = useState("home");
 
   const address: Address = {
-    fullAddress: street +
+    fullAddress:
+      street +
       " " +
       streetNumber +
       (floorDepartment ? " " + floorDepartment : "") +
@@ -126,8 +128,7 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
     try {
       const response = await axios.post("/api/address", address);
 
-      const responseUser= await axios.get("/api/me")
-
+      const responseUser = await axios.get("/api/me");
 
       toast.success(response.data.msg);
 
@@ -239,7 +240,7 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
         <button onClick={closeForm} type="button">
           <IoArrowBack size={25} className="text-gray-500" />
         </button>
-        <h1 className="font-bold font-heading text-xl">New Address</h1>
+        <h1 className="font-bold font-heading text-xl">Edit Address</h1>
         <span></span>
       </div>
       <form
@@ -498,4 +499,4 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
   );
 };
 
-export default Form;
+export default EditForm;

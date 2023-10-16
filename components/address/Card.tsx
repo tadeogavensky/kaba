@@ -7,14 +7,29 @@ import { GrLocationPin } from "react-icons/gr";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
+import EditForm from "./EditForm";
+import { AnimatePresence } from "framer-motion";
 const Card = ({ address }: { address: Address }) => {
   const [isModalOpen, setOpen] = useState(false);
+  const [isFormVisible, setFormVisibility] = useState(false);
 
-  const {updateSession} = useAuth()
+  const { updateSession } = useAuth();
+
   const handleDelete = async (id: string) => {
     const response = await axios.delete(`/api/address/${id}`);
 
-    updateSession(response.data.user)
+    const responseUser = await axios.get("/api/me");
+
+    updateSession(responseUser.data);
+  };
+
+  const handleEdit = async (id: string) => {
+    setFormVisibility(true);
+    setOpen(false);
+  };
+
+  const closeForm = () => {
+    setFormVisibility(false);
   };
 
   return (
@@ -55,22 +70,42 @@ const Card = ({ address }: { address: Address }) => {
       </div>
 
       {isModalOpen && (
-        <Modal handleDelete={handleDelete} id={address?.id || ""} />
+        <Modal
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          id={address?.id || ""}
+        />
       )}
+
+      <AnimatePresence>
+        {isFormVisible && (
+          <EditForm id={address?.id || ""} closeForm={closeForm} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 const Modal = ({
   handleDelete,
+  handleEdit,
   id,
 }: {
   handleDelete: (id: string) => void;
+  handleEdit: (id: string) => void;
+
   id: string;
 }) => {
   return (
     <div className="bg-white shadow-md rounded-md absolute z-50 font-body flex flex-col right-8 top-16">
-      <button className="px-4 py-2 text-sm hover:bg-slate-100 transition w-full text-left rounded-t-md">
+      <button
+        className="px-4 py-2 text-sm hover:bg-slate-100 transition w-full text-left rounded-t-md"
+        onClick={() => {
+          if (id) {
+            handleEdit(id);
+          }
+        }}
+      >
         Edit
       </button>
       <button className="px-4 py-2 text-sm hover:bg-slate-100 transition w-full text-left">
