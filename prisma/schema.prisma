@@ -56,7 +56,7 @@ model Worker {
   userId        String   @unique
   serviceId     String?
   rateId        String?
-  about         String
+  about         String?
   city          String?
   country       String?
   neighbourhood String?
