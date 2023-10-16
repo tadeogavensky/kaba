@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  
 }
 
 model User {
@@ -24,7 +25,6 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   activateTokens ActivateToken[]
-  addresses      Address[]
   bookings       Booking[]
   client         Client?
   inbox          Inbox[]
@@ -47,12 +47,21 @@ model Client {
   id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
+  addresses Address[]
 }
 
 model Worker {
   id        String   @id @default(cuid())
   available Boolean?
+  neighbourhood   String?
+  number          String?
+  city            String?
+  street          String?
+  state           String?
+  postalCode      String?
+  country         String?
   totalJobs Int?
+  about String @db.Text
   userId    String   @unique
   serviceId String?
   rateId    String?
@@ -65,18 +74,18 @@ model Address {
   id              String    @id @default(cuid())
   active          Boolean?
   fullAddress     String?
-  street          String
-  number          String?
   floorDepartment String?
   neighbourhood   String
+  number          String?
   city            String
+  street          String
   state           String
   postalCode      String
   country         String
   type            String
   details         String?
-  userId          String?
-  User            User?     @relation(fields: [userId], references: [id])
+  clientId        String?
+  client          Client?     @relation(fields: [clientId], references: [id])
   bookings        Booking[]
 }
 

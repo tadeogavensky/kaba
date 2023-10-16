@@ -1,16 +1,16 @@
 import Image from "next/image";
 import React, { FC } from "react";
-import ServiceType from "@/types/Service";
+import CategoryType from "@/types/Category";
 import Link from "next/link";
 
-const Category: FC<ServiceType> = ({ image, name }) => {
+const Category: FC<CategoryType> = ({ image, name }) => {
   return (
     <Link
       href={`/service/${name}`}
       className="flex flex-col items-center flex-1 gap-2 "
     >
       <Image
-        src={image}
+        src={image || ""}
         width={100}
         height={100}
         className="rounded-full overflow-hidden w-[60px] h-[60px] object-cover"

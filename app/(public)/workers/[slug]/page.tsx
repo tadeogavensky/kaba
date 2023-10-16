@@ -8,28 +8,40 @@ import { BsStarHalf, BsStarFill, BsStar } from "react-icons/bs";
 import { TiLocation } from "react-icons/ti";
 import { IoIosArrowForward } from "react-icons/io";
 import ReviewsButton from "@/components/worker/ReviewsButton";
+import  User  from "@/types/User";
 
-const worker: Worker = {
-  id: 1,
+import avatar from "/public/assets/avatar.jpg";
+
+
+const worker: User = {
   email: "worker@example.com",
-  password: "securepassword",
   firstName: "Jenny",
   lastName: "Flemming",
-  street: "123 Main Street",
-  city: "Cityville",
-  state: "Stateville",
-  postalCode: "12345",
-  country: "Countryville",
   phone: "123-456-7890",
-  about:
-    "I am a professional home cleaner with over 5 years of experience. I take pride in providing top-notch cleaning services to ensure your home is spotless and refreshed. Customer satisfaction is my priority, and I am dedicated to delivering the best service possible.",
-  profilePicture: "/assets/worker.jpg",
-  service: {
-    name: "Home Cleaning",
-    description: "",
-    image: "/assets/worker.jpg",
+  worker: {
+    street: "123 Main Street",
+    country: "Countryville",
+    city: "Cityville",
+    number:"4624",
+    postalCode: "12345",
+    neighbourhood:"Palermo",
+    state: "Stateville",
+    service: {
+      name: "Home Cleaning",
+      description: "",
+      image: "/assets/worker.jpg",
+      category: {
+        name: "Cleaning",
+      },
+    },
+    rate: { rate: 10 },
+
+    totalJobs: 25,
+    about:
+      "I am a professional home cleaner with over 5 years of experience. I take pride in providing top-notch cleaning services to ensure your home is spotless and refreshed. Customer satisfaction is my priority, and I am dedicated to delivering the best service possible.",
   },
-  rate: { rate: 10 },
+  profilePicture: "/assets/worker.jpg",
+
   reviews: [
     {
       rating: 5,
@@ -62,12 +74,6 @@ const worker: Worker = {
       date: new Date("2023-09-05"),
     },
   ],
-  totalJobs: 23,
-  category: {
-    id: 1,
-    name: "Cleaning",
-    image: "",
-  },
 };
 
 const avgRating = calculateAverageRating(worker.reviews);
@@ -77,7 +83,7 @@ export default function Worker() {
     <div className="min-h-screen mb-10">
       <div className="relative">
         <Image
-          src={worker.profilePicture}
+          src={worker.profilePicture || avatar}
           alt="profilePicture"
           width={500}
           height={500}
@@ -88,7 +94,7 @@ export default function Worker() {
         </div>
       </div>
       <div className="p-6 flex flex-col justify-start gap-4 mt-2">
-        <h1 className="text-2xl font-bold font-body">{worker.service.name}</h1>
+        <h1 className="text-2xl font-bold font-body">{worker.worker?.service.name}</h1>
         <div className="flex items-center gap-4">
           <p className="font-heading font-semibold text-lg text-primary">
             {worker.firstName} {worker.lastName}
@@ -106,17 +112,17 @@ export default function Worker() {
         </div>
         <div className="flex items-center gap-4">
           <span className="px-3 py-2 bg-blue-100 text-blue-500 font-bold text-xs rounded-2xl">
-            {worker.category.name}
+            {worker.worker?.service.category.name}
           </span>
           <span className="font-body flex items-center gap-1">
             <TiLocation size={20} className="text-primary" />
-            <p>{worker.state},</p>
-            <p>{worker.city}</p>
+            <p>{worker?.worker?.street},</p>
+            <p>{worker.worker?.city}</p>
           </span>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="font-semibold text-primary text-xl">
-            ${worker.rate.rate}
+            ${worker.worker?.rate.rate}
             <span className="text-gray-400 font-normal">/hr</span>
           </h1>
           <BookButton />
@@ -127,7 +133,7 @@ export default function Worker() {
         <div className="flex flex-col justify-start gap-2">
           <h1 className="font-bold text-base font-heading">About me</h1>
 
-          <p>{worker.about}</p>
+          <p>{worker.worker?.about}</p>
         </div>
 
         <div className="flex flex-col justify-start gap-2">
@@ -144,7 +150,7 @@ export default function Worker() {
                 <h1 className="font-bold text-primary text-3xl">{avgRating}</h1>
                 <div className="flex flex-col">
                   <StarRating rating={avgRating} />
-                  <p className="font-light">{worker.reviews.length} reviews</p>
+                  <p className="font-light">{worker.reviews?.length} reviews</p>
                 </div>
               </div>
               <IoIosArrowForward size={25} />

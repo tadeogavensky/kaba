@@ -24,7 +24,6 @@ const Addresses = () => {
   };
 
   console.log(user?.addresses);
-  
 
   return (
     <div className="p-6 relative">
@@ -34,9 +33,11 @@ const Addresses = () => {
       <GoBack label="Profile" />
 
       <div className="flex flex-col mt-6 rounded-2xl shadow-lg">
-        {user?.addresses?.map((address, index) => (
+        {user.client?.addresses?.map((address: Address, index: number) => (
           <Card key={index} address={address} />
         ))}
+
+        {user.worker?.address && <Card address={user.worker.address} />}
         <button
           onClick={() => {
             openForm();
