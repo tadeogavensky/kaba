@@ -12,7 +12,7 @@ import axios from "axios";
 import Address from "@/types/Address";
 import Worker from "@/types/Worker";
 import Client from "@/types/Client";
-import { User } from "@/types/User";
+import  User  from "@/types/User";
 
 interface AuthContextType {
   user: User | null;
