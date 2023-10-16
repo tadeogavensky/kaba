@@ -31,6 +31,7 @@ const worker: User = {
       description: "",
       image: "/assets/worker.jpg",
       category: {
+        id:"1",
         name: "Cleaning",
       },
     },
