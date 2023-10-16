@@ -1,15 +1,30 @@
 import Address from "@/types/Address";
 import React, { useState } from "react";
-import { BiHomeAlt } from "react-icons/bi";
-import { PiSuitcaseSimpleFill } from "react-icons/pi";
+
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { GrLocationPin } from "react-icons/gr";
-import { IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import EditForm from "./EditForm";
+import EditForm from "../EditForm";
 import { AnimatePresence } from "framer-motion";
-const Card = ({ address }: { address: Address }) => {
+const Card = ({
+  id,
+  country,
+  state,
+  city,
+  postalCode,
+  neighbourhood,
+  street,
+  number,
+}: {
+  id: string;
+  country: string;
+  state: string;
+  city: string;
+  postalCode: string;
+  neighbourhood: string;
+  street: string;
+  number: string;
+}) => {
   const [isModalOpen, setOpen] = useState(false);
   const [isFormVisible, setFormVisibility] = useState(false);
 
@@ -36,25 +51,12 @@ const Card = ({ address }: { address: Address }) => {
     <div className="w-full bg-white relative ">
       <div className="flex items-center justify-between border-b-[1px] p-4">
         <div className="flex items-center justify-between gap-1">
-          <div>
-            <span>{address.type == "home" && <BiHomeAlt size={25} />}</span>
-            <span>
-              {address.type == "office" && <PiSuitcaseSimpleFill size={25} />}
-            </span>
-            <span>
-              {address.type == "other" && <GrLocationPin size={25} />}
-            </span>
-          </div>
           <div className="flex flex-col">
-            <p className="text-green-700 font-normal mb-2 font-body bg-green-200  rounded-full w-1/3 text-center text-xs">
-              {address.active == true ? "Active" : ""}
-            </p>
             <p className="font-semibold font-body">
-              {address.street} {address.number} {address.floorDepartment}
+              {street} {number}
             </p>
             <p className="text-xs text-slate-500">
-              ZIP code {address.postalCode} - {address.city} -{" "}
-              {address.neighbourhood}
+              ZIP code {postalCode} - {city} - {neighbourhood}
             </p>
           </div>
         </div>
@@ -73,14 +75,12 @@ const Card = ({ address }: { address: Address }) => {
         <Modal
           handleDelete={handleDelete}
           handleEdit={handleEdit}
-          id={address?.id || ""}
+          id={id || ""}
         />
       )}
 
       <AnimatePresence>
-        {isFormVisible && (
-          <EditForm id={address?.id || ""} closeForm={closeForm} />
-        )}
+        {isFormVisible && <EditForm id={id || ""} closeForm={closeForm} />}
       </AnimatePresence>
     </div>
   );

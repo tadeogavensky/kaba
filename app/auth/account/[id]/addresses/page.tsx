@@ -1,6 +1,8 @@
 "use client";
 import { GoBack } from "@/components/GoBack";
-import Card from "@/components/address/Card";
+import CardClient from "@/components/address/client/Card";
+import CardWorker from "@/components/address/worker/Card";
+
 import Form from "@/components/address/Form";
 import NewAddressBtn from "@/components/address/NewAddressBtn";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,8 +25,6 @@ const Addresses = () => {
     setFormVisibility(false);
   };
 
-  console.log(user?.addresses);
-
   return (
     <div className="p-6 relative">
       <div>
@@ -33,11 +33,14 @@ const Addresses = () => {
       <GoBack label="Profile" />
 
       <div className="flex flex-col mt-6 rounded-2xl shadow-lg">
-        {user.client?.addresses?.map((address: Address, index: number) => (
-          <Card key={index} address={address} />
+        {user?.client?.addresses?.map((address: Address, index: number) => (
+          <CardClient key={index} address={address} />
         ))}
 
-        {user.worker?.address && <Card address={user.worker.address} />}
+        {user?.worker && (
+          <CardWorker id={user.worker.id || ""} country={user.worker.country} state={user.worker.state} city={user.worker.city} postalCode={user.worker.postalCode} neighbourhood={user.worker.neighbourhood} street={user.worker.street} number={user.worker.number}         
+          />
+        )}
         <button
           onClick={() => {
             openForm();

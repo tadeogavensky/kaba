@@ -3,16 +3,16 @@ import Rate from "./Rate";
 import Service from "./Service";
 
 type Worker = {
-  id?: number;
+  id?: string;
   service: Service;
   rate: Rate;
-  country: String;
-  state: String;
-  city: String;
-  postalCode: String;
-  neighbourhood: String;
-  street: String;
-  number: String;
+  country: string;
+  state: string;
+  city: string;
+  postalCode: string;
+  neighbourhood: string;
+  street: string;
+  number: string;
   totalJobs: number;
   about: string;
 };
