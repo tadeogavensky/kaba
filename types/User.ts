@@ -1,9 +1,8 @@
-import Address from "./Address";
 import Client from "./Client";
 import Review from "./Review";
 import Worker from "./Worker";
 
-export type User = {
+ type User = {
   id?: string;
   firstName?: string;
   lastName?: string;
@@ -11,12 +10,15 @@ export type User = {
   email?: string;
   image?: string;
   phone?: string;
+  profilePicture?:string
   identity?: string;
   emailVerified?: boolean;
   phoneVerified?: boolean;
   role?: string;
-  reviews?: Review[];
-  addresses?: Address[];
+  reviews: Review[];
   worker?: Worker;
   client?: Client;
 };
+
+
+export default User

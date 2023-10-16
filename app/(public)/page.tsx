@@ -3,7 +3,6 @@ import Header from "@/components/header/Header";
 import InputSearch from "@/components/InputSearch";
 import PopularServices from "@/components/services/PopularServices";
 import Services from "@/components/services/Services";
-import Image from "next/image";
 const client = {
   id: 1,
   email: "cliente@example.com",

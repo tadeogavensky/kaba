@@ -4,7 +4,7 @@ import Link from "next/link";
 import Category from "./Category";
 import LoadingSkeleton from "../LoadingSkeleton";
 
-const services = [
+const categories = [
   {
     name: "cleaning",
     image: "/assets/categories/broom.jpg",
@@ -52,9 +52,9 @@ const Services = () => {
                 <LoadingSkeleton className="w-[60px] h-[60px] rounded-full bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
               </div>
             ))
-          : services.map((service, index) => (
+          : categories.map((category, index) => (
               <div key={index}>
-                <Category image={service.image} name={service.name} />
+                <Category image={category.image} name={category.name} id={category.name} />
               </div>
             ))}
       </ul>

@@ -5,33 +5,32 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  //directUrl = env("DIRECT_URL")
+  
 }
 
 model User {
-  id             String    @id @default(cuid())
+  id             String          @id @default(cuid())
   firstName      String?
   lastName       String?
-  username       String?   @unique
+  username       String?         @unique
   email          String?
   phone          String?
-  emailVerified  Boolean   @default(false)
-  phoneVerified  Boolean   @default(false)
+  emailVerified  Boolean         @default(false)
+  phoneVerified  Boolean         @default(false)
   hashedPassword String?
-  active         Boolean   @default(false)
+  active         Boolean         @default(false)
   identity       String?
   image          String?
   role           String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  bookings       Booking[]
-  reviews        Review[]
-  inbox          Inbox[]
-  addresses      Address[]
-  client         Client?
-  worker         Worker?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   activateTokens ActivateToken[]
-  notifications   Notification[]
+  bookings       Booking[]
+  client         Client?
+  inbox          Inbox[]
+  notifications  Notification[]
+  reviews        Review[]
+  worker         Worker?
 }
 
 model ActivateToken {
@@ -40,64 +39,73 @@ model ActivateToken {
   activatedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id])
   userId      String
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model Client {
   id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+  addresses Address[]
 }
 
 model Worker {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
   available Boolean?
+  neighbourhood   String?
+  number          String?
+  city            String?
+  street          String?
+  state           String?
+  postalCode      String?
+  country         String?
   totalJobs Int?
+  about String @db.Text
   userId    String   @unique
-  service   Service? @relation(fields: [serviceId], references: [id])
-  rate      Rate?    @relation(fields: [rateId], references: [id])
   serviceId String?
   rateId    String?
+  rate      Rate?    @relation(fields: [rateId], references: [id])
+  service   Service? @relation(fields: [serviceId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Address {
   id              String    @id @default(cuid())
   active          Boolean?
   fullAddress     String?
-  street          String
-  number          String?
   floorDepartment String?
   neighbourhood   String
+  number          String?
   city            String
+  street          String
   state           String
   postalCode      String
   country         String
   type            String
   details         String?
+  clientId        String?
+  client          Client?     @relation(fields: [clientId], references: [id])
   bookings        Booking[]
-  User            User?     @relation(fields: [userId], references: [id])
-  userId          String?
 }
 
 model Service {
   id          String    @id @default(cuid())
   name        String
-  description String    @db.Text
+  description String
   image       String
-  category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  String?
   rates       Rate[]
+  category    Category? @relation(fields: [categoryId], references: [id])
   Worker      Worker[]
 }
 
 model Rate {
   id        String   @id @default(cuid())
   rate      Float
-  service   Service  @relation(fields: [serviceId], references: [id])
   workerId  String
   serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
   Worker    Worker[]
 }
 
@@ -111,15 +119,15 @@ model Category {
 model Booking {
   id            String      @id @default(cuid())
   date          DateTime    @default(now()) @db.Date
-  time          DateTime    @db.Time()
-  address       Address     @relation(fields: [addressId], references: [id])
+  time          DateTime    @db.Time(6)
   clientId      String
   addressId     String
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
   workerId      String?
   transactionId String
-  User          User?       @relation(fields: [userId], references: [id])
   userId        String?
+  address       Address     @relation(fields: [addressId], references: [id])
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  User          User?       @relation(fields: [userId], references: [id])
 }
 
 model Review {
@@ -129,33 +137,33 @@ model Review {
   date     DateTime @default(now())
   clientId String
   workerId String?
-  User     User?    @relation(fields: [userId], references: [id])
   userId   String?
+  User     User?    @relation(fields: [userId], references: [id])
 }
 
 model Inbox {
   id       String    @id @default(cuid())
-  messages Message[]
   clientId String
   workerId String?
-  User     User?     @relation(fields: [userId], references: [id])
   userId   String?
+  User     User?     @relation(fields: [userId], references: [id])
+  messages Message[]
 }
 
 model Message {
   id             String   @id @default(cuid())
-  text           String   @db.Text
+  text           String
   sender         String
-  conversation   Inbox    @relation(fields: [conversationId], references: [id])
   conversationId String
   createdAt      DateTime @default(now())
+  conversation   Inbox    @relation(fields: [conversationId], references: [id])
 }
 
 model Notification {
   id     String @id @default(cuid())
-  text   String @db.Text
-  user   User   @relation(fields: [userId], references: [id])
+  text   String
   userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Transaction {

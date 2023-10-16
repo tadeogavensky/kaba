@@ -7,6 +7,7 @@ import LoadingSkeleton from "../LoadingSkeleton";
 
 const servicesCategory = [
   {
+    id:"1",
     name: "All",
   },
   {
@@ -27,6 +28,7 @@ const servicesCategory = [
     ],
   },
   {
+    id:"2",
     name: "Painting",
     services: [
       {
@@ -49,6 +51,7 @@ const servicesCategory = [
     ],
   },
   {
+    id:"3",
     name: "Repairing",
     services: [
       {
@@ -142,7 +145,11 @@ const PopularServices = () => {
               })
               .flatMap((category) => category.services || [])
               .map((service, index) => (
-                <Card key={index} name={service.name} image={service.image} />
+                <Card key={index} name={service.name} image={service.image} category={{
+                  id: "",
+                  name: service.name,
+                  image: service.image
+                }} />
               ))}
       </div>
     </div>

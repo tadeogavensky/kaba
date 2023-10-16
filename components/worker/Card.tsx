@@ -1,34 +1,36 @@
 import Image from "next/image";
 import React, { FC } from "react";
 import WorkerTypes from "@/types/Worker";
+import UserTypes from "@/types/User";
+
 import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
 import Link from "next/link";
 import BookmarkButton from "./BookmarkButton";
 import calculateAverageRating from "@/utils/avgRating";
 
-const Card: FC<WorkerTypes> = ({
+import avatar from "/public/assets/avatar.jpg";
+
+
+const Card: FC<UserTypes> = ({
   id,
   firstName,
   lastName,
   profilePicture,
-  service,
-  rate,
   reviews,
-  totalJobs,
-  category,
+  worker
 }) => {
-  const avgRating = calculateAverageRating(reviews);
+  const avgRating = calculateAverageRating(reviews || []);
 
   return (
     <div className="sm:w-[350px]  flex flex-row justify-around bg-white rounded-lg shadow-xl p-3 gap-4">
       <Link
-        href={`/workers/${id}-${service.name
+        href={`/workers/${id}-${worker?.service.name
           .replace(/\s+/g, "-")
-          .toLowerCase()}-${firstName.toLowerCase()}-${lastName.toLowerCase()}`}
+          .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
         className="flex justify-center items-center"
       >
         <Image
-          src={profilePicture}
+          src={profilePicture || avatar}
           height={300}
           width={300}
           className="rounded-xl object-cover  h-[100px] w-[100px] "
@@ -43,12 +45,12 @@ const Card: FC<WorkerTypes> = ({
           <BookmarkButton />
         </div>
         <Link
-          href={`/workers/${id}-${service.name
+          href={`/workers/${id}-${worker?.service.name
             .replace(/\s+/g, "-")
-            .toLowerCase()}-${firstName.toLowerCase()}-${lastName.toLowerCase()}`}
+            .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
           className="font-body text-xl font-semibold"
         >
-          {service.name}
+          {worker?.service.name}
         </Link>
 
         <div className="flex justify-between items-center gap-3 mt-2">
@@ -63,12 +65,12 @@ const Card: FC<WorkerTypes> = ({
             <p className="text-gray-400 font-semibold font-body whitespace-nowrap  ">
               Total Jobs
             </p>
-            <p className="font-semibold">{totalJobs}</p>
+            <p className="font-semibold">{worker?.totalJobs}</p>
           </div>
           <div className="flex flex-col gap-1 text-sm font-body">
             <p className="text-gray-400 font-semibold">Rate</p>
             <p className="font-semibold">
-              ${rate.rate}
+              ${worker?.rate.rate}
               <span className="text-gray-400 font-normal">/hr</span>
             </p>
           </div>
