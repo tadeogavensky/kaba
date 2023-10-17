@@ -9,10 +9,7 @@ import {
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Address from "@/types/Address";
-import Worker from "@/types/Worker";
-import Client from "@/types/Client";
-import  User  from "@/types/User";
+import User from "@/types/User";
 
 interface AuthContextType {
   user: User | null;
@@ -28,17 +25,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const [user, setUser] = useState<User | null>(null);
 
-  // Function to log in a user (you can modify this)
   const login = (userData: User) => {
     if (userData.id) {
       Cookies.set("user", userData.id);
-      setUser(userData);
+
+      if (userData.role == "worker") {
+        console.log("es worker", userData.worker);
+        setUser({ ...userData, worker: userData.worker });
+      } else if (userData.role == "client") {
+        console.log("es cliente");
+        setUser({ ...userData, client: userData.client });
+      } else {
+        setUser(userData);
+      }
     } else {
-      // Manejar el caso en el que userData.id es undefined
+      return null;
     }
   };
 
-  // Function to log out the user
   const logout = () => {
     Cookies.remove("user");
     setUser(null);
@@ -49,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser((prevState) => ({ ...prevState, ...newUser }));
   };
 
-  // Check if a user is already logged in when the app starts
   useEffect(() => {
     const userCookie = Cookies.get("user");
 

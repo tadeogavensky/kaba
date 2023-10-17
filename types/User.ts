@@ -2,7 +2,7 @@ import Client from "./Client";
 import Review from "./Review";
 import Worker from "./Worker";
 
- type User = {
+type User = {
   id?: string;
   firstName?: string;
   lastName?: string;
@@ -10,15 +10,15 @@ import Worker from "./Worker";
   email?: string;
   image?: string;
   phone?: string;
-  profilePicture?:string
+  profilePicture?: string;
   identity?: string;
   emailVerified?: boolean;
   phoneVerified?: boolean;
   role?: string;
+  active?: boolean;
   reviews: Review[];
   worker?: Worker;
   client?: Client;
 };
 
-
-export default User
+export default User;

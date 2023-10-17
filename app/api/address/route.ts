@@ -40,6 +40,8 @@ export async function POST(request: Request) {
     });
   }
 
+  const client = await prisma.client.findFirst({ where: { userId: userId } });
+
   await prisma.address.create({
     data: {
       fullAddress,
@@ -54,7 +56,11 @@ export async function POST(request: Request) {
       type,
       details,
       active,
-      clientId: userId,
+      client: {
+        connect: {
+          id: client?.id,
+        },
+      },
     },
   });
 

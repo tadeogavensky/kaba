@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 export async function GET(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { token: string } }
 ) {
   const { token } = params;

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 import { cookies } from "next/headers";
-export async function GET(request: Request) {
+export async function GET() {
   const id = cookies().get("user");
 
   console.log("cookie id", id);
@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const user = await prisma.user.findFirst({
     where: { id: id?.value },
     include: {
-      worker: true,
+      worker: { include: { service: true, rate: true, } },
       client: { include: { addresses: true } },
       bookings: true,
       reviews: true,

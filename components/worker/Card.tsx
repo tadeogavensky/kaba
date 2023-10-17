@@ -24,7 +24,7 @@ const Card: FC<UserTypes> = ({
   return (
     <div className="sm:w-[350px]  flex flex-row justify-around bg-white rounded-lg shadow-xl p-3 gap-4">
       <Link
-        href={`/workers/${id}-${worker?.service.name
+        href={`/workers/${id}-${worker?.service?.name
           .replace(/\s+/g, "-")
           .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
         className="flex justify-center items-center"
@@ -45,12 +45,12 @@ const Card: FC<UserTypes> = ({
           <BookmarkButton />
         </div>
         <Link
-          href={`/workers/${id}-${worker?.service.name
+          href={`/workers/${id}-${worker?.service?.name
             .replace(/\s+/g, "-")
             .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
           className="font-body text-xl font-semibold"
         >
-          {worker?.service.name}
+          {worker?.service?.name}
         </Link>
 
         <div className="flex justify-between items-center gap-3 mt-2">
@@ -70,7 +70,7 @@ const Card: FC<UserTypes> = ({
           <div className="flex flex-col gap-1 text-sm font-body">
             <p className="text-gray-400 font-semibold">Rate</p>
             <p className="font-semibold">
-              ${worker?.rate.rate}
+              ${worker?.rate?.rate}
               <span className="text-gray-400 font-normal">/hr</span>
             </p>
           </div>

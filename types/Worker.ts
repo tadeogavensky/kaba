@@ -4,8 +4,8 @@ import Service from "./Service";
 
 type Worker = {
   id?: string;
-  service: Service;
-  rate: Rate;
+  service?: Service;
+  rate?: Rate;
   country: string;
   state: string;
   city: string;

@@ -14,12 +14,14 @@ export default async function findWorkerByEmailAndRole(
       activateTokens: true,
       worker: {
         include: {
-          service: { include: { category: true } },
+          service: true,
           rate: true,
         },
       },
     },
   });
+
+  console.log(worker);
 
   return worker;
 }

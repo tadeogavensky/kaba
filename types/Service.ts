@@ -1,11 +1,11 @@
 import Category from "./Category";
 
 type Service = {
+  id: string;
   name: string;
   description?: string;
   image: string;
-  category: Category
+  category: Category;
 };
 
-
-export default Service
+export default Service;

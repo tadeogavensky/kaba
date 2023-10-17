@@ -80,6 +80,9 @@ const LoginForm = () => {
           return;
         }
 
+        console.log("login", response.data);
+        
+
         login(response.data);
         toast.success("Sign up successfully");
         setTimeout(() => {

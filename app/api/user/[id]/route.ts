@@ -7,7 +7,13 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const user = await prisma.user?.findFirst({ where: { id: params.id } });
+  const user = await prisma.user?.findFirst({
+    where: { id: params.id },
+    include: {
+      worker: { include: { service: true } },
+      client: { include: { addresses: true } },
+    },
+  });
 
   if (!user) NextResponse.json("Could not find user");
 

@@ -1,32 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Category from "./Category";
 import LoadingSkeleton from "../LoadingSkeleton";
-
-const categories = [
-  {
-    name: "cleaning",
-    image: "/assets/categories/broom.jpg",
-  },
-  {
-    name: "painting",
-    image: "/assets/categories/paint-brush.jpg",
-  },
-  {
-    name: "laundry",
-    image: "/assets/categories/laundry.jpg",
-  },
-  {
-    name: "repairing",
-    image: "/assets/categories/tools.jpg",
-  },
-];
+import axios from "axios";
+import CategoryType from "@/types/Category";
+import Category from "./Category";
 
 const Services = () => {
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const response = axios.get("/api/categories").then((res) => {
+      setCategories(res.data);
+    });
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -54,7 +42,11 @@ const Services = () => {
             ))
           : categories.map((category, index) => (
               <div key={index}>
-                <Category image={category.image} name={category.name} id={category.name} />
+                <Category
+                  image={category.image}
+                  name={category.name}
+                  id={category.name}
+                />
               </div>
             ))}
       </ul>

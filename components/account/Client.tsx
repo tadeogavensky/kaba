@@ -11,6 +11,7 @@ import { MdVerified, MdNewReleases } from "react-icons/md";
 import Link from "next/link";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import SignOut from "../SignOut";
 const Client = ({ user }: { user: any }) => {
   const sendVerificationMail = async () => {
     try {
@@ -20,6 +21,9 @@ const Client = ({ user }: { user: any }) => {
       const response = await axios.post("/api/activate", user);
     } catch (error) {}
   };
+
+  console.log(user);
+  
 
   return (
     <div className="flex flex-col justify-between items-center gap-8">
@@ -130,6 +134,10 @@ const Client = ({ user }: { user: any }) => {
         <Link href={"/signup"} className="font-bold text-blue-700">
           Register as a Worker right now!
         </Link>
+      </div>
+
+      <div className="mr-auto">
+        <SignOut className="bg-primary text-white px-4 py-2 text-2xl font-bold rounded-full"/>
       </div>
     </div>
   );

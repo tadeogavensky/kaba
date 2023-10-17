@@ -6,7 +6,6 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-
   await prisma.address.delete({ where: { id: params.id } });
 
   return NextResponse.json({ msg: "Address deleted" });

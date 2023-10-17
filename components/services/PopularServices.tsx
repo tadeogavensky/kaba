@@ -5,91 +5,50 @@ import Pill from "./Pill";
 import Card from "./Card";
 import LoadingSkeleton from "../LoadingSkeleton";
 
-const servicesCategory = [
-  {
-    id:"1",
-    name: "All",
-  },
-  {
-    name: "Cleaning",
-    services: [
-      {
-        name: "House Cleaning",
-        image: "/assets/services/house-cleaning.jpg",
-      },
-      {
-        name: "Car Wash",
-        image: "/assets/services/car-wash.jpg",
-      },
-      {
-        name: "Carpet Cleaning",
-        image: "/assets/services/carpet-cleaning.jpg",
-      },
-    ],
-  },
-  {
-    id:"2",
-    name: "Painting",
-    services: [
-      {
-        name: "House Painting",
-        image: "/assets/services/house-painting.jpg",
-      },
-      {
-        name: "Furniture Painting",
-        image: "/assets/services/furniture-painting.jpg",
-      },
-    ],
-  },
-  {
-    name: "Laundry",
-    services: [
-      {
-        name: "Dry Cleaning",
-        image: "/assets/services/dry-cleaning.jpg",
-      },
-    ],
-  },
-  {
-    id:"3",
-    name: "Repairing",
-    services: [
-      {
-        name: "Electrical Repair",
-        image: "/assets/services/electrical-repair.jpg",
-      },
-      {
-        name: "AC Installation",
-        image: "/assets/services/ac-installation.jpg",
-      },
-      {
-        name: "Plumbing Repair",
-        image: "/assets/services/plumbing-repair.jpg",
-      },
-      {
-        name: "Car Repair",
-        image: "/assets/services/car-repair.jpg",
-      },
-    ],
-  },
-];
+import CategoryType from "@/types/Category";
+import ServiceType from "@/types/Service";
+import axios from "axios";
+
+
 
 const PopularServices = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("cleaning");
+
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [servicesByCategory, setServicesByCategory] = useState<ServiceType[]>(
+    []
+  );
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleClick = (pill: string) => {
-    setSelectedCategory(pill);
-    setIsLoading(true);
+  const fetchCategories = () => {
+    axios.get("/api/categories").then((res) => {
+      setCategories(res.data);
+    });
+  };
+
+  const fetchServicesByCategories = async (category: string) => {
+    const response = await axios.get(`/api/services/${category}`);
+    setServicesByCategory(response.data);
+  };
+
+  const handleClick = async (pill: string) => {
+    console.log(pill);
+    await fetchServicesByCategories(pill);
+
+    await setSelectedCategory(pill);
+    await setIsLoading(true);
   };
 
   useEffect(() => {
+    fetchCategories();
+    handleClick(selectedCategory)
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [selectedCategory]);
+  }, []);
 
   return (
     <div className="mt-8">
@@ -107,11 +66,11 @@ const PopularServices = () => {
 
       <div className="overflow-x-auto">
         <div className="flex items-center sm:justify-between gap-3 mt-6">
-          {servicesCategory.map((category, index) => (
+          {categories.map((category, index) => (
             <Pill
               key={index}
               name={category.name}
-              handleClick={() => handleClick(category.name)}
+              handleClick={() => handleClick(category?.name || "")}
               active={selectedCategory === category.name}
             />
           ))}
@@ -120,22 +79,7 @@ const PopularServices = () => {
 
       <div className="grid grid-cols-3 sm:flex flex-wrap justify-center gap-4 mt-4 sm:mt-10">
         {isLoading
-          ? Array.from({
-              length: servicesCategory
-                .filter((category) => {
-                  if (selectedCategory === "All") {
-                    return true;
-                  } else {
-                    return category.name === selectedCategory;
-                  }
-                })
-                .flatMap((category) => category.services || []).length,
-            }).map((_, index) => (
-              <div key={index} className="">
-                <LoadingSkeleton className="sm:w-[300px] sm:h-[300px]  md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
-              </div>
-            ))
-          : servicesCategory
+          ? servicesByCategory
               .filter((category) => {
                 if (selectedCategory === "All") {
                   return true;
@@ -143,14 +87,22 @@ const PopularServices = () => {
                   return category.name === selectedCategory;
                 }
               })
-              .flatMap((category) => category.services || [])
               .map((service, index) => (
-                <Card key={index} name={service.name} image={service.image} category={{
-                  id: "",
-                  name: service.name,
-                  image: service.image
-                }} />
-              ))}
+                <div key={index} className="">
+                  <LoadingSkeleton className="sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
+                </div>
+              ))
+          : servicesByCategory.map((service, index) => (
+              <Card
+              key={index}
+              name={service.name}
+              image={service.image}
+              category={{
+                id: "",
+                name: service.name,
+                image: service.image,
+              }} id={""}              />
+            ))}
       </div>
     </div>
   );
