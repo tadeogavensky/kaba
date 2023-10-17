@@ -27,6 +27,7 @@ const worker: User = {
     neighbourhood:"Palermo",
     state: "Stateville",
     service: {
+      id:"121ewdwqr2143",
       name: "Home Cleaning",
       description: "",
       image: "/assets/worker.jpg",
@@ -95,7 +96,7 @@ export default function Worker() {
         </div>
       </div>
       <div className="p-6 flex flex-col justify-start gap-4 mt-2">
-        <h1 className="text-2xl font-bold font-body">{worker.worker?.service.name}</h1>
+        <h1 className="text-2xl font-bold font-body">{worker.worker?.service?.name}</h1>
         <div className="flex items-center gap-4">
           <p className="font-heading font-semibold text-lg text-primary">
             {worker.firstName} {worker.lastName}
@@ -113,7 +114,7 @@ export default function Worker() {
         </div>
         <div className="flex items-center gap-4">
           <span className="px-3 py-2 bg-blue-100 text-blue-500 font-bold text-xs rounded-2xl">
-            {worker.worker?.service.category.name}
+            {worker.worker?.service?.category.name}
           </span>
           <span className="font-body flex items-center gap-1">
             <TiLocation size={20} className="text-primary" />
@@ -123,7 +124,7 @@ export default function Worker() {
         </div>
         <div className="flex items-center justify-between">
           <h1 className="font-semibold text-primary text-xl">
-            ${worker.worker?.rate.rate}
+            ${worker.worker?.rate?.rate}
             <span className="text-gray-400 font-normal">/hr</span>
           </h1>
           <BookButton />
