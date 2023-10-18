@@ -15,7 +15,8 @@ export async function POST(request: NextRequest, context: any) {
     body.activateTokens[0].token = newToken;
   }
 
-  const confirmationLink = `api/activate/${body.activateTokens[0].token}`;
+  const apiUrl = process.env.API_URL;
+  const confirmationLink = `${apiUrl}/api/activate/${body.activateTokens[0].token}`;
 
   try {
     await transporter.sendMail({

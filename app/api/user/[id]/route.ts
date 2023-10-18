@@ -51,7 +51,9 @@ export async function PUT(
       },
     });
 
-    const confirmationLink = `/api/activate/${token.token}`;
+    const apiUrl = process.env.API_URL;
+
+    const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({

@@ -94,7 +94,9 @@ export default async function Worker({
                 <h1 className="font-bold text-primary text-3xl">{avgRating}</h1>
                 <div className="flex flex-col">
                   <StarRating rating={avgRating} />
-                  <p className="font-light">{worker.user.reviews?.length} reviews</p>
+                  <p className="font-light">
+                    {worker.user.reviews?.length} reviews
+                  </p>
                 </div>
               </div>
               <IoIosArrowForward size={25} />
@@ -131,11 +133,10 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 async function getWorker(slug: string) {
   console.log(slug);
+  const apiUrl = process.env.API_URL;
 
   try {
-    const response = await axios.get(
-      `/api/worker/${slug}`
-    );
+    const response = await axios.get(`${apiUrl}/api/worker/${slug}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);

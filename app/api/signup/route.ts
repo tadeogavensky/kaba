@@ -60,7 +60,10 @@ export async function POST(request: Request) {
       },
     });
 
-    const confirmationLink = `api/activate/${token.token}`;
+  const apiUrl = process.env.API_URL;
+    
+
+    const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({
@@ -134,7 +137,9 @@ export async function POST(request: Request) {
       },
     });
 
-    const confirmationLink = `api/activate/${token.token}`;
+    const apiUrl = process.env.API_URL;
+
+    const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({

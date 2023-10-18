@@ -69,7 +69,7 @@ const Client = () => {
                 sendVerificationMail();
               }}
             >
-              Send verification email
+              Send  email
             </button>
           </div>
         )}

@@ -18,8 +18,9 @@ export default async function Account({
 }
 
 async function getUser(id: string) {
+  const apiUrl = process.env.API_URL;
   try {
-    const response = await axios.get(`/api/user/${id}`);
+    const response = await axios.get(`${apiUrl}/api/user/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);

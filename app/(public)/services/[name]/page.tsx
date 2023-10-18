@@ -35,11 +35,10 @@ export default async function ServicesByName({
 
 async function getWorkersByService(name: string) {
   console.log(name);
+  const apiUrl = process.env.API_URL;
 
   try {
-    const response = await axios.get(
-      `api/workers/${name}`
-    );
+    const response = await axios.get(`${apiUrl}/api/workers/${name}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);
