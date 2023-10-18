@@ -9,6 +9,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/(.*)',
+        destination: 'https://main--kabax.netlify.app/api/(.*)',
+      },
+    ]
+  },
 };
 
 module.exports = nextConfig;
