@@ -15,7 +15,7 @@ const client = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="">
       <div className="m-6 sm:mx-32">
         <Header />
         <InputSearch />
