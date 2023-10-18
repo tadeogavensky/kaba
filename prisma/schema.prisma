@@ -85,7 +85,7 @@ model Address {
   details         String?
   clientId        String?
   client          Client?   @relation(fields: [clientId], references: [id])
-  bookings        Booking[]
+  Booking         Booking[]
 }
 
 model Service {
@@ -96,7 +96,8 @@ model Service {
   categoryId  String?
   rates       Rate[]
   category    Category? @relation(fields: [categoryId], references: [id])
-  workers      Worker[]
+  workers     Worker[]
+  Booking     Booking[]
 }
 
 model Rate {
@@ -117,17 +118,18 @@ model Category {
 }
 
 model Booking {
-  id            String      @id @default(cuid())
-  date          DateTime    @default(now()) @db.Date
-  time          DateTime    @db.Time(6)
-  clientId      String
-  addressId     String
-  workerId      String?
-  transactionId String
-  userId        String?
-  address       Address     @relation(fields: [addressId], references: [id])
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
-  User          User?       @relation(fields: [userId], references: [id])
+  id           String   @id @default(cuid())
+  date         DateTime @default(now()) @db.Date
+  time         DateTime @db.Time()
+  workingHours Int
+  service      Service  @relation(fields: [serviceId], references: [id])
+  clientId     String
+  workerId     String?
+  userId       String?
+  address      Address  @relation(fields: [addressId], references: [id])
+  User         User?    @relation(fields: [userId], references: [id])
+  serviceId    String
+  addressId    String
 }
 
 model Review {
@@ -164,12 +166,4 @@ model Notification {
   text   String
   userId String
   user   User   @relation(fields: [userId], references: [id])
-}
-
-model Transaction {
-  id        String    @id @default(cuid())
-  amount    Float
-  date      DateTime  @default(now())
-  bookingId String
-  Booking   Booking[]
 }

@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { AiOutlineMinus } from "react-icons/ai";
+import { useBooking } from "@/contexts/BookingContext";
 
 const WorkingHours = () => {
-  const [workingHours, setWorkingHours] = useState(0);
+  const { workingHours, setWorkingHours } = useBooking();
 
   const incrementHours = () => {
     if (workingHours < 8) {
@@ -19,7 +20,7 @@ const WorkingHours = () => {
   };
 
   return (
-    <div className="w-full bg-white shadow-md flex items-center justify-between rounded-xl p-4">
+    <div className="w-full mt-6 bg-white shadow-md flex items-center justify-between rounded-xl p-4">
       <div className="flex flex-col items-start">
         <h1 className="font-heading font-bold text-lg">Working Hours</h1>
         <p>cost increases per hour</p>

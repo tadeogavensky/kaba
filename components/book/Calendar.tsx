@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-
+import { useBooking } from "@/contexts/BookingContext";
 const Calendar = () => {
+  const { selectedDate, setSelectedDate } = useBooking();
+
   const months = [
     "January",
     "February",
@@ -20,11 +22,6 @@ const Calendar = () => {
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null); // Use number type for selectedDate
-
-  useEffect(() => {
-    console.log("selectedDate :>> ", selectedDate);
-  }, [selectedDate]);
 
   const goToPreviousMonth = () => {
     if (currentMonth === 0) {
@@ -47,15 +44,17 @@ const Calendar = () => {
   };
 
   const handleDateClick = (day: number) => {
-    setSelectedDate(day); // Store the selected day
+    const selectedDay = new Date(currentYear, currentMonth, day);
+    setSelectedDate(selectedDay); 
   };
+  
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const dayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
 
   return (
-    <div className="lg:w-[750px] w-full flex flex-col mt-10 bg-sky-50 rounded-xl shadow-md p-4">
+    <div className="lg:w-[1500px] w-full flex flex-col mt-10 bg-sky-50 rounded-xl shadow-md p-4">
       <div className="flex justify-between items-center">
         <button className="text-gray-400" onClick={goToPreviousMonth}>
           <HiChevronLeft size={30} />
@@ -119,7 +118,7 @@ const Calendar = () => {
                       className={`rounded-full ${
                         isToday ? " bg-blue-200" : ""
                       } ${
-                        selectedDate === cellIndex
+                        selectedDate && isCurrentMonth && selectedDate.getDate() === cellIndex
                           ? "bg-primary text-white"
                           : ""
                       } cursor-pointer`}

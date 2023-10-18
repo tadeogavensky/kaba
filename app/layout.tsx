@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 import { AuthProvider } from "@/contexts/AuthContext";
+import { BookingProvider } from "@/contexts/BookingContext";
 
 export const metadata: Metadata = {
   title: "Kaba",
@@ -19,8 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen relative">
         <AuthProvider>
-          {children}
-          <Navbar />
+          <BookingProvider>
+            {children}
+            <Navbar />
+          </BookingProvider>
         </AuthProvider>
       </body>
     </html>

@@ -10,10 +10,6 @@ import { FaArrowsRotate } from "react-icons/fa6";
 const Dashboard = () => {
   const { updateSession, user } = useAuth();
 
-  console.log("====================================");
-  console.log(user?.worker?.rate);
-  console.log("====================================");
-
   const [services, setServices] = useState<Service[]>([]);
   const [service, setService] = useState({
     label: user?.worker?.service?.name,
@@ -23,7 +19,7 @@ const Dashboard = () => {
     currency: "ARS",
     value: user?.worker?.rate?.rate,
   });
-  const [available, setAvailable] = useState(user?.worker?.available || false);
+  const [available, setAvailable] = useState(user?.worker?.available);
 
   const updatedServices = services.map((service) => ({
     label: service.name,
@@ -68,23 +64,20 @@ const Dashboard = () => {
   const handleAvailability = async (e: any) => {
     const isAvailable = e.target.checked;
     setAvailable(isAvailable);
-  
-    const response = await axios.put("/api/available", { available: isAvailable });
 
-    console.log('====================================');
-    console.log(response);
-    console.log('====================================');
-  
+    const response = await axios.put("/api/available", {
+      available: isAvailable,
+    });
+
     if (isAvailable) {
       toast.success("You are now available to work", { icon: "💪" });
     } else {
       toast.success("You are now unavailable to work", { icon: "🚫" });
     }
-  
+
     const responseUser = await axios.get("/api/me");
     updateSession(responseUser.data);
   };
-  
 
   useEffect(() => {
     axios.get("/api/services").then((res) => {
@@ -180,6 +173,7 @@ const Dashboard = () => {
             <input
               type="checkbox"
               onChange={handleAvailability}
+              checked={available}
               className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-red-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-400"></div>

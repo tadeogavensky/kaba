@@ -3,15 +3,15 @@ import BookButton from "@/components/worker/BookButton";
 import Worker from "@/types/Worker";
 import calculateAverageRating from "@/utils/avgRating";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { BsStarHalf, BsStarFill, BsStar } from "react-icons/bs";
 import { TiLocation } from "react-icons/ti";
 import { IoIosArrowForward } from "react-icons/io";
 import ReviewsButton from "@/components/worker/ReviewsButton";
-import User from "@/types/User";
 
 import avatar from "/public/assets/avatar.jpg";
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
 
 export default async function Worker({
   params: { slug },
@@ -22,7 +22,7 @@ export default async function Worker({
 
   const avgRating = calculateAverageRating(worker.user.reviews);
   return (
-    <div className="min-h-full mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
+    <div className="min-h-full relative mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
       <div className="relative">
         <Image
           src={worker.user.profilePicture || avatar}
@@ -62,8 +62,8 @@ export default async function Worker({
           <span className="font-body flex items-center gap-1">
             <TiLocation size={25} className="text-primary" />
             <div className="flex flex-col">
-              <p className="">{worker?.city},</p>
-              <p className="whitespace-nowrap">{worker?.state}</p>
+              <p className="text-xs">{worker?.city},</p>
+              <p className="text-xs">{worker?.state}</p>
             </div>
           </span>
         </div>
@@ -71,27 +71,30 @@ export default async function Worker({
           <h1 className="font-semibold text-primary text-xl">
             ${worker?.rate.rate}
             <span className="text-gray-400 font-normal">/hr</span>
-            <span className="text-gray-400 font-normal">
+            <span className="text-gray-400 font-normal text-sm">
               {" "}
               ({worker?.rate.currency})
             </span>
           </h1>
-          {worker.user.role == "client" && <BookButton />}
+          <BookButton
+            slug={`${worker.id}-service-${worker.service.name}`}
+          />
         </div>
 
         <Border />
+        {worker?.about && (
+          <div className="flex flex-col justify-start gap-2">
+            <h1 className="font-bold text-base font-heading">About me</h1>
 
-        <div className="flex flex-col justify-start gap-2">
-          <h1 className="font-bold text-base font-heading">About me</h1>
-
-          <p>{worker?.about}</p>
-        </div>
+            <p>{worker?.about}</p>
+          </div>
+        )}
 
         <div className="flex flex-col justify-start gap-2">
           <h1 className="font-heading text-base font-bold">
             Reviews of{" "}
             <span>
-              {worker.firstName} {worker.lastName}
+              {worker.user.firstName} {worker.user.lastName}
             </span>
           </h1>
 

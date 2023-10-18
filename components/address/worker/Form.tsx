@@ -1,3 +1,4 @@
+"use client"
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState, Fragment, FormEvent } from "react";
