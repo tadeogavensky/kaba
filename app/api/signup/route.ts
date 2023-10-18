@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       },
     });
 
-    const confirmationLink = `http://localhost:3000/api/activate/${token.token}`;
+    const confirmationLink = `api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
       },
     });
 
-    const confirmationLink = `http://localhost:3000/api/activate/${token.token}`;
+    const confirmationLink = `api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({

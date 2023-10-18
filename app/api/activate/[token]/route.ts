@@ -40,7 +40,7 @@ export async function GET(
   const tokenCreatedAt = user.activateTokens[0].createdAt;
 
   if (Date.now() - new Date(tokenCreatedAt).getTime() > tokenExpirationTime) {
-    return NextResponse.redirect("http://localhost:3000/auth/expired");
+    return NextResponse.redirect("/auth/expired");
   }
 
   await prisma.user.update({
@@ -57,5 +57,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.redirect("http://localhost:3000/auth/signin");
+  return NextResponse.redirect("/auth/signin");
 }

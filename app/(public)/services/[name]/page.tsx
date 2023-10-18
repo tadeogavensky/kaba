@@ -38,7 +38,7 @@ async function getWorkersByService(name: string) {
 
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/workers/${name}`
+      `api/workers/${name}`
     );
     return response.data;
   } catch (error) {

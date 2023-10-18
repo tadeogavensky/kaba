@@ -19,7 +19,7 @@ export default async function Account({
 
 async function getUser(id: string) {
   try {
-    const response = await axios.get(`http://localhost:3000/api/user/${id}`);
+    const response = await axios.get(`/api/user/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);

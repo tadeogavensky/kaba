@@ -134,7 +134,7 @@ async function getWorker(slug: string) {
 
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/worker/${slug}`
+      `/api/worker/${slug}`
     );
     return response.data;
   } catch (error) {

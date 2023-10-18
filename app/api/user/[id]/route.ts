@@ -51,7 +51,7 @@ export async function PUT(
       },
     });
 
-    const confirmationLink = `http://localhost:3000/api/activate/${token.token}`;
+    const confirmationLink = `/api/activate/${token.token}`;
 
     try {
       await transporter.sendMail({
