@@ -7,7 +7,7 @@ export async function PUT(
   console.log("serviceId", params.serviceId, "workerId", params.workerId);
 
   try {
-    await prisma.worker.update({
+    const worker = await prisma.worker.update({
       data: { serviceId: params.serviceId },
       where: { id: params.workerId },
       include: {
@@ -17,6 +17,7 @@ export async function PUT(
 
     return NextResponse.json({
       msg: `Services added/changed to worker ${params.workerId}`,
+      worker: worker,
     });
   } catch (error) {
     return NextResponse.json(error);

@@ -9,8 +9,6 @@ import CategoryType from "@/types/Category";
 import ServiceType from "@/types/Service";
 import axios from "axios";
 
-
-
 const PopularServices = () => {
   const [selectedCategory, setSelectedCategory] = useState("cleaning");
 
@@ -42,7 +40,7 @@ const PopularServices = () => {
 
   useEffect(() => {
     fetchCategories();
-    handleClick(selectedCategory)
+    handleClick(selectedCategory);
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -93,15 +91,7 @@ const PopularServices = () => {
                 </div>
               ))
           : servicesByCategory.map((service, index) => (
-              <Card
-              key={index}
-              name={service.name}
-              image={service.image}
-              category={{
-                id: "",
-                name: service.name,
-                image: service.image,
-              }} id={""}              />
+              <Card key={index} name={service.name} image={service.image} />
             ))}
       </div>
     </div>

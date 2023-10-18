@@ -10,14 +10,13 @@ import calculateAverageRating from "@/utils/avgRating";
 
 import avatar from "/public/assets/avatar.jpg";
 
-
 const Card: FC<UserTypes> = ({
   id,
   firstName,
   lastName,
   profilePicture,
   reviews,
-  worker
+  worker,
 }) => {
   const avgRating = calculateAverageRating(reviews || []);
 
@@ -38,8 +37,8 @@ const Card: FC<UserTypes> = ({
         />
       </Link>
       <div className="flex flex-col justify-start">
-        <div className="flex justify-between items-center">
-          <p className="font-body font-normal">
+        <div className="flex justify-between items-center gap-2">
+          <p className="font-body font-normal capitalize">
             {firstName} {lastName}
           </p>
           <BookmarkButton />
@@ -48,7 +47,7 @@ const Card: FC<UserTypes> = ({
           href={`/workers/${id}-${worker?.service?.name
             .replace(/\s+/g, "-")
             .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
-          className="font-body text-xl font-semibold"
+          className="font-body text-xl font-semibold capitalize"
         >
           {worker?.service?.name}
         </Link>
@@ -65,7 +64,9 @@ const Card: FC<UserTypes> = ({
             <p className="text-gray-400 font-semibold font-body whitespace-nowrap  ">
               Total Jobs
             </p>
-            <p className="font-semibold">{worker?.totalJobs}</p>
+            <p className="font-semibold">
+              {worker && worker.totalJobs ? worker.totalJobs : 0}
+            </p>
           </div>
           <div className="flex flex-col gap-1 text-sm font-body">
             <p className="text-gray-400 font-semibold">Rate</p>

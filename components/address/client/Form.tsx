@@ -123,7 +123,7 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
     }
 
     try {
-      const response = await axios.post("/api/address", address);
+      const response = await axios.post("/api/client/address", address);
 
       const responseUser= await axios.get("/api/me")
 

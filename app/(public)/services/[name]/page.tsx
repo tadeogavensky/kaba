@@ -1,16 +1,14 @@
 import { GoBack } from "@/components/GoBack";
 import Card from "@/components/worker/Card";
 
-import type Worker from "@/types/Worker";
 import axios from "axios";
-import { useRouter } from "next/router";
 
 export default async function ServicesByName({
-  params: { serviceName },
+  params: { name },
 }: {
-  params: { serviceName: string };
+  params: { name: string };
 }) {
-  const workers = await getWorkersByService(serviceName);
+  const workers = await getWorkersByService(name);
 
   return (
     <div className="p-6">
@@ -21,11 +19,11 @@ export default async function ServicesByName({
             <div key={index}>
               <Card
                 id={worker.id}
-                firstName={worker.firstName}
-                lastName={worker.lastName}
+                firstName={worker.user.firstName}
+                lastName={worker.user.lastName}
                 profilePicture={worker.profilePicture}
                 reviews={[]}
-                worker={worker.worker}
+                worker={worker}
               />
             </div>
           );
@@ -35,10 +33,12 @@ export default async function ServicesByName({
   );
 }
 
-async function getWorkersByService(serviceName: string) {
+async function getWorkersByService(name: string) {
+  console.log(name);
+
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/workers/${serviceName}`
+      `http://localhost:3000/api/workers/${name}`
     );
     return response.data;
   } catch (error) {

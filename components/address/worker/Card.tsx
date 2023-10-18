@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import EditForm from "../EditForm";
+import EditForm from "../client/EditForm";
 import { AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 const Card = ({
   id,
   country,
@@ -31,7 +32,9 @@ const Card = ({
   const { updateSession } = useAuth();
 
   const handleDelete = async (id: string) => {
-    const response = await axios.delete(`/api/address/${id}`);
+    await axios.delete(`/api/worker/address/${id}`);
+
+    toast.success("Address deleted")
 
     const responseUser = await axios.get("/api/me");
 

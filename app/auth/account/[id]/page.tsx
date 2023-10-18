@@ -11,8 +11,8 @@ export default async function Account({
 
   return (
     <div className="p-6 min-h-screen">
-      {userData?.role === "client" && <Client user={userData} />}
-      {userData?.role === "worker" && <Worker user={userData} />}
+      {userData?.role === "client" && <Client />}
+      {userData?.role === "worker" && <Worker />}
     </div>
   );
 }

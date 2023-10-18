@@ -18,12 +18,12 @@ import Select from "react-select";
 import User from "@/types/User";
 import { useAuth } from "@/contexts/AuthContext";
 
-const Worker = ({ user }: { user: User }) => {
-  const { updateSession } = useAuth();
+const Worker = () => {
+  const { updateSession, user } = useAuth();
   const [services, setServices] = useState<Service[]>([]);
   const [service, setService] = useState({
-    label: user.worker?.service?.name,
-    value: user.worker?.service?.id,
+    label: user?.worker?.service?.name,
+    value: user?.worker?.service?.id,
   });
   const [rate, setRate] = useState(null);
 
@@ -42,12 +42,15 @@ const Worker = ({ user }: { user: User }) => {
       value: selectedOption.value,
     }));
 
-    await axios.put(`/api/service/worker/${selectedOption}/${user.worker?.id}`);
+    axios
+      .put(`/api/service/worker/${selectedOption}/${user?.worker?.id}`)
+      .then(async (res) => {
+        console.log(res);
+        toast.success("Service changed");
 
-    toast.success("Service changed");
-
-    const responseUser = await axios.get("/api/me");
-    updateSession(responseUser.data);
+        const responseUser = await axios.get("/api/me");
+        updateSession(responseUser.data);
+      });
   };
 
   const sendVerificationMail = async () => {
@@ -146,7 +149,7 @@ const Worker = ({ user }: { user: User }) => {
       </div>
 
       <Link
-        href={`/auth/account/${user.id}/account-info`}
+        href={`/auth/account/${user?.id}/account-info`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">
@@ -163,7 +166,7 @@ const Worker = ({ user }: { user: User }) => {
       </Link>
 
       <Link
-        href={`/auth/account/${user.id}/addresses`}
+        href={`/auth/account/${user?.id}/addresses`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">
@@ -180,7 +183,7 @@ const Worker = ({ user }: { user: User }) => {
       </Link>
 
       <Link
-        href={`/auth/account/${user.id}/dashboard`}
+        href={`/auth/account/${user?.id}/dashboard`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">

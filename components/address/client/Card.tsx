@@ -7,7 +7,7 @@ import { GrLocationPin } from "react-icons/gr";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import EditForm from "../EditForm";
+import EditForm from "./EditForm";
 import { AnimatePresence } from "framer-motion";
 const Card = ({ address }: { address: Address }) => {
   const [isModalOpen, setOpen] = useState(false);
@@ -16,7 +16,7 @@ const Card = ({ address }: { address: Address }) => {
   const { updateSession } = useAuth();
 
   const handleDelete = async (id: string) => {
-    const response = await axios.delete(`/api/address/${id}`);
+    const response = await axios.delete(`/api/client/address/${id}`);
 
     const responseUser = await axios.get("/api/me");
 

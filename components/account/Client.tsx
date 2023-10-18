@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import avatar from "/public/assets/avatar.jpg";
 import { TbEdit } from "react-icons/tb";
@@ -12,7 +12,9 @@ import Link from "next/link";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import SignOut from "../SignOut";
-const Client = ({ user }: { user: any }) => {
+import { useAuth } from "@/contexts/AuthContext";
+const Client = () => {
+  const { user } = useAuth();
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -22,8 +24,6 @@ const Client = ({ user }: { user: any }) => {
     } catch (error) {}
   };
 
-  console.log(user);
-  
 
   return (
     <div className="flex flex-col justify-between items-center gap-8">
@@ -76,7 +76,7 @@ const Client = ({ user }: { user: any }) => {
       </div>
 
       <Link
-        href={`/auth/account/${user.id}/account-info`}
+        href={`/auth/account/${user?.id}/account-info`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">
@@ -93,7 +93,7 @@ const Client = ({ user }: { user: any }) => {
       </Link>
 
       <Link
-        href={`/auth/account/${user.id}/addresses`}
+        href={`/auth/account/${user?.id}/addresses`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ const Client = ({ user }: { user: any }) => {
       </Link>
 
       <Link
-        href={`/auth/account/${user.id}/cards`}
+        href={`/auth/account/${user?.id}/cards`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
         <div className="flex items-center gap-4">
@@ -137,7 +137,7 @@ const Client = ({ user }: { user: any }) => {
       </div>
 
       <div className="mr-auto">
-        <SignOut className="bg-primary text-white px-4 py-2 text-2xl font-bold rounded-full"/>
+        <SignOut className="bg-primary text-white px-4 py-2 text-2xl font-bold rounded-full" />
       </div>
     </div>
   );
