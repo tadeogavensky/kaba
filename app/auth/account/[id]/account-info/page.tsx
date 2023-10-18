@@ -32,7 +32,6 @@ export default function AccountInfo({
     phone: user?.phone || "",
   });
 
-  console.log('user', user)
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isFirstNameValid, setIsFirstNameValid] = useState(true);
@@ -92,11 +91,9 @@ export default function AccountInfo({
 
     if (inputFirstName.trim() === "") {
       setIsFirstNameValid(false);
-      console.log("First name is empty");
     } else {
       const isFirstNameValid = validateName(inputFirstName);
       setIsFirstNameValid(isFirstNameValid);
-      console.log("First name validation result:", isFirstNameValid);
     }
   };
 
@@ -109,11 +106,9 @@ export default function AccountInfo({
 
     if (inputLastName.trim() === "") {
       setIsLastNameValid(false);
-      console.log("Last name is empty");
     } else {
       const isLastNameValid = validateName(inputLastName);
       setIsLastNameValid(isLastNameValid);
-      console.log("Last name validation result:", isLastNameValid);
     }
   };
 

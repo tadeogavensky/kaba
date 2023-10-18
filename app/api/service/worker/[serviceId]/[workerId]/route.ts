@@ -4,8 +4,6 @@ export async function PUT(
   request: Request,
   { params }: { params: { serviceId: string; workerId: string } }
 ) {
-  console.log("serviceId", params.serviceId, "workerId", params.workerId);
-
   try {
     const worker = await prisma.worker.update({
       data: { serviceId: params.serviceId },

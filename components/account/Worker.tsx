@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import avatar from "/public/assets/avatar.jpg";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdAutoGraph, MdNewReleases, MdVerified } from "react-icons/md";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 import Link from "next/link";
 import { BiUser } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
@@ -17,17 +18,25 @@ import Service from "@/types/Service";
 import Select from "react-select";
 import User from "@/types/User";
 import { useAuth } from "@/contexts/AuthContext";
+import { FaArrowsRotate } from "react-icons/fa6";
 
 const Worker = () => {
   const { updateSession, user } = useAuth();
+
+  console.log("====================================");
+  console.log(user?.worker?.rate);
+  console.log("====================================");
+
   const [services, setServices] = useState<Service[]>([]);
   const [service, setService] = useState({
     label: user?.worker?.service?.name,
     value: user?.worker?.service?.id,
   });
-  const [rate, setRate] = useState(null);
-
-  console.log(service.label);
+  const [rate, setRate] = useState({
+    currency: "ARS",
+    value: user?.worker?.rate?.rate,
+  });
+  const [available, setAvailable] = useState(user?.worker?.available || false);
 
   const updatedServices = services.map((service) => ({
     label: service.name,
@@ -46,13 +55,38 @@ const Worker = () => {
       .put(`/api/service/worker/${selectedOption}/${user?.worker?.id}`)
       .then(async (res) => {
         console.log(res);
-        toast.success("Service changed");
+        toast.success("Service changed", { icon: "🧹" });
 
         const responseUser = await axios.get("/api/me");
         updateSession(responseUser.data);
       });
   };
 
+  const handleRate = async () => {
+    console.log("click");
+
+    const object = {
+      rate: rate.value,
+      currency: rate.currency,
+      serviceId: user?.worker?.service?.id,
+      workerId: user?.worker?.id,
+    };
+
+    await axios.post("/api/rate", object);
+
+    toast.success("Rate updated", { icon: "💸" });
+
+    const responseUser = await axios.get("/api/me");
+    updateSession(responseUser.data);
+  };
+
+  
+  useEffect(() => {
+    axios.get("/api/services").then((res) => {
+      setServices(res.data);
+    });
+  }, []);
+  
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -61,13 +95,6 @@ const Worker = () => {
       const response = await axios.post("/api/activate", user);
     } catch (error) {}
   };
-
-  useEffect(() => {
-    axios.get("/api/services").then((res) => {
-      setServices(res.data);
-    });
-  }, []);
-
   return (
     <div className="flex flex-col justify-between items-center gap-8">
       <Toaster />
@@ -118,35 +145,7 @@ const Worker = () => {
         )}
       </div>
 
-      <div className="w-full flex justify-center flex-col items-center">
-        <h1 className="text-xl font-body font-semibold mb-2 text-center">
-          What you are doing today?
-        </h1>
-        <select
-          name="service"
-          value={service.label}
-          onChange={(e) => {
-            handleServiceChange(e.target.value);
-          }}
-          className="bg-primary shadow-xl rounded-full p-3 font-body font-semibold text-white text-center capitalize"
-        >
-          <option selected disabled>
-            {service.label}
-          </option>
-
-          {updatedServices.map((service) => (
-            <option
-              key={service.value}
-              value={service.value}
-              className="font-body capitalize bg-white text-black font-semibold "
-            >
-              {service.label}
-            </option>
-          ))}
-        </select>
-
-        {/*   <Select options={updatedServices} onChange={handleServiceChange} /> */}
-      </div>
+ 
 
       <Link
         href={`/auth/account/${user?.id}/account-info`}
@@ -192,7 +191,9 @@ const Worker = () => {
           </div>
           <div className="flex flex-col items-start font-heading">
             <h1 className="font-bold text-lg">Dashboard</h1>
-            <p className="text-sm">See your work analytics</p>
+            <p className="text-sm">
+              Change your service, rate and view analytics
+            </p>
           </div>
         </div>
 

@@ -19,22 +19,23 @@ export default async function Worker({
   params: { slug: string };
 }) {
   const worker = await getWorker(slug);
+
   const avgRating = calculateAverageRating(worker.user.reviews);
   return (
-    <div className="min-h-screen mb-10">
+    <div className="min-h-full mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
       <div className="relative">
         <Image
           src={worker.user.profilePicture || avatar}
           alt="profilePicture"
           width={500}
           height={500}
-          className="rounded-b-3xl shadow-xl"
+          className="rounded-b-3xl shadow-xl sm:rounded-3xl"
         />
-        <div className="absolute top-0 m-6 ">
+        <div className="absolute top-0  m-6 ">
           <GoBack label={"Workers"} />
         </div>
       </div>
-      <div className="p-6 flex flex-col justify-start gap-4 mt-2">
+      <div className="p-6 flex flex-col justify-start  gap-4 mt-2 sm:m-0 sm:px-6 py-2">
         <h1 className="text-2xl font-bold font-body capitalize">
           {worker?.service?.name}
         </h1>
@@ -59,17 +60,23 @@ export default async function Worker({
             {worker?.service?.category.name}
           </span>
           <span className="font-body flex items-center gap-1">
-            <TiLocation size={20} className="text-primary" />
-            <p>{worker?.state},</p>
-            <p>{worker?.city}</p>
+            <TiLocation size={25} className="text-primary" />
+            <div className="flex flex-col">
+              <p className="">{worker?.city},</p>
+              <p className="whitespace-nowrap">{worker?.state}</p>
+            </div>
           </span>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="font-semibold text-primary text-xl">
-            ${worker?.rate}
+            ${worker?.rate.rate}
             <span className="text-gray-400 font-normal">/hr</span>
+            <span className="text-gray-400 font-normal">
+              {" "}
+              ({worker?.rate.currency})
+            </span>
           </h1>
-          <BookButton />
+          {worker.user.role == "client" && <BookButton />}
         </div>
 
         <Border />
@@ -132,7 +139,6 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 async function getWorker(slug: string) {
-  console.log(slug);
   const apiUrl = process.env.API_URL;
 
   try {

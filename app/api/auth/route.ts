@@ -10,8 +10,5 @@ export async function POST(request: Request) {
 
   const user = await login(email, password, role);
 
-
-  console.log("user :>> ", user);
-
   return NextResponse.json(user);
 }

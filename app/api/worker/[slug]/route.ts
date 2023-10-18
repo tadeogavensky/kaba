@@ -14,6 +14,7 @@ export async function GET(
   const worker = await prisma.worker.findFirst({
     where: {
       id: id,
+      available: true,
     },
     include: {
       service: { include: { category: true } },
@@ -21,15 +22,6 @@ export async function GET(
       rate: true,
     },
   });
-
-  console.log(
-    `==============WORKER BY ${params.slug.replace(
-      /-/g,
-      " "
-    )}======================`
-  );
-  console.log(worker);
-  console.log("====================================");
 
   return NextResponse.json(worker);
 }

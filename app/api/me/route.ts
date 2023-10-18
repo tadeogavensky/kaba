@@ -10,7 +10,7 @@ export async function GET() {
     where: { id: id?.value },
     include: {
       worker: { include: { service: true, rate: true, } },
-      client: { include: { addresses: true } },
+      client: { include: { addresses: true, } },
       bookings: true,
       reviews: true,
       notifications: true,

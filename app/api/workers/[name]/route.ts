@@ -10,21 +10,14 @@ export async function GET(
       service: {
         name: params.name.replace(/-/g, " "),
       },
+      available: true,
     },
     include: {
       service: true,
+      rate: true,
       user: true,
     },
   });
-
-  console.log(
-    `==============WORKERS BY ${params.name.replace(
-      /-/g,
-      " "
-    )}======================`
-  );
-  console.log(workers);
-  console.log("====================================");
 
   return NextResponse.json(workers);
 }

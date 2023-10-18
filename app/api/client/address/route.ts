@@ -8,9 +8,6 @@ export async function POST(request: Request) {
 
   const userId = cookies().get("user")?.value;
 
-  console.log(userId);
-
-  console.log(body);
   const {
     fullAddress,
     street,

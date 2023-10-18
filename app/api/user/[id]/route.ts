@@ -10,7 +10,7 @@ export async function GET(
   const user = await prisma.user?.findFirst({
     where: { id: params.id },
     include: {
-      worker: { include: { service: true } },
+      worker: { include: { service: true, rate: true } },
       client: { include: { addresses: true } },
     },
   });
@@ -25,8 +25,6 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const body = await request.json();
-
-  console.log(body);
 
   const { firstName, lastName, email, username, identity, phone } = body;
 

@@ -60,8 +60,7 @@ export async function POST(request: Request) {
       },
     });
 
-  const apiUrl = process.env.API_URL;
-    
+    const apiUrl = process.env.API_URL;
 
     const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
@@ -133,6 +132,8 @@ export async function POST(request: Request) {
 
     const worker = await prisma.worker.create({
       data: {
+        available: false,
+        totalJobs:0,
         user: { connect: { id: user.id } },
       },
     });

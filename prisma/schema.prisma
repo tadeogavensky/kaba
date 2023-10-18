@@ -96,16 +96,17 @@ model Service {
   categoryId  String?
   rates       Rate[]
   category    Category? @relation(fields: [categoryId], references: [id])
-  Worker      Worker[]
+  workers      Worker[]
 }
 
 model Rate {
   id        String   @id @default(cuid())
   rate      Float
+  currency  String
   workerId  String
   serviceId String
   service   Service  @relation(fields: [serviceId], references: [id])
-  Worker    Worker[]
+  worker    Worker[]
 }
 
 model Category {

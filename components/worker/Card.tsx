@@ -70,10 +70,10 @@ const Card: FC<UserTypes> = ({
           </div>
           <div className="flex flex-col gap-1 text-sm font-body">
             <p className="text-gray-400 font-semibold">Rate</p>
-            <p className="font-semibold">
-              ${worker?.rate?.rate}
+            <div className="flex items-center">
+              <p className="font-semibold">${worker?.rate?.rate}</p>
               <span className="text-gray-400 font-normal">/hr</span>
-            </p>
+            </div>
           </div>
         </div>
       </div>

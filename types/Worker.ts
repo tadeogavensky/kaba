@@ -1,10 +1,10 @@
-
 import Rate from "./Rate";
 import Service from "./Service";
 
 type Worker = {
   id?: string;
   service?: Service;
+  available: boolean;
   rate?: Rate;
   country: string;
   state: string;

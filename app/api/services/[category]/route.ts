@@ -5,9 +5,6 @@ export async function GET(
   request: Request,
   { params }: { params: { category: string } }
 ) {
-  console.log("====================================");
-  console.log(params.category);
-  console.log("====================================");
   const services = await prisma.service.findMany({
     where: {
       category: {
@@ -16,9 +13,9 @@ export async function GET(
     },
   });
 
-  console.log('====================================');
+  console.log("====================================");
   console.log(services);
-  console.log('====================================');
+  console.log("====================================");
 
   return NextResponse.json(services);
 }
