@@ -4,6 +4,8 @@ import ServiceType from "@/types/Service";
 import Image from "next/image";
 
 const Card = ({ name, image }: { name: string; image: string }) => {
+  console.log(name, image);
+
   return (
     <Link
       href={`/services/${name.replace(/\s+/g, "-").toLowerCase()}`}
@@ -16,7 +18,9 @@ const Card = ({ name, image }: { name: string; image: string }) => {
         alt="service"
         className="rounded-2xl sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] object-cover"
       />
-      <p className={`font-body font-semibold text-center text-sm capitalize`}>{name}</p>
+      <p className={`font-body font-semibold text-center text-sm capitalize`}>
+        {name}
+      </p>
     </Link>
   );
 };

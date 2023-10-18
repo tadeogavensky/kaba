@@ -25,17 +25,19 @@ const PopularServices = () => {
     });
   };
 
-  const fetchServicesByCategories = async (category: string) => {
-    const response = await axios.get(`/api/services/${category}`);
-    setServicesByCategory(response.data);
+  const fetchServicesByCategories = (category: string) => {
+    axios.get(`/api/services/${category}`).then((res) => {
+      setServicesByCategory(res.data);
+    });
   };
 
   const handleClick = async (pill: string) => {
-    console.log(pill);
+    setSelectedCategory(pill);
+    setIsLoading(true);
+
     await fetchServicesByCategories(pill);
 
-    await setSelectedCategory(pill);
-    await setIsLoading(true);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -77,19 +79,11 @@ const PopularServices = () => {
 
       <div className="grid grid-cols-3 sm:flex flex-wrap justify-center gap-4 mt-4 sm:mt-10">
         {isLoading
-          ? servicesByCategory
-              .filter((category) => {
-                if (selectedCategory === "All") {
-                  return true;
-                } else {
-                  return category.name === selectedCategory;
-                }
-              })
-              .map((service, index) => (
-                <div key={index} className="">
-                  <LoadingSkeleton className="sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
-                </div>
-              ))
+          ? servicesByCategory.map((service, index) => (
+              <div key={index} className="">
+                <LoadingSkeleton className="sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
+              </div>
+            ))
           : servicesByCategory.map((service, index) => (
               <Card key={index} name={service.name} image={service.image} />
             ))}
