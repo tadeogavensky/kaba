@@ -27,66 +27,7 @@ const Worker = () => {
   console.log(user?.worker?.rate);
   console.log("====================================");
 
-  const [services, setServices] = useState<Service[]>([]);
-  const [service, setService] = useState({
-    label: user?.worker?.service?.name,
-    value: user?.worker?.service?.id,
-  });
-  const [rate, setRate] = useState({
-    currency: "ARS",
-    value: user?.worker?.rate?.rate,
-  });
-  const [available, setAvailable] = useState(user?.worker?.available || false);
 
-  const updatedServices = services.map((service) => ({
-    label: service.name,
-    value: service.id,
-    ...service,
-  }));
-
-  const handleServiceChange = async (selectedOption: any) => {
-    setService((prevService) => ({
-      ...prevService,
-      label: selectedOption.label,
-      value: selectedOption.value,
-    }));
-
-    axios
-      .put(`/api/service/worker/${selectedOption}/${user?.worker?.id}`)
-      .then(async (res) => {
-        console.log(res);
-        toast.success("Service changed", { icon: "🧹" });
-
-        const responseUser = await axios.get("/api/me");
-        updateSession(responseUser.data);
-      });
-  };
-
-  const handleRate = async () => {
-    console.log("click");
-
-    const object = {
-      rate: rate.value,
-      currency: rate.currency,
-      serviceId: user?.worker?.service?.id,
-      workerId: user?.worker?.id,
-    };
-
-    await axios.post("/api/rate", object);
-
-    toast.success("Rate updated", { icon: "💸" });
-
-    const responseUser = await axios.get("/api/me");
-    updateSession(responseUser.data);
-  };
-
-  
-  useEffect(() => {
-    axios.get("/api/services").then((res) => {
-      setServices(res.data);
-    });
-  }, []);
-  
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -96,7 +37,7 @@ const Worker = () => {
     } catch (error) {}
   };
   return (
-    <div className="flex flex-col justify-between items-center gap-8">
+    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-20">
       <Toaster />
       <div className="flex justify-center relative">
         <Image

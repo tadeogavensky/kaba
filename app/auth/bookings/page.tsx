@@ -1,9 +1,38 @@
-import React from 'react'
+import Card from "@/components/book/Card";
+import Booking from "@/types/Booking";
+import axios from "axios";
+import React from "react";
 
-const page = () => {
+const Bookings = async () => {
+  const bookings = await getBookingsByUser();
+
+  console.log('===============bookings=====================');
+  console.log(bookings);
+  console.log('================bookings====================');
   return (
-    <div>page</div>
-  )
+    <div>
+      {bookings.map((booking: Booking) => {
+        return (
+          <div key={booking.id}>
+            <Card booking={booking} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+async function getBookingsByUser() {
+  const apiUrl = process.env.API_URL;
+
+  try {
+    const response = await axios.get(`${apiUrl}/api/bookings`);
+    console.log(response);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
 }
 
-export default page
+export default Bookings;

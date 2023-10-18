@@ -5,8 +5,12 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const bookings = await prisma.booking.findMany({
     where: { userId: cookies().get("user")?.value },
+    include: {
+      address: true,
+      service: true,
+      user: true,
+    },
   });
 
-
-  return NextResponse.json(bookings)
+  return NextResponse.json(bookings);
 }

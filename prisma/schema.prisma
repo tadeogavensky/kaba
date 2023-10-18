@@ -44,6 +44,8 @@ model ActivateToken {
 
 model Client {
   id        String    @id @default(cuid())
+  firstName String?
+  lastName  String?
   userId    String    @unique
   addresses Address[]
   user      User      @relation(fields: [userId], references: [id])
@@ -127,7 +129,7 @@ model Booking {
   workerId     String?
   userId       String?
   address      Address  @relation(fields: [addressId], references: [id])
-  User         User?    @relation(fields: [userId], references: [id])
+  user         User?    @relation(fields: [userId], references: [id])
   serviceId    String
   addressId    String
 }

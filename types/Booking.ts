@@ -3,7 +3,6 @@ import Client from "./Client";
 import Service from "./Service";
 import Worker from "./Worker";
 
-
 type Booking = {
   id: number;
   date: Date;

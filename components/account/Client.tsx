@@ -24,9 +24,8 @@ const Client = () => {
     } catch (error) {}
   };
 
-
   return (
-    <div className="flex flex-col justify-between items-center gap-8">
+    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-20">
       <Toaster />
       <div className="flex justify-center relative">
         <Image
@@ -69,7 +68,7 @@ const Client = () => {
                 sendVerificationMail();
               }}
             >
-              Send  email
+              Send email
             </button>
           </div>
         )}
