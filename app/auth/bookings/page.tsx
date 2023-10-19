@@ -14,13 +14,21 @@ const Bookings = async () => {
     <div className="p-6">
       <GoBack label="Home" />
       <div className="mt-4">
-        {bookings.map((booking: Booking) => {
-          return (
-            <div key={booking.id}>
-              <Card booking={booking} />
-            </div>
-          );
-        })}
+        {bookings.length > 0 ? (
+          bookings?.map((booking: Booking) => {
+            return (
+              <div key={booking.id}>
+                <Card booking={booking} />
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <h1 className="font-body font-semibold text-left text-2xl">
+              You haven't made any bookings yet
+            </h1>
+          </div>
+        )}
       </div>
     </div>
   );
