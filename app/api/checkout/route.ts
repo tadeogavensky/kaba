@@ -104,6 +104,21 @@ export async function POST(request: Request) {
           id: serviceId,
         },
       },
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+      worker: {
+        connect: {
+          id: workerId,
+        },
+      },
+      client: {
+        connect: {
+          id: clientId,
+        },
+      },
     },
   });
 
