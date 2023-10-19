@@ -136,7 +136,7 @@ const Client = () => {
       </div>
 
       <div className="mr-auto">
-        <SignOut className="bg-primary text-white px-4 py-2 text-2xl font-bold rounded-full" />
+        <SignOut className="bg-primary text-white px-6 py-1 text-lg font-semibold rounded-full" />
       </div>
     </div>
   );

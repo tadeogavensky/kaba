@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <header className="flex flex-col justify-between">
       <div className="flex items-center justify-between">
-        {/* Desktop */}
+        {/* Mobile */}
         {user && (
           <div className="relative">
             <div
@@ -68,14 +68,14 @@ const Header = () => {
           <div className="flex items-center gap-4 sm:hidden">
             <Link
               href={"/auth/signin"}
-              className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
+              className="bg-green-400 text-white px-6 py-2 rounded-3xl font-heading font-bold shadow-md "
             >
               Sign In
             </Link>
 
             <Link
               href={"/signup"}
-              className="bg-primary text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
+              className="bg-primary text-white px-6 py-2 rounded-3xl font-heading font-bold shadow-md"
             >
               Join Now
             </Link>

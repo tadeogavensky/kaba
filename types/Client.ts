@@ -1,8 +1,10 @@
 import Address from "./Address";
+import User from "./User";
 
 type Client = {
   id: number;
-  addresses: Address[]
+  user: User;
+  addresses: Address[];
 };
 
 export default Client;

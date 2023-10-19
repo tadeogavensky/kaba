@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import Address from "./Address";
 import Client from "./Client";
 import Service from "./Service";
@@ -10,6 +11,7 @@ type Booking = {
   workingHours: number;
   service: Service;
   address: Address;
+  user: User;
   client: Client;
   worker: Worker;
 };

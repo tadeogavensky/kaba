@@ -23,11 +23,6 @@ import { FaArrowsRotate } from "react-icons/fa6";
 const Worker = () => {
   const { updateSession, user } = useAuth();
 
-  console.log("====================================");
-  console.log(user?.worker?.rate);
-  console.log("====================================");
-
-
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -86,8 +81,6 @@ const Worker = () => {
         )}
       </div>
 
- 
-
       <Link
         href={`/auth/account/${user?.id}/account-info`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
@@ -142,7 +135,7 @@ const Worker = () => {
       </Link>
 
       <div className="mr-auto">
-        <SignOut className="bg-primary text-white px-4 py-2 text-2xl font-bold rounded-full" />
+        <SignOut className="bg-primary text-white px-6 py-1 text-lg font-semibold rounded-full" />
       </div>
     </div>
   );

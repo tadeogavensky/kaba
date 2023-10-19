@@ -1,5 +1,6 @@
 import Rate from "./Rate";
 import Service from "./Service";
+import User from "./User";
 
 type Worker = {
   id?: string;
@@ -14,6 +15,7 @@ type Worker = {
   street: string;
   number: string;
   totalJobs: number;
+  user?: User;
   about: string;
 };
 

@@ -9,8 +9,12 @@ export async function GET() {
       address: true,
       service: true,
       user: true,
+      worker: { include: { user: true } },
+      client: true,
     },
   });
+
+  bookings.forEach((booking) => {});
 
   return NextResponse.json(bookings);
 }

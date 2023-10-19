@@ -49,13 +49,14 @@ model Client {
   userId    String    @unique
   addresses Address[]
   user      User      @relation(fields: [userId], references: [id])
+  Booking   Booking[]
 }
 
 model Worker {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   available     Boolean?
   totalJobs     Int?
-  userId        String   @unique
+  userId        String    @unique
   serviceId     String?
   rateId        String?
   about         String?
@@ -66,9 +67,10 @@ model Worker {
   postalCode    String?
   state         String?
   street        String?
-  rate          Rate?    @relation(fields: [rateId], references: [id])
-  service       Service? @relation(fields: [serviceId], references: [id])
-  user          User     @relation(fields: [userId], references: [id])
+  rate          Rate?     @relation(fields: [rateId], references: [id])
+  service       Service?  @relation(fields: [serviceId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  Booking       Booking[]
 }
 
 model Address {
@@ -126,8 +128,10 @@ model Booking {
   workingHours Int
   service      Service  @relation(fields: [serviceId], references: [id])
   clientId     String
-  workerId     String?
+  workerId     String
   userId       String?
+  worker       Worker   @relation(fields: [workerId], references: [id])
+  client       Client   @relation(fields: [clientId], references: [id])
   address      Address  @relation(fields: [addressId], references: [id])
   user         User?    @relation(fields: [userId], references: [id])
   serviceId    String
