@@ -14,7 +14,9 @@ export async function GET() {
     },
   });
 
-  bookings.forEach((booking) => {});
+  if (bookings) {
+    return NextResponse.json(bookings);
+  }
 
-  return NextResponse.json(bookings);
+  return NextResponse.json({msg:"Error fetching bookings"});
 }
