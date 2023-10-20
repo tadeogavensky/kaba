@@ -81,7 +81,6 @@ const LoginForm = () => {
         }
 
         console.log("login", response.data);
-        
 
         login(response.data);
         toast.success("Sign up successfully");
@@ -168,12 +167,16 @@ const LoginForm = () => {
         </div>
         <div className="mt-6">
           <div className="flex items-center justify-between">
-            <label
-              htmlFor="password"
-              className="block text-base font-semibold leading-6 font-body text-gray-900"
-            >
-              Password
-            </label>
+            <div className="flex items-center justify-between w-full">
+              <label
+                htmlFor="password"
+                className="block text-base font-semibold leading-6 font-body text-gray-900"
+              >
+                Password
+              </label>
+
+              <Link href={"/reset-password"} className="text-blue-600 hover:text-blue-800 transition-none">Forgot password?</Link>
+            </div>
           </div>
           <div className="mt-2">
             <div

@@ -11,9 +11,9 @@ export default async function ServicesByName({
 }) {
   const workers = await getWorkersByService(name);
 
-  console.log('====================================');
+  console.log("====================================");
   console.log(workers);
-  console.log('====================================');
+  console.log("====================================");
 
   return (
     <div className="p-6">
@@ -39,7 +39,12 @@ export default async function ServicesByName({
             <h1 className="font-body text-2xl">
               Sorry we don't have any workers at the moment for this service.
             </h1>
-            <Image src={"/assets/no-workers.svg"} alt={"no-workers"}width={600} height={600}/>
+            <Image
+              src={"/assets/no-workers.svg"}
+              alt={"no-workers"}
+              width={600}
+              height={600}
+            />
           </div>
         )}
       </div>
@@ -48,7 +53,13 @@ export default async function ServicesByName({
 }
 
 async function getWorkersByService(name: string) {
-  const apiUrl = process.env.API_URL;
+  let apiUrl;
+
+  if (process.env.NODE_ENV === "development") {
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+  } else {
+    apiUrl = process.env.API_URL;
+  }
 
   try {
     const response = await axios.get(`${apiUrl}/api/workers/${name}`);

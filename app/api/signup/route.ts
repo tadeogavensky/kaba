@@ -60,7 +60,13 @@ export async function POST(request: Request) {
       },
     });
 
-    const apiUrl = process.env.API_URL;
+    let apiUrl;
+
+    if (process.env.NODE_ENV === "development") {
+      apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+    } else {
+      apiUrl = process.env.API_URL;
+    }
 
     const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
@@ -137,9 +143,14 @@ export async function POST(request: Request) {
         user: { connect: { id: user.id } },
       },
     });
+    
+    let apiUrl;
 
-    const apiUrl = process.env.API_URL;
-
+    if (process.env.NODE_ENV === "development") {
+      apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+    } else {
+      apiUrl = process.env.API_URL;
+    }
     const confirmationLink = `${apiUrl}/api/activate/${token.token}`;
 
     try {

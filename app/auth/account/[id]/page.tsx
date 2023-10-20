@@ -18,7 +18,13 @@ export default async function Account({
 }
 
 async function getUser(id: string) {
-  const apiUrl = process.env.API_URL;
+  let apiUrl;
+
+  if (process.env.NODE_ENV === "development") {
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+  } else {
+    apiUrl = process.env.API_URL;
+  }
 
   try {
     const response = await axios.get(`${apiUrl}/api/user/${id}`);

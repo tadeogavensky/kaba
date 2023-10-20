@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     console.log("====================================");
     console.log("ENTRA ACA 1");
     console.log("====================================");
-    const response = NextResponse.rewrite(new URL("/", request.url));
+    const response = NextResponse.rewrite(new URL("/auth/signin", request.url));
     return response;
   }
 
