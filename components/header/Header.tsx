@@ -73,6 +73,7 @@ const Header = () => {
               onClick={() => {
                 setNotificationModalOpen(!isNotificationModalOpen);
               }}
+              disabled={user?.notifications && user?.notifications?.length <= 0}
             >
               <IoNotificationsOutline size={25} />
             </button>
