@@ -5,12 +5,36 @@ import React from "react";
 import avatar from "/public/assets/avatar.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
+import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
 
 const Card = ({ booking }: { booking: Booking }) => {
   const { user, updateSession } = useAuth();
 
   const handleCancelBooking = async () => {
-    await axios.delete(`/api/bookings/${booking.id}`);
+    Swal.fire({
+      title: `Cancel booking with ${
+        user?.role == "client"
+          ? booking.worker.user?.firstName
+          : booking.client.user?.firstName
+      }  ${
+        user?.role == "client"
+          ? booking.worker.user?.lastName
+          : booking.client.user?.lastName
+      }`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#005DFF",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axios.delete(`/api/bookings/${booking.id}`);
+
+        toast.success("Booking canceled!");
+      }
+    });
 
     const responseUser = await axios.get("/api/me");
 
@@ -19,6 +43,9 @@ const Card = ({ booking }: { booking: Booking }) => {
 
   return (
     <div className="w-full flex flex-col items-center gap-2 rounded-md mt-4  bg-white shadow-lg p-4">
+      <div>
+        <Toaster />
+      </div>
       <div className="flex items-center gap-2 mb-2">
         <Image
           src={
@@ -34,7 +61,7 @@ const Card = ({ booking }: { booking: Booking }) => {
         <h2 className="font-heading">
           {user?.role == "client"
             ? booking.worker.user?.firstName
-            : booking.client.user?.firstName}{" "}
+            : booking.client.user?.firstName}
           {user?.role == "client"
             ? booking.worker.user?.lastName
             : booking.client.user?.lastName}

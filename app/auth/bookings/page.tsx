@@ -25,7 +25,7 @@ const Bookings = () => {
         ) : (
           <div>
             <h1 className="font-body font-semibold text-left text-2xl">
-              You haven't made any bookings yet
+             {user?.role=="client" ? "You haven't made any bookings yet :(" : "You don't have any bookings yet :("}
             </h1>
           </div>
         )}

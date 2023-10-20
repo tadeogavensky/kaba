@@ -35,8 +35,8 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white w-full p-4 rounded-t-2xl custom-top-shadow sm:hidden border-[1px] fixed bottom-0 z-20 m-0">
-      <ul className="flex items-center gap-14 justify-center transition duration-500 ease-in-out">
+    <nav className="bg-white w-[350px]  p-4 rounded-full shadow-lg sm:hidden border-[1px] fixed right-6 left-1/2 -translate-x-1/2 bottom-8 z-20">
+      <ul className="flex items-center gap-8 justify-center transition duration-500 ease-in-out   w-full  px-4">
         {routes.map((link, index) => {
           return <NabvarItem {...link} key={index} />;
         })}

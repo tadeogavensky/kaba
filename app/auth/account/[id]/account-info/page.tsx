@@ -262,7 +262,7 @@ export default function AccountInfo({
             }}
             transition={{ duration: 0.3 }}
             exit={"exit"}
-            className="min-h-screen pt-6 p-4 bg-white absolute w-full flex flex-col justify-between top-0 left-0 z-50 overflow-hidden"
+            className=" pt-6 p-4 bg-white absolute w-full flex flex-col justify-between top-0 left-0 z-50 overflow-hidden"
           >
             <div className="flex items-center justify-between ">
               <button onClick={closeEditForm} type="button">

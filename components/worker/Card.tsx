@@ -2,7 +2,6 @@ import Image from "next/image";
 import React, { FC } from "react";
 import WorkerTypes from "@/types/Worker";
 import UserTypes from "@/types/User";
-
 import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
 import Link from "next/link";
 import BookmarkButton from "./BookmarkButton";

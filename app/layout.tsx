@@ -22,6 +22,7 @@ export default function RootLayout({
         <AuthProvider>
           <BookingProvider>
             {children}
+
             <Navbar />
           </BookingProvider>
         </AuthProvider>

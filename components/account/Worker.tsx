@@ -135,7 +135,7 @@ const Worker = () => {
       </Link>
 
       <div className="mr-auto">
-        <SignOut className="bg-primary text-white px-6 py-1 text-lg font-semibold rounded-full" />
+        <SignOut className="text-gray-500 py-1 text-2xl font-bold font-body underline" />
       </div>
     </div>
   );

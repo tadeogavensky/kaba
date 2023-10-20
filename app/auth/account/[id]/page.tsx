@@ -22,7 +22,6 @@ async function getUser(id: string) {
 
   try {
     const response = await axios.get(`${apiUrl}/api/user/${id}`);
-    console.log(response);
 
     return response.data;
   } catch (error) {

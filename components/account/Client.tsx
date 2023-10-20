@@ -25,7 +25,7 @@ const Client = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-20">
+    <div className="flex flex-col justify-between items-center gap-8 mb-28">
       <Toaster />
       <div className="flex justify-center relative">
         <Image
@@ -136,7 +136,7 @@ const Client = () => {
       </div>
 
       <div className="mr-auto">
-        <SignOut className="bg-primary text-white px-6 py-1 text-lg font-semibold rounded-full" />
+        <SignOut className="text-gray-500 py-1 text-2xl font-bold font-body underline" />
       </div>
     </div>
   );

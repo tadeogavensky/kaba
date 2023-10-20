@@ -78,7 +78,7 @@ const Header = () => {
               <IoNotificationsOutline size={25} />
             </button>
           </div>
-          {isNotificationModalOpen && <Modal />}
+          {user?.notifications && isNotificationModalOpen && <Modal />}
         </div>
 
         {!user && (

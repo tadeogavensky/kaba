@@ -22,7 +22,7 @@ export default async function Worker({
 
   const avgRating = calculateAverageRating(worker.user.reviews);
   return (
-    <div className="min-h-full relative mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
+    <div className="relative mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
       <div className="relative">
         <Image
           src={worker.user.profilePicture || avatar}
