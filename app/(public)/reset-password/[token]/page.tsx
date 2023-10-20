@@ -1,0 +1,55 @@
+import Form from "@/components/forget-password/Form";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+export default async function ForgetPassword({
+  params: { token },
+}: {
+  params: { token: string };
+}) {
+  return (
+    <div className="flex flex-col items-center sm:justify-center sm:min-h-screen mb-20 sm:mt-10">
+      <Link href={"/"} className="hidden sm:block">
+        <h1 className="font-bold font-heading text-5xl">Kaba</h1>
+        <h1 className="font-bold font-heading text-sm float-right">To home</h1>
+      </Link>
+      <div className="sm:hidden max-xs:hidden">
+        <Image
+          src={"/assets/forget.jpg"}
+          width={400}
+          height={300}
+          alt="forget"
+          className="rounded-b-3xl shadow-xl w-screen"
+        />
+      </div>
+
+      <div className="px-6">
+        <Form token={token}/>
+
+        <h1 className="text-xs mt-4 font-normal font-heading max-w-sm">
+          Simplify Your Lifestyle with Kaba: One-Touch Convenience for
+          Effortless Living!
+        </h1>
+      </div>
+    </div>
+  );
+}
+
+async function validateToken(token: string) {
+  let apiUrl;
+
+  if (process.env.NODE_ENV === "development") {
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+  } else {
+    apiUrl = process.env.API_URL;
+  }
+
+  try {
+    const response = await axios.get(`${apiUrl}/api/workers/${name}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+}

@@ -46,6 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     Cookies.remove("user");
+    Cookies.remove("role");
+
     setUser(null);
     router.refresh();
   };

@@ -175,7 +175,7 @@ const LoginForm = () => {
                 Password
               </label>
 
-              <Link href={"/reset-password"} className="text-blue-600 hover:text-blue-800 transition-none">Forgot password?</Link>
+              <Link href={"/recover"} className="text-blue-600 hover:text-blue-800 transition-none">Forgot password?</Link>
             </div>
           </div>
           <div className="mt-2">

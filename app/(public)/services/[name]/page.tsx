@@ -37,14 +37,8 @@ export default async function ServicesByName({
         ) : (
           <div className="flex flex-col justify-center items-center h-full mt-4">
             <h1 className="font-body text-2xl">
-              Sorry we don't have any workers at the moment for this service.
+              Sorry we don't have any workers at the moment for this service :(
             </h1>
-            <Image
-              src={"/assets/no-workers.svg"}
-              alt={"no-workers"}
-              width={600}
-              height={600}
-            />
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { BiLogOut } from "react-icons/bi";
 
 interface Props {
   className: string;
@@ -15,6 +16,7 @@ const SignOut = ({ className }: { className: string }) => {
       }}
       className={className}
     >
+      <BiLogOut/>
       Sign out
     </button>
   );
