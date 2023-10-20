@@ -122,20 +122,20 @@ model Category {
 }
 
 model Booking {
-  id           String   @id @default(cuid())
+  id            String    @id @default(cuid())
   date         DateTime @default(now()) @db.Date
   time         DateTime @db.Time()
   workingHours Int
-  service      Service  @relation(fields: [serviceId], references: [id])
   clientId     String
   workerId     String
-  userId       String?
+  userId       String
+  addressId    String
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
   worker       Worker   @relation(fields: [workerId], references: [id])
   client       Client   @relation(fields: [clientId], references: [id])
   address      Address  @relation(fields: [addressId], references: [id])
-  user         User?    @relation(fields: [userId], references: [id])
-  serviceId    String
-  addressId    String
+  user         User    @relation(fields: [userId], references: [id])
 }
 
 model Review {

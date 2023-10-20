@@ -133,7 +133,7 @@ export async function POST(request: Request) {
     const worker = await prisma.worker.create({
       data: {
         available: false,
-        totalJobs:0,
+        totalJobs: 0,
         user: { connect: { id: user.id } },
       },
     });
@@ -161,6 +161,17 @@ export async function POST(request: Request) {
       `,
       });
     } catch (error) {}
+
+    await prisma.notification.create({
+      data: {
+        text: "Thank you for creating your account at Kaba. Please activate your account with the email sent to access key features like booking KabaProps.",
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    });
 
     return NextResponse.json({
       msg: "Account created succsessfully",

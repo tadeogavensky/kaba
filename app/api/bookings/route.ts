@@ -9,7 +9,7 @@ export async function GET() {
       address: true,
       service: true,
       user: true,
-      worker: { include: { user: true } },
+      worker: true,
       client: true,
     },
   });
@@ -18,5 +18,7 @@ export async function GET() {
     return NextResponse.json(bookings);
   }
 
-  return NextResponse.json({msg:"Error fetching bookings"});
+
+
+  return NextResponse.json({ msg: "Error fetching bookings" });
 }

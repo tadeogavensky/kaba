@@ -6,6 +6,7 @@ import axios from "axios";
 import { useBooking } from "@/contexts/BookingContext";
 import { useAuth } from "@/contexts/AuthContext";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Button = ({
   workerId,
@@ -16,15 +17,17 @@ const Button = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
+  const router = useRouter();
+
   const { selectedDate, workingHours, startTime, addressId } = useBooking();
-  const { user } = useAuth();
+  const { user, updateSession } = useAuth();
 
   const handleBook = async () => {
     const object = {
       selectedDate,
       startTime,
       workingHours,
-      user: user?.id,
+      userId: user?.id,
       serviceId: serviceId,
       clientId: user?.client?.id,
       workerId,
@@ -36,6 +39,11 @@ const Button = ({
 
       toast.success("Booking done!");
 
+      const responseUser = await axios.get("/api/me");
+
+      updateSession(responseUser.data);
+
+      router.push("/");
       console.log(data);
     } catch (error) {}
   };

@@ -10,14 +10,13 @@ import { Toaster } from "react-hot-toast";
 
 const Book = async ({ params: { slug } }: { params: { slug: string } }) => {
   const worker = await getWorker(slug);
-  console.log('==============worker.service.id======================');
-  console.log(worker.service.id);
-  console.log('==============worker.service.id======================');
+
   return (
-    <div className="p-6 min-h-max mb-20">
+    <div className="p-6 mb-20">
       <div>
         <Toaster />
       </div>
+
       <GoBack label="Worker" />
       <div className="flex flex-col mt-6">
         <div>
@@ -52,7 +51,6 @@ async function getWorker(slug: string) {
 
   try {
     const response = await axios.get(`${apiUrl}/api/worker/${slug}`);
-    console.log(response);
 
     return response.data;
   } catch (error) {

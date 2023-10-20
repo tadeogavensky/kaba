@@ -6,7 +6,7 @@ import React from "react";
 
 export default function SignIn() {
   return (
-    <div className="flex flex-col items-center min-h-screen sm:justify-center mb-20">
+    <div className="flex flex-col items-center sm:justify-center mb-20">
       <Link href={"/"} className="hidden sm:block">
         <h1 className="font-bold font-heading text-5xl">Kaba</h1>
         <h1 className="font-bold font-heading text-sm float-right">To home</h1>

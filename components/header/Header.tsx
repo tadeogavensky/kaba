@@ -6,6 +6,7 @@ import {
   IoNotificationsOutline,
   IoInformationCircleOutline,
 } from "react-icons/io5";
+import { GiPlainCircle } from "react-icons/gi";
 import { BsCalendar } from "react-icons/bs";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { AiOutlineDown } from "react-icons/ai";
@@ -18,13 +19,14 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 import Greeting from "../Greeting";
+import Modal from "../notifications/Modal";
 
 const Header = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
   const [openMenuDesktop, setOpenMenuDesktop] = useState(false);
+  const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
 
   const { user, logout } = useAuth();
-
 
   return (
     <header className="flex flex-col justify-between">
@@ -61,7 +63,21 @@ const Header = () => {
 
         <div className="flex items-center gap-4 sm:hidden">
           <IoInformationCircleOutline size={25} />{" "}
-          <IoNotificationsOutline size={25} />
+          <div className="relative">
+            {user?.notifications && user?.notifications.length > 0 && (
+              <span className="text-orange-500 absolute -top-1 -right-1 animate-bounce">
+                <GiPlainCircle />
+              </span>
+            )}
+            <button
+              onClick={() => {
+                setNotificationModalOpen(!isNotificationModalOpen);
+              }}
+            >
+              <IoNotificationsOutline size={25} />
+            </button>
+          </div>
+          {isNotificationModalOpen && <Modal />}
         </div>
 
         {!user && (

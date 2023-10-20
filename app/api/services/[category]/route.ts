@@ -13,9 +13,5 @@ export async function GET(
     },
   });
 
-  console.log("====================================");
-  console.log(services);
-  console.log("====================================");
-
   return NextResponse.json(services);
 }

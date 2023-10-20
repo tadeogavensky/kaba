@@ -1,3 +1,4 @@
+import Booking from "./Booking";
 import Client from "./Client";
 import Review from "./Review";
 import Worker from "./Worker";
@@ -16,7 +17,9 @@ type User = {
   phoneVerified?: boolean;
   role?: string;
   active?: boolean;
-  reviews: Review[];
+  bookings?: Booking[];
+  notifications?: Notification[];
+  reviews?: Review[];
   worker?: Worker;
   client?: Client;
 };

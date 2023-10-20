@@ -1,21 +1,21 @@
+"use client";
+
 import { GoBack } from "@/components/GoBack";
 import Card from "@/components/book/Card";
+import { useAuth } from "@/contexts/AuthContext";
 import Booking from "@/types/Booking";
-import axios from "axios";
 import React from "react";
 
-const Bookings = async () => {
-  const bookings = await getBookingsByUser();
+const Bookings = () => {
+  const { user } = useAuth();
+  console.log(user);
 
-  console.log("===============bookings=====================");
-  console.log(bookings);
-  console.log("================bookings====================");
   return (
-    <div className="p-6">
+    <div className="p-6 mb-20">
       <GoBack label="Home" />
-      <div className="mt-4">
-        {bookings.length > 0 ? (
-          bookings?.map((booking: Booking) => {
+      <div className="mt-4 ">
+        {user?.bookings && user.bookings.length > 0 ? (
+          user?.bookings?.map((booking: Booking) => {
             return (
               <div key={booking.id}>
                 <Card booking={booking} />
@@ -33,18 +33,5 @@ const Bookings = async () => {
     </div>
   );
 };
-
-async function getBookingsByUser() {
-  const apiUrl = process.env.API_URL;
-
-  try {
-    const response = await axios.get(`${apiUrl}/api/bookings`);
-    console.log(response);
-
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-}
 
 export default Bookings;

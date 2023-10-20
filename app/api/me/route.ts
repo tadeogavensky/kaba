@@ -9,9 +9,17 @@ export async function GET() {
   const user = await prisma.user.findFirst({
     where: { id: id?.value },
     include: {
-      worker: { include: { service: true, rate: true, } },
-      client: { include: { addresses: true, } },
-      bookings: true,
+      worker: { include: { service: true, rate: true } },
+      client: { include: { addresses: true } },
+      bookings: {
+        include: {
+          worker: { include: { user: true } },
+          client: { include: { user: true } },
+          address: true,
+          user: true,
+          service: true,
+        },
+      },
       reviews: true,
       notifications: true,
     },

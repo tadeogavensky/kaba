@@ -59,13 +59,15 @@ export default async function Worker({
           <span className="px-3 py-2 bg-blue-100 text-blue-500 font-bold text-xs rounded-2xl capitalize">
             {worker?.service?.category.name}
           </span>
-          <span className="font-body flex items-center gap-1">
-            <TiLocation size={25} className="text-primary" />
-            <div className="flex flex-col">
-              <p className="text-xs">{worker?.city},</p>
-              <p className="text-xs">{worker?.state}</p>
-            </div>
-          </span>
+          {worker?.street && (
+            <span className="font-body flex items-center gap-1">
+              <TiLocation size={25} className="text-primary" />
+              <div className="flex flex-col">
+                <p className="text-xs">{worker?.city},</p>
+                <p className="text-xs">{worker?.state}</p>
+              </div>
+            </span>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <h1 className="font-semibold text-primary text-xl">
@@ -76,9 +78,7 @@ export default async function Worker({
               ({worker?.rate.currency})
             </span>
           </h1>
-          <BookButton
-            slug={`${worker.id}-service-${worker.service.name}`}
-          />
+          <BookButton slug={`${worker.id}-service-${worker.service.name}`} />
         </div>
 
         <Border />

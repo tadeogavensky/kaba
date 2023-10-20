@@ -15,7 +15,7 @@ const client = {
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="mb-40">
       <div className="m-6 sm:mx-32">
         <Header />
         <InputSearch />

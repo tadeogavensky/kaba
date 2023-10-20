@@ -28,6 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = (userData: User) => {
     if (userData.id) {
       Cookies.set("user", userData.id);
+      Cookies.set("role", userData.role || "");
 
       if (userData.role == "worker") {
         console.log("es worker", userData.worker);

@@ -4,21 +4,40 @@ import Image from "next/image";
 import React from "react";
 import avatar from "/public/assets/avatar.jpg";
 import { useAuth } from "@/contexts/AuthContext";
+import axios from "axios";
 
 const Card = ({ booking }: { booking: Booking }) => {
-  const { user } = useAuth();
+  const { user, updateSession } = useAuth();
+
+  const handleCancelBooking = async () => {
+    await axios.delete(`/api/bookings/${booking.id}`);
+
+    const responseUser = await axios.get("/api/me");
+
+    updateSession(responseUser.data);
+  };
+
   return (
-    <div className="w-full flex flex-col items-center gap-2 rounded-md  bg-white shadow-lg p-4">
-      <div className="flex items-center gap-2">
+    <div className="w-full flex flex-col items-center gap-2 rounded-md mt-4  bg-white shadow-lg p-4">
+      <div className="flex items-center gap-2 mb-2">
         <Image
-          src={user?.role=="client" ? (booking.worker.user?.image || avatar) : (booking.client.user?.image || avatar) }
+          src={
+            user?.role == "client"
+              ? booking.worker.user?.image || avatar
+              : booking.client.user?.image || avatar
+          }
           alt="service-image"
           width={30}
           height={30}
           className="w-[25%] rounded-full object-cover flex-1"
         />
         <h2 className="font-heading">
-          {user?.role=="client" ? booking.worker.user?.firstName : booking.client.user?.firstName } {user?.role=="client" ? booking.worker.user?.lastName : booking.client.user?.lastName } 
+          {user?.role == "client"
+            ? booking.worker.user?.firstName
+            : booking.client.user?.firstName}{" "}
+          {user?.role == "client"
+            ? booking.worker.user?.lastName
+            : booking.client.user?.lastName}
         </h2>
       </div>
       <div className="flex items-center gap-2 flex-1">
@@ -38,7 +57,7 @@ const Card = ({ booking }: { booking: Booking }) => {
         <h1 className="text-xl font-body capitalize font-bold ">
           {booking.service.name}
         </h1>
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex items-center justify-between gap-2">
           <h1 className="text-lg font-body capitalize font-bold ">
             {new Date(booking.date).toLocaleDateString()}
           </h1>
@@ -47,7 +66,10 @@ const Card = ({ booking }: { booking: Booking }) => {
           </h1>
         </div>
       </div>
-      <button className="w-full hover:bg-red-700 transition bg-red-500 text-white rounded-full font-semibold font-body mt-2 py-1">
+      <button
+        onClick={handleCancelBooking}
+        className="w-full hover:bg-red-700 transition bg-red-500 text-white rounded-full font-semibold font-body mt-2 py-1"
+      >
         Cancel
       </button>
     </div>

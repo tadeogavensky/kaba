@@ -10,7 +10,7 @@ export default async function Account({
   const userData = await getUser(id);
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 ">
       {userData?.role === "client" && <Client />}
       {userData?.role === "worker" && <Worker />}
     </div>

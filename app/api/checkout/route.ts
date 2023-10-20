@@ -1,65 +1,30 @@
-/* import Booking from "@/types/Booking";
-import { NextApiRequest, NextApiResponse } from "next";
-import mercadopago from 'mercadopago';
-import { CreatePreferencePayload } from "mercadopago/models/preferences/create-payload.model"; */
-
 import prisma from "@/libs/prismadb";
+import { mailOptions, transporter } from "@/utils/nodemailer";
+import { randomUUID } from "crypto";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
-/* const client = mercadopago.configure({
-  access_token: process.env.NEXT_ACCESS_TOKEN!,
-});
-
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    const booking: Booking = req.body.booking;
-
-    const URL = process.env.API_URL;
-
-    const unitPrice = booking.worker.rate?.rate || 0;
-    const totalPrice = booking.workingHours * unitPrice;
-
-    try {
-      const preference: CreatePreferencePayload = {
-        items: [
-          {
-            title: booking.service.name,
-            unit_price: 1 * unitPrice,
-            quantity: 1,
-          },
-        ],
-        auto_return: "approved",
-        back_urls: {
-          success: `${URL}`,
-          failure: `${URL}`,
-        },
-        notification_url: `${URL}/api/notify`,
-      };
-
-      const response = await mercadopago.preferences.create(preference);
-
-      res.status(200).send({ url: response.body.init_point });
-    } catch (error) {}
-  } else {
-    res.status(400).json({ msg: "Method not allowed" });
-  }
-} */
 
 export async function POST(request: Request) {
   const body = await request.json();
-
-  console.log(body);
 
   const {
     selectedDate,
     startTime,
     workingHours,
     serviceId,
-    userId,
     clientId,
+    userId,
     workerId,
     addressId,
   } = body;
+
+  console.log("==============BODY======================");
+  console.log("Service ID:", serviceId);
+  console.log("Client ID:", clientId);
+  console.log("User ID:", userId);
+  console.log("Worker ID:", workerId);
+  console.log("Address ID:", addressId);
+  console.log("===============BODY=====================");
 
   const startDateTime = new Date(selectedDate); // Start with the selected date
   const timeComponents = startTime.match(/(\d+):(\d+) (AM|PM)/); // Parse time components
@@ -82,21 +47,20 @@ export async function POST(request: Request) {
 
   const isoStartTime = startDateTime.toISOString();
 
-  console.log(serviceId);
-
-  const address = await prisma.address.findFirst({ where: { id: addressId } });
-
-  await prisma.booking.create({
+  const booking = await prisma.booking.create({
     data: {
+      id: randomUUID(),
       date: selectedDate,
       time: isoStartTime,
       workingHours: workingHours,
       clientId: clientId,
       userId: userId,
       workerId: workerId,
-      address: {
+      addressId: addressId,
+      serviceId: serviceId,
+      /*   address: {
         connect: {
-          id: address?.id,
+          id: addressId,
         },
       },
       service: {
@@ -118,9 +82,83 @@ export async function POST(request: Request) {
         connect: {
           id: clientId,
         },
-      },
+      }, */
     },
   });
 
-  return NextResponse.json("Booking created successfully");
+  if (booking) {
+    const worker = await prisma.worker.findFirst({
+      where: { id: workerId },
+      include: { user: true, service: true },
+    });
+
+    const client = await prisma.client.findFirst({
+      where: { id: clientId },
+      include: { user: true },
+    });
+
+    //Client email
+    try {
+      await transporter.sendMail({
+        from: mailOptions.from,
+        to: client?.user.email || "",
+        subject: `${client?.user.firstName}, new booking has been made for ${worker?.service?.name.toLocaleUpperCase()}`,
+        text:
+          `Hi ${client?.user.firstName} ${client?.user.lastName}!\n\n` +
+          `We want to notify you that your attempt to book a service with ${worker?.user.firstName} ${worker?.user.lastName} to do ${worker?.service?.name.toLocaleUpperCase()}, for ${new Date(booking.date)} at ${new Date(booking.time)}, was successfull.` +
+          `You can check it out all your bookings at https://kaba-livid.vercel.app/auth/bookings.\n\n`,
+        html: `
+        <h1>Hi ${client?.user.firstName} ${client?.user.lastName}!!</h1>
+        <p>We want to notify you that your attempt to book a service with ${worker?.user.firstName} ${worker?.user.lastName} for ${worker?.service?.name.toLocaleUpperCase()} was successfull.</p>
+        <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
+      `,
+      });
+    } catch (error) {}
+
+    //Client notification
+    await prisma.notification.create({
+      data: {
+        text: `You booked a service with ${worker?.user.firstName} to do ${
+          worker?.service?.name.toLocaleUpperCase()
+        } for ${new Date(booking.date)} at ${new Date(booking.time)}, you can check it out at Bookings tab`,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    //Worker email
+    try {
+      await transporter.sendMail({
+        from: mailOptions.from,
+        to: worker?.user.email || "",
+        subject: `${worker?.user.firstName}, you recieve a new job opportunity for ${worker?.service?.name.toLocaleUpperCase()}`,
+        text:
+          `Hi ${worker?.user.firstName} ${worker?.user.lastName}!\n\n` +
+          `We want to notify you that a client booked a service with you.` +
+          `You can check it out all your bookings at https://kaba-livid.vercel.app/auth/bookings.\n\n`,
+        html: `
+        <h1>Hi ${worker?.user.firstName} ${worker?.user.lastName}!!</h1>
+        <p>We want to notify you that a client booked a service with you.</p>
+        <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
+      `,
+      });
+    } catch (error) {}
+
+    //Worker notification
+    await prisma.notification.create({
+      data: {
+        text: `A job for ${client?.user.firstName} has been booked, you can check out the details at Bookings tab`,
+        user: {
+          connect: {
+            id: worker?.userId,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json("Booking created successfully");
+  }
 }
