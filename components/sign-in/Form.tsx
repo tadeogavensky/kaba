@@ -80,8 +80,6 @@ const LoginForm = () => {
           return;
         }
 
-        console.log("login", response.data);
-
         login(response.data);
         toast.success("Sign up successfully");
         setTimeout(() => {
@@ -175,7 +173,12 @@ const LoginForm = () => {
                 Password
               </label>
 
-              <Link href={"/recover"} className="text-blue-600 hover:text-blue-800 transition-none">Forgot password?</Link>
+              <Link
+                href={"/recover"}
+                className="text-blue-600 hover:text-blue-800 transition-none"
+              >
+                Forgot password?
+              </Link>
             </div>
           </div>
           <div className="mt-2">

@@ -44,7 +44,6 @@ const Button = ({
       updateSession(responseUser.data);
 
       router.push("/");
-      console.log(data);
     } catch (error) {}
   };
 

@@ -12,7 +12,6 @@ export default async function findUserByEmailAndRole(
     },
   });
 
-  console.log(user);
 
   return user;
 }

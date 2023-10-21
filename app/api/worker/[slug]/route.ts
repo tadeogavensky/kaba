@@ -18,8 +18,9 @@ export async function GET(
     },
     include: {
       service: { include: { category: true } },
-      user: { include: { reviews: true } },
+      user: true,
       rate: true,
+      reviews: true,
     },
   });
 

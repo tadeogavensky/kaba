@@ -1,5 +1,6 @@
 import BannerSlider from "@/components/BannerSlider";
 import Header from "@/components/header/Header";
+import Hero from "@/components/Hero";
 import InputSearch from "@/components/InputSearch";
 import PopularServices from "@/components/services/PopularServices";
 import Services from "@/components/services/Services";
@@ -18,12 +19,18 @@ export default function Home() {
     <main className="mb-40">
       <div className="m-6 sm:mx-32">
         <Header />
-        <InputSearch />
-        <div className="sm:hidden">
-          <BannerSlider />
+        {/* Only from tablet to desktop */}
+        <div className="hidden sm:block mt-10">
+          <Hero />
         </div>
-        <Services />
-        <PopularServices />
+
+        {/* Only on mobile */}
+        <div className="sm:hidden">
+          <InputSearch />
+          <BannerSlider />
+          <Services />
+          <PopularServices />
+        </div>
       </div>
     </main>
   );

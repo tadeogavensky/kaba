@@ -31,7 +31,6 @@ export async function PUT(
   const user = await prisma.user.findFirst({ where: { id: params.id } });
 
   if (email !== user?.email) {
-    console.log("MAIL DISTINTOS");
     const updatedUser = await prisma.user?.update({
       where: {
         id: params.id,

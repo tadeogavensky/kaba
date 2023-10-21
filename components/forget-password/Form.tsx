@@ -56,7 +56,6 @@ const Form = ({ token }: { token: string }) => {
           token,
         });
 
-        console.log(response);
 
         if (response.data.error) {
           toast.error(response.data.error);

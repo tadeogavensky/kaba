@@ -29,9 +29,9 @@ const Header = () => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="flex flex-col justify-between">
-      <div className="flex items-center justify-between">
-        {/* Mobile */}
+    <header className="flex flex-col items-center justify-between gap-4">
+      {/* Mobile */}
+      <div className="flex items-center w-full justify-between">
         {user && (
           <div className="relative">
             <div
@@ -74,6 +74,7 @@ const Header = () => {
                 setNotificationModalOpen(!isNotificationModalOpen);
               }}
               disabled={user?.notifications && user?.notifications?.length <= 0}
+              className="flex justify-center items-center"
             >
               <IoNotificationsOutline size={25} />
             </button>
@@ -85,14 +86,14 @@ const Header = () => {
           <div className="flex items-center gap-4 sm:hidden">
             <Link
               href={"/auth/signin"}
-              className="bg-green-400 text-white px-6 py-2 rounded-3xl font-heading font-bold shadow-md "
+              className="bg-green-400 text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md "
             >
               Sign In
             </Link>
 
             <Link
               href={"/signup"}
-              className="bg-primary text-white px-6 py-2 rounded-3xl font-heading font-bold shadow-md"
+              className="bg-primary text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md"
             >
               Join Now
             </Link>
@@ -101,14 +102,48 @@ const Header = () => {
       </div>
 
       {/* Tablet to Desktop */}
-
       <div className="hidden sm:flex justify-between items-center w-full">
         <Link href={"/"}>
           <h1 className="font-bold font-heading text-3xl">Kaba</h1>
         </Link>
 
+        <ul className="hidden lg:flex items-center gap-8">
+          <li>
+            <Link
+              className="font-heading font-semibold text-sm link-item "
+              href={"/how-we-work"}
+            >
+              How we work
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="font-heading font-semibold text-sm link-item"
+              href={"/services"}
+            >
+              Services
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="font-heading font-semibold text-sm link-item"
+              href={"/faq"}
+            >
+              FAQ
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="font-heading font-semibold text-sm link-item"
+              href={"/signup"}
+            >
+              Become a KabaProp
+            </Link>
+          </li>
+        </ul>
+
         {!user && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <Link
               href={"/auth/signin"}
               className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
@@ -171,6 +206,42 @@ const Header = () => {
           </div>
         )}
       </div>
+
+      {/* Sub Menu */}
+      <ul className="hidden md:flex lg:hidden items-center gap-8">
+        <li>
+          <Link
+            className="font-heading font-semibold text-md link-item "
+            href={"/how-we-work"}
+          >
+            How we work
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="font-heading font-semibold text-md link-item"
+            href={"/services"}
+          >
+            Services
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="font-heading font-semibold text-md link-item"
+            href={"/faq"}
+          >
+            FAQ
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="font-heading font-semibold text-md link-item"
+            href={"/signup"}
+          >
+            Become a KabaProp
+          </Link>
+        </li>
+      </ul>
     </header>
   );
 };

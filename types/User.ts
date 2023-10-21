@@ -19,7 +19,6 @@ type User = {
   active?: boolean;
   bookings?: Booking[];
   notifications?: Notification[];
-  reviews?: Review[];
   worker?: Worker;
   client?: Client;
 };

@@ -18,14 +18,6 @@ export async function POST(request: Request) {
     addressId,
   } = body;
 
-  console.log("==============BODY======================");
-  console.log("Service ID:", serviceId);
-  console.log("Client ID:", clientId);
-  console.log("User ID:", userId);
-  console.log("Worker ID:", workerId);
-  console.log("Address ID:", addressId);
-  console.log("===============BODY=====================");
-
   const startDateTime = new Date(selectedDate); // Start with the selected date
   const timeComponents = startTime.match(/(\d+):(\d+) (AM|PM)/); // Parse time components
   if (timeComponents) {
@@ -102,14 +94,26 @@ export async function POST(request: Request) {
       await transporter.sendMail({
         from: mailOptions.from,
         to: client?.user.email || "",
-        subject: `${client?.user.firstName}, new booking has been made for ${worker?.service?.name.toLocaleUpperCase()}`,
+        subject: `${
+          client?.user.firstName
+        }, new booking has been made for ${worker?.service?.name.toLocaleUpperCase()}`,
         text:
           `Hi ${client?.user.firstName} ${client?.user.lastName}!\n\n` +
-          `We want to notify you that your attempt to book a service with ${worker?.user.firstName} ${worker?.user.lastName} to do ${worker?.service?.name.toLocaleUpperCase()}, for ${new Date(booking.date)} at ${new Date(booking.time)}, was successfull.` +
+          `We want to notify you that your attempt to book a service with ${
+            worker?.user.firstName
+          } ${
+            worker?.user.lastName
+          } to do ${worker?.service?.name.toLocaleUpperCase()}, for ${new Date(
+            booking.date
+          )} at ${new Date(booking.time)}, was successfull.` +
           `You can check it out all your bookings at https://kaba-livid.vercel.app/auth/bookings.\n\n`,
         html: `
         <h1>Hi ${client?.user.firstName} ${client?.user.lastName}!!</h1>
-        <p>We want to notify you that your attempt to book a service with ${worker?.user.firstName} ${worker?.user.lastName} for ${worker?.service?.name.toLocaleUpperCase()} was successfull.</p>
+        <p>We want to notify you that your attempt to book a service with ${
+          worker?.user.firstName
+        } ${
+          worker?.user.lastName
+        } for ${worker?.service?.name.toLocaleUpperCase()} was successfull.</p>
         <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
       `,
       });
@@ -118,9 +122,11 @@ export async function POST(request: Request) {
     //Client notification
     await prisma.notification.create({
       data: {
-        text: `You booked a service with ${worker?.user.firstName} to do ${
-          worker?.service?.name.toLocaleUpperCase()
-        } for ${new Date(booking.date)} at ${new Date(booking.time)}, you can check it out at Bookings tab`,
+        text: `You booked a service with ${
+          worker?.user.firstName
+        } to do ${worker?.service?.name.toLocaleUpperCase()} for ${new Date(
+          booking.date
+        )} at ${new Date(booking.time)}, you can check it out at Bookings tab`,
         user: {
           connect: {
             id: userId,
@@ -134,7 +140,9 @@ export async function POST(request: Request) {
       await transporter.sendMail({
         from: mailOptions.from,
         to: worker?.user.email || "",
-        subject: `${worker?.user.firstName}, you recieve a new job opportunity for ${worker?.service?.name.toLocaleUpperCase()}`,
+        subject: `${
+          worker?.user.firstName
+        }, you recieve a new job opportunity for ${worker?.service?.name.toLocaleUpperCase()}`,
         text:
           `Hi ${worker?.user.firstName} ${worker?.user.lastName}!\n\n` +
           `We want to notify you that a client booked a service with you.` +

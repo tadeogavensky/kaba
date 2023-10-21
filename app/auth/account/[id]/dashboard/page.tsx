@@ -37,7 +37,6 @@ const Dashboard = () => {
     axios
       .put(`/api/service/worker/${selectedOption}/${user?.worker?.id}`)
       .then(async (res) => {
-        console.log(res);
         toast.success("Service changed", { icon: "🧹" });
 
         const responseUser = await axios.get("/api/me");

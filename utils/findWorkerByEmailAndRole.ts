@@ -21,7 +21,6 @@ export default async function findWorkerByEmailAndRole(
     },
   });
 
-  console.log(worker);
 
   return worker;
 }

@@ -200,7 +200,6 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
       });
     }
 
-    console.log(values.state.label);
   };
 
   const handleCityChange = (selectedOption: any) => {

@@ -20,16 +20,16 @@ export default async function Worker({
 }) {
   const worker = await getWorker(slug);
 
-  const avgRating = calculateAverageRating(worker.user.reviews);
+  const avgRating = calculateAverageRating(worker.reviews);
   return (
-    <div className="relative mb-10 flex flex-col sm:justify-center sm:items-center sm:flex-row sm:min-h-screen">
+    <div className="relative mb-10 flex flex-col lg:justify-center lg:items-center lg:flex-row lg:min-h-screen">
       <div className="relative">
         <Image
           src={worker.user.profilePicture || avatar}
           alt="profilePicture"
           width={500}
           height={500}
-          className="rounded-b-3xl shadow-xl sm:rounded-3xl"
+          className="rounded-b-3xl shadow-xl  md:rounded-b-3xl lg:rounded-3xl md:w-screen lg:w-[500px]"
         />
         <div className="absolute top-0  m-6 ">
           <GoBack label={"Workers"} />
@@ -50,8 +50,7 @@ export default async function Worker({
             <span>|</span>
 
             <p>
-              {worker.user.reviews.length}{" "}
-              <span className="text-xs">reviews</span>
+              {worker.reviews?.length} <span className="text-xs">reviews</span>
             </p>
           </div>
         </div>
@@ -104,9 +103,7 @@ export default async function Worker({
                 <h1 className="font-bold text-primary text-3xl">{avgRating}</h1>
                 <div className="flex flex-col">
                   <StarRating rating={avgRating} />
-                  <p className="font-light">
-                    {worker.user.reviews?.length} reviews
-                  </p>
+                  <p className="font-light">{worker.reviews?.length} reviews</p>
                 </div>
               </div>
               <IoIosArrowForward size={25} />

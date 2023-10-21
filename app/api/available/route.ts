@@ -7,10 +7,6 @@ export async function PUT(request: Request) {
 
   const { available } = body;
 
-  console.log("==============available======================");
-  console.log(available);
-  console.log("==============available======================");
-
   const userId = cookies().get("user")?.value;
 
   const worker = await prisma.worker.findFirst({ where: { userId: userId } });

@@ -2,7 +2,6 @@ import { GoBack } from "@/components/GoBack";
 import Card from "@/components/worker/Card";
 
 import axios from "axios";
-import Image from "next/image";
 
 export default async function ServicesByName({
   params: { name },
@@ -11,9 +10,7 @@ export default async function ServicesByName({
 }) {
   const workers = await getWorkersByService(name);
 
-  console.log("====================================");
-  console.log(workers);
-  console.log("====================================");
+
 
   return (
     <div className="p-6">
@@ -28,7 +25,6 @@ export default async function ServicesByName({
                   firstName={worker.user.firstName}
                   lastName={worker.user.lastName}
                   profilePicture={worker.profilePicture}
-                  reviews={[]}
                   worker={worker}
                 />
               </div>

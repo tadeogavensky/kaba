@@ -4,7 +4,6 @@ import ServiceType from "@/types/Service";
 import Image from "next/image";
 
 const Card = ({ name, image }: { name: string; image: string }) => {
-  console.log(name, image);
 
   return (
     <Link

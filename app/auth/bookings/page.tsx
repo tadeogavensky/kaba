@@ -8,7 +8,6 @@ import React from "react";
 
 const Bookings = () => {
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <div className="p-6 mb-20">

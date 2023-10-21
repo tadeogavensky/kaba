@@ -14,10 +14,9 @@ const Card: FC<UserTypes> = ({
   firstName,
   lastName,
   profilePicture,
-  reviews,
   worker,
 }) => {
-  const avgRating = calculateAverageRating(reviews || []);
+  const avgRating = calculateAverageRating(worker?.reviews || []);
 
   return (
     <div className="sm:w-[350px]  flex flex-row justify-around bg-white rounded-lg shadow-xl p-3 gap-4">

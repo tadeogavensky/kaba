@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import Pill from "./Pill";
@@ -16,35 +16,38 @@ const PopularServices = () => {
   const [servicesByCategory, setServicesByCategory] = useState<ServiceType[]>(
     []
   );
+  const [serviceCategoryLength, setServiceCategoryLength] = useState(0);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isLoadingServices, setIsLoadingServices] = useState(true);
 
   const fetchCategories = () => {
     axios.get("/api/categories").then((res) => {
       setCategories(res.data);
+      setIsLoadingCategories(false); // Loading for categories is complete
     });
   };
 
   const fetchServicesByCategories = (category: string) => {
     axios.get(`/api/services/${category}`).then((res) => {
       setServicesByCategory(res.data);
+      setServiceCategoryLength(res.data.length);
+      setIsLoadingServices(false); // Loading for services is complete
     });
   };
 
   const handleClick = async (pill: string) => {
     setSelectedCategory(pill);
-    setIsLoading(true);
+    setIsLoadingServices(true); // Start loading for services
 
     await fetchServicesByCategories(pill);
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchCategories();
     handleClick(selectedCategory);
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsLoadingCategories(false); // Loading for categories is complete
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -66,20 +69,28 @@ const PopularServices = () => {
 
       <div className="overflow-x-auto">
         <div className="flex items-center sm:justify-between gap-3 mt-6">
-          {categories.map((category, index) => (
-            <Pill
-              key={index}
-              name={category.name}
-              handleClick={() => handleClick(category?.name || "")}
-              active={selectedCategory === category.name}
-            />
-          ))}
+          {isLoadingCategories
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div key={index}>
+                  <LoadingSkeleton className="w-[80px] h-[30px] rounded-full bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
+                </div>
+              ))
+            : categories.map((category, index) => (
+                <div key={index}>
+                  <Pill
+                    key={index}
+                    name={category.name}
+                    handleClick={() => handleClick(category?.name || "")}
+                    active={selectedCategory === category.name}
+                  />
+                </div>
+              ))}
         </div>
       </div>
 
       <div className="grid grid-cols-3 sm:flex flex-wrap justify-center gap-4 mt-4 sm:mt-10">
-        {isLoading
-          ? servicesByCategory.map((service, index) => (
+        {isLoadingServices
+          ? Array.from({ length: serviceCategoryLength }).map((_, index) => (
               <div key={index} className="">
                 <LoadingSkeleton className="sm:w-[300px] sm:h-[300px] md:w-[200px] md:h-[200px] w-[100px] h-[100px] rounded-2xl bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-pulse" />
               </div>

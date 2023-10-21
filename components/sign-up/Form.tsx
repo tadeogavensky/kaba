@@ -116,7 +116,6 @@ const Form = () => {
           role,
         });
 
-        console.log(response);
 
         if (response.data.error) {
           toast.error(response.data.error);

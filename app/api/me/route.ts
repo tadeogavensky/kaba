@@ -13,14 +13,13 @@ export async function GET() {
       client: { include: { addresses: true } },
       bookings: {
         include: {
-          worker: { include: { user: true } },
-          client: { include: { user: true } },
+          worker: { include: { user: true, reviews: true } },
+          client: { include: { user: true, reviews: true } },
           address: true,
           user: true,
           service: true,
         },
       },
-      reviews: true,
       notifications: true,
     },
   });

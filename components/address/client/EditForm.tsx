@@ -209,7 +209,6 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
       });
     }
 
-    console.log(values.state.label);
   };
 
   const handleCityChange = (selectedOption: any) => {

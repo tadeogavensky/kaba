@@ -5,7 +5,6 @@ import React from "react";
 
 const BookButton = ({ slug }: { slug: string }) => {
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <Link

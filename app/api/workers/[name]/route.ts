@@ -16,6 +16,7 @@ export async function GET(
       service: true,
       rate: true,
       user: true,
+      reviews: true,
     },
   });
 
