@@ -1,10 +1,14 @@
 import prisma from "@/libs/prismadb";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   const workers = await prisma.worker.findMany({
     include: { user: true, service: true, rate: true, reviews: true },
   });
 
-  return NextResponse.json(workers);
+  if (workers) {
+    return NextResponse.json(workers);
+  } else {
+    return NextResponse.json("Couldn't find any workers");
+  }
 }

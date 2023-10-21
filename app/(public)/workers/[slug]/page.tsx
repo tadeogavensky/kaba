@@ -11,7 +11,6 @@ import ReviewsButton from "@/components/worker/ReviewsButton";
 
 import avatar from "/public/assets/avatar.jpg";
 import axios from "axios";
-import { AnimatePresence } from "framer-motion";
 
 export default async function Worker({
   params: { slug },
