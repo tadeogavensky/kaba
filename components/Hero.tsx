@@ -1,10 +1,34 @@
+"use client";
 import axios from "axios";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./worker/Card";
 
-const Hero = async () => {
-  const workers = await getWorkers();
+const Hero = () => {
+  const [workers, setWorkers] = useState([{}]);
+
+  const getWorkers = () => {
+    let apiUrl;
+
+    if (process.env.NODE_ENV === "development") {
+      apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+    } else {
+      apiUrl = process.env.API_URL;
+    }
+
+    try {
+      axios.get(`${apiUrl}/api/workers`).then((response) => {
+        setWorkers(response.data);
+      });
+    } catch (error) {
+      console.error("Error fetching workers:", error);
+    }
+  };
+
+  useEffect(() => {
+    getWorkers();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center w-full gap-8 ">
       <h1 className="font-body font-bold lowercase text-7xl max-w-3xl text-center">
@@ -78,20 +102,3 @@ const Hero = async () => {
 };
 
 export default Hero;
-
-async function getWorkers() {
-  let apiUrl;
-
-  if (process.env.NODE_ENV === "development") {
-    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
-  } else {
-    apiUrl = process.env.API_URL;
-  }
-
-  try {
-    const response = await axios.get(`${apiUrl}/api/workers`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching workers:", error);
-  }
-}
