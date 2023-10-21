@@ -14,9 +14,8 @@ const Hero = async () => {
         Elevating home services to a new standard of convenience and quality.
       </p>
 
-      <div className="grid grid-cols-5 grid-rows-5 gap-12 place-items-center place-content-center ">
-        <div className="row-span-3">
-          {" "}
+      <div className="grid grid-cols-5 grid-rows-5 gap-4">
+        <div className="row-span-5">
           <div className="flex items-start rounded-3xl bg-blue-200 p-2">
             <Image
               src={"/assets/screen-worker.jpeg"}
@@ -27,10 +26,8 @@ const Hero = async () => {
             />
           </div>
         </div>
-        <div className="col-start-1 row-start-4">2</div>
-        <div className="row-span-2 col-start-2 row-start-1">
-          {" "}
-          <h1 className="font-body font-bold text-3xl max-w-xl">
+        <div className="col-span-2 row-span-2 place-self-center  ">
+          <h1 className="font-body font-bold text-3xl max-w-xl ">
             With Kaba, every day is an opportunity to simplify your life and
             embrace the extraordinary.
           </h1>
@@ -46,9 +43,8 @@ const Hero = async () => {
             />
           </div>
         </div>
-        <div className="col-span-2 row-span-3 col-start-3 row-start-1">
-          {" "}
-          <div className="flex items-center w-full flex-wrap gap-4">
+        <div className="col-span-2 row-span-3 col-start-4 row-start-1 place-self-center ">
+          <div className="flex items-center justify-center w-full flex-wrap gap-4">
             {workers.map((worker: any, index: number) => {
               return (
                 <div key={index}>
@@ -64,7 +60,18 @@ const Hero = async () => {
             })}
           </div>
         </div>
-        <div className="row-start-5">7</div>
+        <div className="row-span-3 col-start-3 row-start-3">
+          <div className=" flex items-center w-[200px]  rounded-2xl bg-blue-200 p-2">
+            <Image
+              src={"/assets/book-screen.png"}
+              width={200}
+              height={200}
+              alt="book"
+              className="rounded-2xl"
+            />
+          </div>
+        </div>
+        <div className="col-span-2 row-span-2 col-start-4 row-start-4">10</div>
       </div>
     </div>
   );

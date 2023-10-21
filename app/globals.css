@@ -39,7 +39,7 @@ body {
   height: 100vh;
 }
 
-.spinner {
+/* .spinner {
   border: 8px solid #f3f3f3;
   border-top: 8px solid #005dff;
   border-radius: 50%;
@@ -56,6 +56,9 @@ body {
     transform: rotate(360deg);
   }
 }
+ */
+
+
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -65,7 +68,6 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
 
 select {
   /* for Firefox */
@@ -78,8 +80,6 @@ select {
 select::-ms-expand {
   display: none;
 }
-
-
 
 .link-item {
   position: relative;

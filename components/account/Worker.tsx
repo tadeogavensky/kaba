@@ -6,19 +6,13 @@ import toast, { Toaster } from "react-hot-toast";
 import avatar from "/public/assets/avatar.jpg";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdAutoGraph, MdNewReleases, MdVerified } from "react-icons/md";
-import { FaRegMoneyBillAlt } from "react-icons/fa";
 import Link from "next/link";
 import { BiUser } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import { SlLocationPin } from "react-icons/sl";
 import SignOut from "../SignOut";
-import { useEffect, useState } from "react";
-import Service from "@/types/Service";
 
-import Select from "react-select";
-import User from "@/types/User";
 import { useAuth } from "@/contexts/AuthContext";
-import { FaArrowsRotate } from "react-icons/fa6";
 
 const Worker = () => {
   const { updateSession, user } = useAuth();
@@ -32,7 +26,7 @@ const Worker = () => {
     } catch (error) {}
   };
   return (
-    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-18">
+    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-28">
       <Toaster />
       <div className="flex justify-center relative">
         <Image
