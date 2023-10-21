@@ -36,20 +36,3 @@ export default async function ForgetPassword({
     </div>
   );
 }
-
-async function validateToken(token: string) {
-  let apiUrl;
-
-  if (process.env.NODE_ENV === "development") {
-    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
-  } else {
-    apiUrl = process.env.API_URL;
-  }
-
-  try {
-    const response = await axios.get(`${apiUrl}/api/workers/${name}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-}
