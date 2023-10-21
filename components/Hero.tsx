@@ -92,6 +92,6 @@ async function getWorkers() {
     const response = await axios.get(`${apiUrl}/api/workers`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error("Error fetching workers:", error);
   }
 }
