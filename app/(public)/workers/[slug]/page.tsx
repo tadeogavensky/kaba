@@ -103,7 +103,7 @@ export default async function Worker({
                 <h1 className="font-bold text-primary text-3xl">{avgRating}</h1>
                 <div className="flex flex-col">
                   <StarRating rating={avgRating} />
-                  <p className="font-light">{worker.reviews?.length} reviews</p>
+                  <p className="font-light text-left">{worker.reviews?.length} reviews</p>
                 </div>
               </div>
               <IoIosArrowForward size={25} />

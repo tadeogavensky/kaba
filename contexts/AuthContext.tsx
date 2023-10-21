@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     Cookies.remove("role");
 
     setUser(null);
-    router.refresh();
+    router.push("/");
   };
 
   const updateSession = (newUser: User) => {

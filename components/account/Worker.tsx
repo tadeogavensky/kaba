@@ -32,7 +32,7 @@ const Worker = () => {
     } catch (error) {}
   };
   return (
-    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-20">
+    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-12">
       <Toaster />
       <div className="flex justify-center relative">
         <Image

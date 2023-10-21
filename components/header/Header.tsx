@@ -162,29 +162,7 @@ const Header = () => {
         {user && (
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-12">
-              <button
-                onClick={() => {
-                  logout();
-                }}
-                className="bg-red-500 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
-              >
-                Sign Out
-              </button>
-
               <div className="flex items-center gap-6">
-                <Link href={"/bookings"} className="flex items-center gap-2">
-                  <BsCalendar size={20} />
-                  <p className="font-heading font-semibold text-base">
-                    Bookings
-                  </p>
-                </Link>
-                <div className="flex items-center gap-2 cursor-pointer">
-                  <IoNotificationsOutline size={20} />
-                  <p className="font-heading font-semibold text-base">
-                    Notifications
-                  </p>
-                </div>
-
                 <div
                   className="flex items-center gap-1 cursor-pointer"
                   onMouseOver={() => {
@@ -267,6 +245,15 @@ const AccountMobileDropDown = ({ logout }: { logout: () => void }) => {
 const AccountDesktopDropDown = ({ logout }: { logout: () => void }) => {
   return (
     <div className="bg-white w-[300px] absolute top-16 shadow-xl flex flex-col items-start rounded-md p-4">
+      <Link href={"/bookings"} className="flex items-center gap-2">
+        <BsCalendar size={20} />
+        <p className="font-heading font-semibold text-base">Bookings</p>
+      </Link>
+      <div className="flex items-center gap-2 cursor-pointer">
+        <IoNotificationsOutline size={20} />
+        <p className="font-heading font-semibold text-base">Notifications</p>
+      </div>
+
       <button
         onClick={() => {
           logout();

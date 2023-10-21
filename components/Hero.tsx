@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Hero = () => {
@@ -9,6 +10,25 @@ const Hero = () => {
       <p className="font-body max-w-sm text-center">
         Elevating home services to a new standard of convenience and quality.
       </p>
+
+      <div className="flex items-baseline gap-8">
+        <div className="flex items-center rounded-3xl bg-blue-200 p-2">
+          <Image
+            src={"/assets/screen-worker.jpeg"}
+            width={800}
+            height={800}
+            alt="screen-worker"
+            className="rounded-2xl w-[250px] h-[500px]"
+          />
+        </div>
+        <Image
+          src={"/assets/new-life.jpg"}
+          width={500}
+          height={500}
+          alt="new-life"
+          className="rounded-2xl w-[250px] h-[200px]"
+        />
+      </div>
     </div>
   );
 };
