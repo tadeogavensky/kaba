@@ -14,6 +14,14 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  if (!session && request.nextUrl.pathname.startsWith("/auth/worker/book")) {
+    console.log("====================================");
+    console.log("ENTRA ACA");
+    console.log("====================================");
+    const response = NextResponse.rewrite(new URL("/auth/signin", request.url));
+    return response;
+  }
+
   if (
     role === "worker" &&
     request.nextUrl.pathname.startsWith("/auth/worker/book")

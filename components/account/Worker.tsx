@@ -32,7 +32,7 @@ const Worker = () => {
     } catch (error) {}
   };
   return (
-    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-12">
+    <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-18">
       <Toaster />
       <div className="flex justify-center relative">
         <Image
@@ -126,7 +126,7 @@ const Worker = () => {
           <div className="flex flex-col items-start font-heading">
             <h1 className="font-bold text-lg">Dashboard</h1>
             <p className="text-sm">
-              Change your service, rate and view analytics
+              Change your service, rate, about me and view analytics
             </p>
           </div>
         </div>

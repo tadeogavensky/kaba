@@ -20,6 +20,7 @@ const Dashboard = () => {
     value: user?.worker?.rate?.rate,
   });
   const [available, setAvailable] = useState(user?.worker?.available);
+  const [about, setAbout] = useState(user?.worker?.about || "");
 
   const updatedServices = services.map((service) => ({
     label: service.name,
@@ -42,6 +43,15 @@ const Dashboard = () => {
         const responseUser = await axios.get("/api/me");
         updateSession(responseUser.data);
       });
+  };
+
+  const handleAbout = async () => {
+    await axios.put("/api/about", { about });
+
+    toast.success("About section updated", { icon: "📝" });
+
+    const responseUser = await axios.get("/api/me");
+    updateSession(responseUser.data);
   };
 
   const handleRate = async () => {
@@ -91,8 +101,8 @@ const Dashboard = () => {
       </div>
       <GoBack label="Profile" />
 
-      <div className="flex flex-col mt-10 gap-10">
-        <div className="flex flex-col">
+      <div className="flex flex-col  mt-10 gap-10">
+        <div className="flex flex-col justify-start items-start">
           <h1 className="text-xl font-body font-semibold mb-2 text-center">
             Set service and rate
           </h1>
@@ -121,8 +131,8 @@ const Dashboard = () => {
                 ))}
               </select>
             </div>
-            <div className="w-full flex justify-center flex-col">
-              <div className="flex items-center justify-start w-full gap-2 ">
+            <div className="w-full flex justify-start items-start flex-col">
+              <div className="flex items-center justify-between w-full gap-2 ">
                 <div
                   className={`flex items-center  shadow-sm  focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 gap-4 mx-auto w-full`}
                 >
@@ -163,7 +173,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex justify-center items-center  gap-3">
+        <div className="w-full flex justify-between items-center  gap-3">
           <h1 className="text-xl font-body font-semibold text-center">
             Set as available to work
           </h1>
@@ -178,6 +188,36 @@ const Dashboard = () => {
             <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-red-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-400"></div>
           </label>
         </div>
+
+        {user?.role == "worker" && (
+          <div className="flex flex-col gap-2 w-full">
+            <label
+              htmlFor="About"
+              className="block text-base font-body font-semibold leading-6 text-gray-900"
+            >
+              About
+            </label>
+            <div
+              className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full`}
+            >
+              <textarea
+                value={about}
+                onChange={(e) => {
+                  setAbout(e.target.value);
+                }}
+                placeholder={`Hi my name is ${user.firstName}...`}
+                className="bg-transparent w-full p-2 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none focus:ring-0 ring-0 focus:border-0"
+              />
+            </div>
+            <button
+              className="w-1/2 bg-primary hover:bg-blue-800 transition text-white font-body font-semibold py-1 rounded-full mt-2 "
+              type="submit"
+              onClick={handleAbout}
+            >
+              Save
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

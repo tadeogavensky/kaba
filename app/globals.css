@@ -93,7 +93,7 @@ select::-ms-expand {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: lightgrey;
+  background-color: black;
   transition: width 0.3s;
 }
 

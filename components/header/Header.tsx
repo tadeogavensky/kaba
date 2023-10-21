@@ -20,6 +20,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 import Greeting from "../Greeting";
 import Modal from "../notifications/Modal";
+import { BiHistory } from "react-icons/bi";
 
 const Header = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -62,7 +63,7 @@ const Header = () => {
         )}
 
         <div className="flex items-center gap-4 sm:hidden">
-          <IoInformationCircleOutline size={25} />{" "}
+          <BiHistory size={25} />{" "}
           <div className="relative">
             {user?.notifications && user?.notifications.length > 0 && (
               <span className="text-orange-500 absolute -top-1 -right-1 animate-bounce">

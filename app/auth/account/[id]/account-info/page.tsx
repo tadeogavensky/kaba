@@ -30,7 +30,6 @@ export default function AccountInfo({
     username: user?.username || "",
     identity: user?.identity || "",
     phone: user?.phone || "",
-    about: user?.worker?.about || "",
   });
 
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -39,9 +38,9 @@ export default function AccountInfo({
 
   const isOpen = async () => {
     setVisibilityUserDataForm(true);
-    const response = await axios.get("/api/me")
+    const response = await axios.get("/api/me");
 
-    setUpdatedUser(response.data)
+    setUpdatedUser(response.data);
   };
 
   const closeEditForm = () => {
@@ -54,7 +53,6 @@ export default function AccountInfo({
       username: user?.username || "",
       identity: user?.identity || "",
       phone: user?.phone || "",
-      about: user?.worker?.about || "",
     });
   };
 
@@ -129,9 +127,6 @@ export default function AccountInfo({
     const isFirstNameValid = nameRegex.test(updatedUser.firstName);
     const isLastNameValid = nameRegex.test(updatedUser.lastName);
 
-    if (updatedUser.about.length > 0) {
-      await axios.put("/api/about", { about: updatedUser.about });
-    }
     if (isEmailValid && isFirstNameValid && isLastNameValid) {
       const response = await axios.put(`/api/user/${user?.id}`, {
         email: updatedUser?.email,
@@ -265,22 +260,6 @@ export default function AccountInfo({
               </p>
             </div>
           </div>
-          {user?.role == "worker" && (
-            <div className="flex items-start justify-start gap-4">
-              <div className="flex justify-center items-center border-[1.5px] border-gray-300 rounded-full p-2">
-                <BsFileText size={25} className="text-primary" />
-              </div>
-              <div className="flex flex-col items-start font-heading">
-                <h1 className="text-sm">About</h1>
-                <p className="text-xs text-gray-500">
-                  {user?.worker?.about?.trim() == "" ||
-                  user?.worker?.about == null
-                    ? "Please complete this field to help others get to know you better"
-                    : user?.worker?.about}
-                </p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -491,32 +470,6 @@ export default function AccountInfo({
                   />
                 </div>
               </div>
-
-              {user?.role == "worker" && (
-                <div className="flex flex-col gap-2 w-full">
-                  <label
-                    htmlFor="About"
-                    className="block text-base font-body font-semibold leading-6 text-gray-900"
-                  >
-                    About
-                  </label>
-                  <div
-                    className={`flex items-center flex-1 focus-within:border-blue-600 focus-within:border-[1.5px] border-[1.5px] border-transparent bg-gray-100 rounded-lg p-2 px-4 gap-4 mx-auto w-full`}
-                  >
-                    <textarea
-                      value={updatedUser.about}
-                      onChange={(e) => {
-                        setUpdatedUser((prevState) => ({
-                          ...prevState,
-                          about: e.target.value,
-                        }));
-                      }}
-                      placeholder={`Hi my name is ${updatedUser.firstName}...`}
-                      className="bg-transparent w-full p-2 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none focus:ring-0 ring-0 focus:border-0"
-                    />
-                  </div>
-                </div>
-              )}
 
               <button
                 className="w-full bg-primary hover:bg-blue-800 transition text-white font-body font-semibold py-1 rounded-full mt-10"
