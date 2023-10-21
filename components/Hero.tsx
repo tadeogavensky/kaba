@@ -5,19 +5,11 @@ import React, { useEffect, useState } from "react";
 import Card from "./worker/Card";
 
 const Hero = () => {
-  const [workers, setWorkers] = useState([{}]);
+  const [workers, setWorkers] = useState([] || null);
 
   const getWorkers = () => {
-    let apiUrl;
-
-    if (process.env.NODE_ENV === "development") {
-      apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
-    } else {
-      apiUrl = process.env.API_URL;
-    }
-
     try {
-      axios.get(`${apiUrl}/api/workers`).then((response) => {
+      axios.get(`/api/workers`).then((response) => {
         setWorkers(response.data);
       });
     } catch (error) {
@@ -74,8 +66,8 @@ const Hero = () => {
                 <div key={index}>
                   <Card
                     id={worker.id}
-                    firstName={worker.user.firstName}
-                    lastName={worker.user.lastName}
+                    firstName={worker.user?.firstName}
+                    lastName={worker.user?.lastName}
                     profilePicture={worker.profilePicture}
                     worker={worker}
                   />
