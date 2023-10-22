@@ -19,12 +19,12 @@ export default async function Worker({
 }) {
   const worker = await getWorker(slug);
 
-  const avgRating = calculateAverageRating(worker.reviews);
+  const avgRating = calculateAverageRating(worker?.reviews);
   return (
-    <div className="relative mb-10 flex flex-col lg:justify-center lg:items-center lg:flex-row lg:min-h-screen">
+    <div className="relative mb-32 lg:mb-0  flex flex-col lg:justify-center lg:items-center lg:flex-row lg:min-h-screen">
       <div className="relative">
         <Image
-          src={worker.user.profilePicture || avatar}
+          src={worker?.user?.profilePicture || avatar}
           alt="profilePicture"
           width={500}
           height={500}
@@ -40,7 +40,7 @@ export default async function Worker({
         </h1>
         <div className="flex items-center gap-4">
           <p className="font-heading font-semibold text-lg text-primary">
-            {worker.user.firstName} {worker.user.lastName}
+            {worker?.user?.firstName} {worker?.user?.lastName}
           </p>
 
           <div className="flex items-center gap-2 font-base">
@@ -49,7 +49,7 @@ export default async function Worker({
             <span>|</span>
 
             <p>
-              {worker.reviews?.length} <span className="text-xs">reviews</span>
+              {worker?.reviews?.length} <span className="text-xs">reviews</span>
             </p>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default async function Worker({
               ({worker?.rate.currency})
             </span>
           </h1>
-          <BookButton slug={`${worker.id}-service-${worker.service.name}`} />
+          <BookButton slug={`${worker?.id}-service-${worker?.service.name}`} />
         </div>
 
         <Border />
@@ -92,7 +92,7 @@ export default async function Worker({
           <h1 className="font-heading text-base font-bold">
             Reviews of{" "}
             <span>
-              {worker.user.firstName} {worker.user.lastName}
+              {worker?.user?.firstName} {worker?.user?.lastName}
             </span>
           </h1>
 
@@ -103,7 +103,7 @@ export default async function Worker({
                 <div className="flex flex-col">
                   <StarRating rating={avgRating} />
                   <p className="font-light text-left">
-                    {worker.reviews?.length} reviews
+                    {worker?.reviews?.length} reviews
                   </p>
                 </div>
               </div>
@@ -140,18 +140,19 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 async function getWorker(slug: string) {
-  let apiUrl;
-
+  let apiUrl: string = "";
   if (process.env.NODE_ENV === "development") {
-    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL;
+    console.log("es development");
+
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
   } else {
-    apiUrl = process.env.API_URL;
+    apiUrl = process.env.API_URL!;
   }
 
   try {
     const response = await axios.get(`${apiUrl}/api/worker/${slug}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    /*  console.error("Error fetching user data:", error); */
   }
 }

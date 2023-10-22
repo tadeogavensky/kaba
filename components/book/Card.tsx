@@ -62,6 +62,7 @@ const Card = ({ booking }: { booking: Booking }) => {
           {user?.role == "client"
             ? booking.worker.user?.firstName
             : booking.client.user?.firstName}
+            {" "}
           {user?.role == "client"
             ? booking.worker.user?.lastName
             : booking.client.user?.lastName}

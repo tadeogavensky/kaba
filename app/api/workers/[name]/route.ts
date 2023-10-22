@@ -5,6 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: { name: string } }
 ) {
+
   const workers = await prisma.worker.findMany({
     where: {
       service: {
@@ -19,6 +20,8 @@ export async function GET(
       reviews: true,
     },
   });
+
+  console.log("workers", workers);
 
   return NextResponse.json(workers);
 }

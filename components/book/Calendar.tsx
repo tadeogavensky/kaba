@@ -54,7 +54,7 @@ const Calendar = () => {
   const dayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
 
   return (
-    <div className="lg:w-[1500px] w-full flex flex-col mt-10 bg-sky-50 rounded-xl shadow-md p-4">
+    <div className=" w-full flex flex-col mt-10 lg:mt-0 bg-sky-50 rounded-xl shadow-md p-4">
       <div className="flex justify-between items-center">
         <button className="text-gray-400" onClick={goToPreviousMonth}>
           <HiChevronLeft size={30} />

@@ -58,7 +58,7 @@ const Button = ({
   }, [workerId]);
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 lg:mt-0 w-full">
       {loading ? (
         <button>
           <Loader />

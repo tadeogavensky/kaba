@@ -17,31 +17,52 @@ const Book = async ({ params: { slug } }: { params: { slug: string } }) => {
         <Toaster />
       </div>
 
-      <GoBack label="Worker" />
-      <div className="flex flex-col mt-6">
-        <div>
-          <p className="font-body text-lg">Hire</p>
-          <h1 className="font-body font-semibold text-2xl">
-            {worker?.user?.firstName} {worker?.user?.lastName}
-          </h1>
-          <p className="font-body text-xl">
-            for{" "}
-            <span className="uppercase font-semibold text-primary">
-              {worker.service.name}
-            </span>
-          </p>
+      <div className="md:hidden">
+        <GoBack label="Worker" />
+        <div className="flex flex-col mt-6 lg:max-w-xl">
+          <WorkerInfo worker={worker} />
+          <div className="lg:flex lg:gap-10 ">
+            <Calendar />
+            <div className="flex gap-8 flex-col w-full">
+              <WorkingHours />
+              <StartTime />
+              <Address />
+            </div>
+          </div>
+          <Button workerId={worker.id} serviceId={worker.service.id} />
         </div>
-        <div className="lg:flex lg:gap-10 ">
+      </div>
+
+      <div className="hidden md:flex flex-col items-start gap-4">
+        <GoBack label="Worker" />
+        <div className="flex flex-row items-start gap-10 w-1/2">
           <Calendar />
-          <div className="flex gap-8 flex-col w-full">
+          <div className="flex flex-col w-full gap-4 justify-start items-start">
+            <WorkerInfo worker={worker} />
             <WorkingHours />
             <StartTime />
             <Address />
+            <Button workerId={worker.id} serviceId={worker.service.id} />
           </div>
         </div>
-
-        <Button workerId={worker.id} serviceId={worker.service.id} />
       </div>
+    </div>
+  );
+};
+
+const WorkerInfo = ({ worker }: { worker: any }) => {
+  return (
+    <div>
+      <p className="font-body text-lg">Hire</p>
+      <h1 className="font-body font-semibold text-2xl">
+        {worker?.user?.firstName} {worker?.user?.lastName}
+      </h1>
+      <p className="font-body text-xl">
+        for{" "}
+        <span className="uppercase font-semibold text-primary">
+          {worker.service.name}
+        </span>
+      </p>
     </div>
   );
 };

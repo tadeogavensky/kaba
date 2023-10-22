@@ -20,7 +20,7 @@ const WorkingHours = () => {
   };
 
   return (
-    <div className="w-full mt-6 bg-white shadow-md flex items-center justify-between rounded-xl p-4">
+    <div className="w-full mt-6 lg:mt-0 bg-white shadow-md flex items-center justify-between rounded-xl p-4">
       <div className="flex flex-col items-start">
         <h1 className="font-heading font-bold text-lg">Working Hours</h1>
         <p>cost increases per hour</p>

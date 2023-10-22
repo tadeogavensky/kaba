@@ -21,7 +21,7 @@ const Card: FC<UserTypes> = ({
   return (
     <div className="sm:w-[350px]  flex flex-row justify-around bg-white rounded-lg shadow-xl p-3 gap-4">
       <Link
-        href={`/workers/${id}-${worker?.service?.name
+        href={`/worker/${id}-${worker?.service?.name
           .replace(/\s+/g, "-")
           .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
         className="flex justify-center items-center"
@@ -42,7 +42,7 @@ const Card: FC<UserTypes> = ({
           <BookmarkButton />
         </div>
         <Link
-          href={`/workers/${id}-${worker?.service?.name
+          href={`/worker/${id}-${worker?.service?.name
             .replace(/\s+/g, "-")
             .toLowerCase()}-${firstName?.toLowerCase()}-${lastName?.toLowerCase()}`}
           className="font-body text-xl font-semibold capitalize"
