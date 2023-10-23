@@ -2,32 +2,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-const FAQ = () => {
+interface FAQProps {
+    faq: { question: string; answer: string }[];
+  }
+
+const FAQ: React.FC<FAQProps> = ({ faq }) => {
+  const pathname = usePathname();
   const [active, setActive] = useState(-1);
-
-  const faq = [
-    {
-      question: "How do I sign up as a client?",
-      answer:
-        "To sign up as a client, go to our website and click on the 'Join Now' button. Fill out the required information, and you'll be all set! Remember to verify your account via the email sent to access key features of Kaba.",
-    },
-    {
-      question: "As a KabaProp, can I change the service I do?",
-      answer:
-        "Yes, you can change your service. Just go to your profile and select the dashboard section to make the change.",
-    },
-    {
-      question: "How can I leave a review for a worker?",
-      answer:
-        "You can leave a review for a worker by going to your booking history and clicking on the 'Leave a Review' button.",
-    },
-    {
-      question: "What payment options are available?",
-      answer:
-        "We offer multiple payment options for your convenience, including credit/debit cards, and more.",
-    },
-  ];
 
   const handleClick = (index: number) => {
     if (active === index) {
@@ -100,6 +84,9 @@ const FAQ = () => {
           </li>
         ))}
       </ul>
+      <div className="self-end text-blue-600 font-body font-semibold">
+        {pathname !== "/faq" ? <Link href={"/faq"}>See all FAQ</Link> : null}
+      </div>
     </motion.div>
   );
 };

@@ -10,6 +10,7 @@ import user from "/public/assets/user.jpg";
 
 const Hero = () => {
   const [workers, setWorkers] = useState([] || null);
+  const [loading, setLoading] = useState(true);
 
   const [userCount, setUserCount] = useState(0);
   const fetchUserCount = () => {
@@ -24,7 +25,8 @@ const Hero = () => {
   const getWorkers = () => {
     try {
       axios.get(`/api/workers`).then((response) => {
-        setWorkers(response.data);
+        const limitedWorkers = response.data.slice(0, 4);
+        setWorkers(limitedWorkers);
       });
     } catch (error) {
       console.error("Error fetching workers:", error);
@@ -33,6 +35,12 @@ const Hero = () => {
 
   useEffect(() => {
     getWorkers();
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -71,16 +79,16 @@ const Hero = () => {
       >
         <Link
           href={"/signup"}
-          className="bg-black text-sm hover:bg-slate-600 transition px-6 py-3 rounded-md text-white font-heading"
+          className="bg-black text-sm hover:bg-slate-600 transition px-12 py-3 rounded-md text-white font-heading"
         >
           Try it now
         </Link>
         <p className=" text-xs font-semibold bottom-2 px-1 py-1">
-          {userCount} people have chosen us
+          {userCount} people have now chosen us
         </p>
       </motion.span>
 
-      <div className="flex justify-center gap-6 ">
+      <div className="hidden lg:flex justify-center gap-6 ">
         <div className="flex flex-col justify-end">
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -93,21 +101,6 @@ const Hero = () => {
               height={1000}
               alt="screen-worker"
               className="rounded-2xl object-cover  h-full w-[300px]"
-            />
-          </motion.div>
-        </div>
-        <div className="flex flex-col justify-end ">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.3 }}
-            className="rounded-3xl  bg-gray-200 p-2"
-          >
-            <Image
-              src="/assets/home.jpg"
-              width={1000}
-              height={1000}
-              alt="home"
-              className="rounded-2xl object-cover w-[410px] "
             />
           </motion.div>
         </div>
@@ -175,21 +168,44 @@ const Hero = () => {
         </div>
         <div className="">
           <div className="flex flex-col items-center justify-center w-full flex-wrap gap-4">
-            {workers.map((worker: any, index: number) => {
-              return (
-                <motion.div whileHover={{ scale: 1.05 }} key={index}>
-                  <Card
-                    id={worker.id}
-                    firstName={worker.user?.firstName}
-                    lastName={worker.user?.lastName}
-                    profilePicture={worker.profilePicture}
-                    worker={worker}
-                  />
-                </motion.div>
-              );
-            })}
+            {loading
+              ? // Display the loading skeleton while loading
+                [1, 2, 3].map((index) => (
+                  <div key={index}>
+                    <WorkerCardLoadingSkeleton />
+                  </div>
+                ))
+              : // Display worker cards when data is available
+                workers.map((worker: any, index: number) => (
+                  <motion.div whileHover={{ scale: 1.05 }} key={index}>
+                    <Card
+                      id={worker.id}
+                      firstName={worker.user?.firstName}
+                      lastName={worker.user?.lastName}
+                      profilePicture={worker.profilePicture}
+                      worker={worker}
+                    />
+                  </motion.div>
+                ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const WorkerCardLoadingSkeleton = () => {
+  return (
+    <div className=" flex w-[350px] flex-row justify-between bg-gray-200 rounded-lg shadow-xl p-3 gap-4 animate-pulse">
+      <span className="rounded-xl h-[100px] w-[100px] bg-gray-300 "></span>
+      <div className="flex flex-col justify-start">
+        <div className="flex items-center justify-between">
+          <span className="w-[100px] rounded-md  bg-gray-300"></span>
+
+          <span className="w-[30px] rounded-md  bg-gray-300"></span>
+        </div>
+
+        <span className="w-full rounded-md  bg-gray-300"></span>
       </div>
     </div>
   );

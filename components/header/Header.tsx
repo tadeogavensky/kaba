@@ -20,7 +20,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 import Greeting from "../Greeting";
 import Modal from "../notifications/Modal";
-import { BiHistory } from "react-icons/bi";
+import { BiHistory, BiLogOut } from "react-icons/bi";
+import SignOut from "../SignOut";
+import { AnimatePresence, motion } from "framer-motion";
+import { FiUser } from "react-icons/fi";
 
 const Header = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -161,16 +164,19 @@ const Header = () => {
           </div>
         )}
         {user && (
-          <div className="flex flex-col items-end">
+          <div
+            className={`flex flex-col items-end ${
+              openMenuDesktop
+                ? "border-2 rounded-lg p-2 border-blue-500"
+                : "border-2 rounded-lg p-2 border-transparent"
+            }`}
+          >
             <div className="flex items-center gap-12">
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 cursor-pointer select-none">
                 <div
                   className="flex items-center gap-1 cursor-pointer"
-                  onMouseOver={() => {
-                    setOpenMenuDesktop(true);
-                  }}
-                  onMouseLeave={() => {
-                    setOpenMenuDesktop(false);
+                  onClick={() => {
+                    setOpenMenuDesktop(!openMenuDesktop);
                   }}
                 >
                   <MdOutlineAccountCircle size={20} />
@@ -181,7 +187,15 @@ const Header = () => {
                 </div>
               </div>
             </div>
-            {openMenuDesktop && <AccountDesktopDropDown logout={logout} />}
+            <AnimatePresence>
+              {openMenuDesktop && (
+                <AccountDesktopDropDown
+                  user={user}
+                  openMenuDesktop={openMenuDesktop}
+                  logout={logout}
+                />
+              )}
+            </AnimatePresence>
           </div>
         )}
       </div>
@@ -243,14 +257,59 @@ const AccountMobileDropDown = ({ logout }: { logout: () => void }) => {
   );
 };
 
-const AccountDesktopDropDown = ({ logout }: { logout: () => void }) => {
+const AccountDesktopDropDown = ({
+  logout,
+  openMenuDesktop,
+  user,
+}: {
+  logout: () => void;
+  openMenuDesktop: boolean;
+  user: any;
+}) => {
+  const subMenuAnimate = {
+    enter: {
+      opacity: 1,
+      rotateX: 0,
+      transition: {
+        duration: 0.3,
+      },
+      display: "block",
+    },
+    exit: {
+      opacity: 0,
+      rotateX: -15,
+      transition: {
+        duration: 0.3,
+        delay: 0.3,
+      },
+      transitionEnd: {
+        display: "none",
+      },
+    },
+  };
+
   return (
-    <div className="bg-white w-[300px] absolute top-16 shadow-xl flex flex-col items-start rounded-md p-4">
-      <Link href={"/bookings"} className="flex items-center gap-2">
+    <motion.div
+      initial="exit"
+      animate={openMenuDesktop ? "enter" : "exit"}
+      variants={subMenuAnimate}
+      className="bg-white w-[300px] gap-2 absolute top-24 shadow-2xl border-[1px] border-gray-100 flex flex-col items-start rounded-md "
+    >
+      <Link
+        href={`/auth/account/${user.id}`}
+        className="flex items-center gap-2 hover:bg-gray-200 transition w-full py-3 px-4"
+      >
+        <FiUser size={20} />
+        <p className="font-heading font-semibold text-base">Account</p>
+      </Link>
+      <Link
+        href={"/auth/bookings"}
+        className="flex items-center gap-2 hover:bg-gray-200 transition w-full py-3 px-4"
+      >
         <BsCalendar size={20} />
         <p className="font-heading font-semibold text-base">Bookings</p>
       </Link>
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center gap-2 hover:bg-gray-200 transition w-full  py-3 px-4 cursor-pointer">
         <IoNotificationsOutline size={20} />
         <p className="font-heading font-semibold text-base">Notifications</p>
       </div>
@@ -259,9 +318,11 @@ const AccountDesktopDropDown = ({ logout }: { logout: () => void }) => {
         onClick={() => {
           logout();
         }}
+        className=" flex items-center gap-2 hover:bg-gray-200 transition w-full  py-3 px-4 font-heading font-semibold text-base"
       >
-        Sign Out
+        <BiLogOut size={20} />
+        <p>Sign Out</p>
       </button>
-    </div>
+    </motion.div>
   );
 };

@@ -6,16 +6,28 @@ import SignUp from "@/components/home/SignUp";
 import InputSearch from "@/components/InputSearch";
 import PopularServices from "@/components/services/PopularServices";
 import Services from "@/components/services/Services";
-const client = {
-  id: 1,
-  email: "cliente@example.com",
-  password: "hashedPassword",
-  firstName: "Tadeo",
-  lastName: "Gavensky",
-  profilePicture: "profile.jpg",
-  phone: "1160204654",
-};
-
+const faqs = [
+  {
+    question: "How do I sign up as a client?",
+    answer:
+      "To sign up as a client, go to our website and click on the 'Join Now' button. Fill out the required information, and you'll be all set! Remember to verify your account via the email sent to access key features of Kaba.",
+  },
+  {
+    question: "As a KabaProp, can I change the service I do?",
+    answer:
+      "Yes, you can change your service. Just go to your profile and select the dashboard section to make the change.",
+  },
+  {
+    question: "How can I leave a review for a worker?",
+    answer:
+      "You can leave a review for a worker by going to your booking history and clicking on the 'Leave a Review' button.",
+  },
+  {
+    question: "What payment options are available?",
+    answer:
+      "We offer multiple payment options for your convenience, including credit/debit cards, and more.",
+  },
+];
 export default function Home() {
   console.log(process.env.API_URL);
 
@@ -27,7 +39,7 @@ export default function Home() {
         <div className="hidden sm:flex flex-col gap-10 mt-10">
           <Hero />
           <SignUp />
-          <FAQ/>
+          <FAQ faq={faqs}/>
         </div>
 
         {/* Only on mobile */}

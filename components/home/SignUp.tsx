@@ -17,7 +17,8 @@ const SignUp = () => {
 
   const fetchReviews = () => {
     axios.get("/api/client/reviews").then((response) => {
-      setReviews(response.data);
+      const limitedReviews = response.data.slice(0, 6);
+      setReviews(limitedReviews);
     });
   };
 
@@ -53,7 +54,7 @@ const SignUp = () => {
   ];
 
   return (
-    <div className="w-full flex md:flex-col lg:flex-row md:items-center lg:items-start justify-between gap-8">
+    <div className="w-full flex md:flex-col lg:flex-row md:items-center lg:items-start justify-between gap-8  mt-10">
       <div className="flex flex-col mr-auto">
         <motion.h2
           initial={{ x: -300, opacity: 0 }}
@@ -91,43 +92,52 @@ const SignUp = () => {
         </div>
       </div>
 
-      <motion.div
-        initial={{ x: 500, y: 30, opacity: 0 }}
-        whileInView={{ x: 0, y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        viewport={{ once: true }}
-        className="flex flex-col gap-4"
-      >
-        {reviews.map((review: any, index) => {
-          return (
-            <motion.div
-              key={index}
-              className="bg-white shadow-md rounded-md p-4 flex items-center w-[450px] gap-4 cursor-default"
-            >
-              <Image
-                src={review.user?.image || avatar}
-                alt="review-user"
-                className="w-16 h-16 shadow-lg rounded-full"
-              />
-              <div className="flex flex-col gap-2">
-                <div className="flex w-full justify-between items-center">
-                  <StarRating rating={review.rating} />
+      <div className="flex flex-col gap-3">
+        <h1 className="lg:hidden font-heading font-bold text-2xl">
+          What the Clients says about our KabaProps{" "}
+        </h1>
+        <motion.div
+          initial={{ x: 500, y: 30, opacity: 0 }}
+          whileInView={{ x: 0, y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="flex flex-row flex-wrap lg:flex-col gap-4"
+        >
+          {reviews.map((review: any, index) => {
+            return (
+              <motion.div
+                key={index}
+                className="bg-white shadow-md rounded-md p-4 flex items-center w-[450px] gap-4 cursor-default"
+              >
+                <Image
+                  src={review.user?.image || avatar}
+                  alt="review-user"
+                  className="w-16 h-16 shadow-lg rounded-full"
+                />
+                <div className="flex flex-col gap-2">
+                  <div className="flex w-full justify-between items-center">
+                    <StarRating rating={review.rating} />
 
-                  <p className="font-body text-sm text-gray-400">
-                    {new Date(review.date).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
+                    <p className="font-body text-sm text-gray-400">
+                      {new Date(review.date).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
+
+                  <p className="font-heading">{review.comment}</p>
+                  <p>
+                    Review of {review.worker.user.firstName}{" "}
+                    {review.worker.user.lastName}
                   </p>
                 </div>
-
-                <p className="font-heading">{review.comment}</p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
     </div>
   );
 };
