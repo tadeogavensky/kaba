@@ -6,6 +6,7 @@ import Card from "../worker/Card";
 import { motion } from "framer-motion";
 import AnimatedTextWord from "../AnimatedTextWord";
 import Link from "next/link";
+import user from "/public/assets/user.jpg";
 
 const Hero = () => {
   const [workers, setWorkers] = useState([] || null);
@@ -19,7 +20,6 @@ const Hero = () => {
   useEffect(() => {
     fetchUserCount();
   }, [userCount]);
-
 
   const getWorkers = () => {
     try {
@@ -76,58 +76,108 @@ const Hero = () => {
           Try it now
         </Link>
         <p className=" text-xs font-semibold bottom-2 px-1 py-1">
-         {userCount} people have chosen us
+          {userCount} people have chosen us
         </p>
       </motion.span>
 
-      <div className="grid grid-cols-5 grid-rows-5 gap-4">
-        <div className="row-span-5">
+      <div className="flex justify-center gap-6 ">
+        <div className="flex flex-col justify-end">
           <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
-            className="flex items-start rounded-3xl bg-blue-200 p-2"
+            className="flex items-center justify-baseline rounded-3xl  bg-gray-200 p-2"
           >
             <Image
               src={"/assets/screen-worker.jpeg"}
               width={1000}
               height={1000}
               alt="screen-worker"
-              className="rounded-2xl w-[700px] h-[400px] object-cover"
+              className="rounded-2xl object-cover  h-full w-[300px]"
             />
           </motion.div>
         </div>
-        <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          className="col-span-2 row-span-2 place-self-center  "
-        >
-         
-        </motion.div>
-        <div className="row-span-3 col-start-2 row-start-3">
-          <div className=" flex items-center w-[200px]  rounded-2xl bg-blue-200 p-2">
+        <div className="flex flex-col justify-end ">
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+            className="rounded-3xl  bg-gray-200 p-2"
+          >
             <Image
-              src={"/assets/book-screen.png"}
-              width={200}
-              height={200}
-              alt="book"
-              className="rounded-2xl object-contain"
+              src="/assets/home.jpg"
+              width={1000}
+              height={1000}
+              alt="home"
+              className="rounded-2xl object-cover w-[410px] "
             />
+          </motion.div>
+        </div>
+        <div className="flex flex-col justify-end">
+          <div className="flex items-center justify-baseline">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center  rounded-2xl bg-gray-200 p-2"
+            >
+              <Image
+                src={"/assets/book-screen.png"}
+                width={200}
+                height={200}
+                alt="book"
+                className="rounded-xl w-[300px] object-contain"
+              />
+            </motion.div>
           </div>
         </div>
-        <div className="col-span-2 row-span-3 col-start-4 row-start-1 place-self-center ">
+        <div className="flex flex-col justify-end">
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-sky-400 flex flex-col  shadow-md rounded-3xl w-[200px] p-3 cursor-default"
+          >
+            <div className=" flex items-center gap-2">
+              <Image
+                src={user}
+                alt="review-user"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <p className="font-heading font-bold text-xl">Angela</p>
+            </div>
+            <div className="flex flex-col gap-2 mt-2">
+              <p className="font-body text-xs">Upcoming jobs</p>
+
+              <div className="bg-black rounded-2xl p-2 flex items-center gap-2">
+                <div className="flex flex-col justify-center rounded-xl items-center bg-sky-200 px-4 py-1">
+                  <p className="font-body text-[10px]">Jan</p>
+                  <h1 className="font-body font-bold text-lg">28</h1>
+                </div>
+                <div className="flex flex-col">
+                  <h1 className="text-white font-heading text-xs">
+                    House Cleaning
+                  </h1>
+                  <p className="text-white font-body text-sm">10am</p>
+                </div>
+              </div>
+
+              <div className="bg-black rounded-2xl p-2 flex items-center gap-2">
+                <div className="flex flex-col justify-center rounded-xl items-center bg-sky-200 px-4 py-1">
+                  <p className="font-body text-[10px]">Feb</p>
+                  <h1 className="font-body font-bold text-lg">15</h1>
+                </div>
+                <div className="flex flex-col">
+                  <h1 className="text-white font-heading text-xs">
+                    Carpet Cleaning
+                  </h1>
+                  <p className="text-white font-body text-sm">3pm</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        <div className="">
           <div className="flex flex-col items-center justify-center w-full flex-wrap gap-4">
             {workers.map((worker: any, index: number) => {
               return (
-                <motion.div
-                  initial={{ opacity: 0, translateX: -50, translateY: -50 }}
-                  transition={{ delay: index * 0.4 }}
-                  animate={{ opacity: 1, translateX: 0, translateY: 0 }}
-                  whileHover={{ scale: 1.1 }}
-                  key={index}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} key={index}>
                   <Card
                     id={worker.id}
                     firstName={worker.user?.firstName}
@@ -140,21 +190,6 @@ const Hero = () => {
             })}
           </div>
         </div>
-        <div className="row-span-3 col-start-3 row-start-3">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className=" flex items-center w-[200px]  rounded-2xl bg-blue-200 p-2"
-          >
-            <Image
-              src={"/assets/book-screen.png"}
-              width={200}
-              height={200}
-              alt="book"
-              className="rounded-2xl"
-            />
-          </motion.div>
-        </div>
-        <div className="col-span-2 row-span-2 col-start-4 row-start-4">10</div>
       </div>
     </div>
   );

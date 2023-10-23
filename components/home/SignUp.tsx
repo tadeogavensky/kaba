@@ -53,7 +53,7 @@ const SignUp = () => {
   ];
 
   return (
-    <div className="w-full flex items-start justify-between gap-8">
+    <div className="w-full flex md:flex-col lg:flex-row md:items-center lg:items-start justify-between gap-8">
       <div className="flex flex-col mr-auto">
         <motion.h2
           initial={{ x: -300, opacity: 0 }}
@@ -101,8 +101,6 @@ const SignUp = () => {
         {reviews.map((review: any, index) => {
           return (
             <motion.div
-              initial={{ scale: 1 }}
-              whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
               key={index}
               className="bg-white shadow-md rounded-md p-4 flex items-center w-[450px] gap-4 cursor-default"
             >

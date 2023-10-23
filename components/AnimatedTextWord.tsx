@@ -49,8 +49,12 @@ const AnimatedTextWord = ({
       animate="visible"
       className={className}
     >
-      <motion.h1 variants={child}>{text1}</motion.h1>
-      <motion.h1 variants={childSlow}>{text2}</motion.h1>
+      <motion.h1 className="tracking-wide" variants={child}>
+        {text1}
+      </motion.h1>
+      <motion.h1 className="tracking-wide mt-6" variants={childSlow}>
+        {text2}
+      </motion.h1>
     </motion.div>
   );
 };
