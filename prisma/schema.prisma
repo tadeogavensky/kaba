@@ -144,9 +144,9 @@ model Review {
   rating  Int
   comment String?
   date    DateTime @default(now())
-  Client   Client? @relation(fields: [clientId], references: [id])
+  client   Client? @relation(fields: [clientId], references: [id])
   clientId String?
-  Worker   Worker? @relation(fields: [workerId], references: [id])
+  worker   Worker? @relation(fields: [workerId], references: [id])
   workerId String?
 }
 

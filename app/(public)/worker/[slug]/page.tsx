@@ -11,6 +11,7 @@ import ReviewsButton from "@/components/worker/ReviewsButton";
 
 import avatar from "/public/assets/avatar.jpg";
 import axios from "axios";
+import StarRating from "@/components/StarRating";
 
 export default async function Worker({
   params: { slug },
@@ -28,7 +29,7 @@ export default async function Worker({
           alt="profilePicture"
           width={500}
           height={500}
-          className="rounded-b-3xl shadow-xl  md:rounded-b-3xl lg:rounded-3xl md:w-screen lg:w-[500px]"
+          className="rounded-b-3xl shadow-xl  md:rounded-b-3xl lg:rounded-3xl w-screen lg:w-[500px]"
         />
         <div className="absolute top-0  m-6 ">
           <GoBack label={"Workers"} />
@@ -120,24 +121,7 @@ const Border = () => {
   return <span className="border-2 border-b-gray-100 mt-3"></span>;
 };
 
-const StarRating = ({ rating }: { rating: number }) => {
-  const MAX_STARS = 5;
-  const roundedRating = Math.round(rating);
 
-  const stars = [];
-
-  for (let i = 1; i <= MAX_STARS; i++) {
-    if (i <= roundedRating) {
-      stars.push(<BsStarFill key={i} size={15} className="text-primary" />);
-    } else if (i === roundedRating + 0.5) {
-      stars.push(<BsStarHalf key={i} size={15} className="text-primary" />);
-    } else {
-      stars.push(<BsStar key={i} size={15} className="text-primary" />);
-    }
-  }
-
-  return <div className="flex items-center gap-1">{stars}</div>;
-};
 
 async function getWorker(slug: string) {
   let apiUrl: string = "";

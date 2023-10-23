@@ -1,6 +1,6 @@
 const calculateAverageRating = (reviews: { rating: number }[]) => {
     if (reviews?.length === 0) {
-      return 0; // Return 0 when there are no reviews
+      return 0; 
     }
   
     const totalRating = reviews?.reduce(
