@@ -1,5 +1,6 @@
 import BannerSlider from "@/components/BannerSlider";
 import Header from "@/components/header/Header";
+import AddressSelector from "@/components/home/AddressSelector";
 import FAQ from "@/components/home/FAQ";
 import Hero from "@/components/home/Hero";
 import SignUp from "@/components/home/SignUp";
@@ -39,11 +40,12 @@ export default function Home() {
         <div className="hidden sm:flex flex-col gap-10 mt-10">
           <Hero />
           <SignUp />
-          <FAQ faq={faqs}/>
+          <FAQ faq={faqs} />
         </div>
 
         {/* Only on mobile */}
         <div className="sm:hidden">
+          <AddressSelector />
           <InputSearch />
           <BannerSlider />
           <Services />

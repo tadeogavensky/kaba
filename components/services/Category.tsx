@@ -13,7 +13,7 @@ const Category: FC<CategoryType> = ({ image, name }) => {
         src={image || ""}
         width={100}
         height={100}
-        className="rounded-full overflow-hidden w-[60px] h-[60px] object-cover"
+        className="rounded-full overflow-hidden w-[60px] shadow-lg h-[60px] object-cover"
         alt="service"
       />
       <p className="font-heading text-center font-semibold text-xs capitalize">

@@ -19,7 +19,7 @@ const Card: FC<UserTypes> = ({
   const avgRating = calculateAverageRating(worker?.reviews || []);
 
   return (
-    <div className="sm:w-[350px]  flex flex-row justify-around bg-white rounded-lg shadow-xl p-3 gap-4">
+    <div className="sm:w-[350px]  flex flex-row justify-between bg-white rounded-lg shadow-xl p-3 gap-4">
       <Link
         href={`/worker/${id}-${worker?.service?.name
           .replace(/\s+/g, "-")

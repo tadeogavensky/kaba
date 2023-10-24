@@ -10,7 +10,7 @@ import ServiceType from "@/types/Service";
 import axios from "axios";
 
 const PopularServices = () => {
-  const [selectedCategory, setSelectedCategory] = useState("cleaning");
+  const [selectedCategory, setSelectedCategory] = useState("repairing");
 
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [servicesByCategory, setServicesByCategory] = useState<ServiceType[]>(

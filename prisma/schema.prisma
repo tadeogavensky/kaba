@@ -29,6 +29,7 @@ model User {
   inbox          Inbox[]
   notifications  Notification[]
   worker         Worker?
+  receipts       Receipt[]
 }
 
 model ActivateToken {
@@ -123,31 +124,37 @@ model Category {
 }
 
 model Booking {
-  id           String   @id @default(cuid())
-  date         DateTime @default(now()) @db.Date
-  time         DateTime @db.Time()
+  id           String    @id @default(cuid())
+  date         DateTime  @default(now()) @db.Date
+  time         DateTime  @db.Time()
   workingHours Int
+  total        Float
+  active       Boolean   @default(true)
   clientId     String
   workerId     String
   userId       String
   addressId    String
   serviceId    String
-  service      Service  @relation(fields: [serviceId], references: [id])
-  worker       Worker   @relation(fields: [workerId], references: [id])
-  client       Client   @relation(fields: [clientId], references: [id])
-  address      Address  @relation(fields: [addressId], references: [id])
-  user         User     @relation(fields: [userId], references: [id])
+  service      Service   @relation(fields: [serviceId], references: [id])
+  worker       Worker    @relation(fields: [workerId], references: [id])
+  client       Client    @relation(fields: [clientId], references: [id])
+  address      Address   @relation(fields: [addressId], references: [id])
+  user         User      @relation(fields: [userId], references: [id])
+  reviews      Review[]
+  receipts      Receipt[]
 }
 
 model Review {
-  id      String   @id @default(cuid())
-  rating  Int
-  comment String?
-  date    DateTime @default(now())
-  client   Client? @relation(fields: [clientId], references: [id])
-  clientId String?
-  worker   Worker? @relation(fields: [workerId], references: [id])
-  workerId String?
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  date      DateTime @default(now())
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?
+  worker    Worker?  @relation(fields: [workerId], references: [id])
+  workerId  String?
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+  bookingId String?
 }
 
 model Inbox {
@@ -155,7 +162,7 @@ model Inbox {
   clientId String
   workerId String?
   userId   String?
-  User     User?     @relation(fields: [userId], references: [id])
+  user     User?     @relation(fields: [userId], references: [id])
   messages Message[]
 }
 
@@ -173,4 +180,13 @@ model Notification {
   text   String
   userId String
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Receipt {
+  id        String  @id @default(cuid())
+  total     Float
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  bookingId String
 }

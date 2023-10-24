@@ -1,7 +1,7 @@
 "use client";
 import Booking from "@/types/Booking";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import avatar from "/public/assets/avatar.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
@@ -42,11 +42,33 @@ const Card = ({ booking }: { booking: Booking }) => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-2 rounded-md mt-4  bg-white shadow-lg p-4">
-      <div>
-        <Toaster />
+    <div className="w-full relative sm:w-[350px] flex flex-row items-center justify-between gap-2 rounded-md mt-4  bg-white border-2 p-4">
+      <div className="flex flex-col justify-start gap-1  max-w-[70%]">
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="capitalize font-body font-bold text-lg">
+            {booking.service.name}
+          </h1>
+          <p className="px-2 py-1 bg-blue-100 text-blue-500 font-bold text-xs rounded-2xl capitalize">
+            {booking.service.category.name}
+          </p>
+        </div>
+        <p className="text-gray-600 text-sm">
+          {booking.address.street} {booking.address.number} -{" "}
+          {booking.address.neighbourhood}
+        </p>
+        <p className="text-gray-600 text-sm">
+          {new Date(booking.date).toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })}{" "}
+          for {booking.workingHours} hours
+        </p>
+        <div className="flex items-center justify-between"></div>
       </div>
-      <div className="flex items-center gap-2 mb-2">
+      <div className="w-14 h-14 flex flex-col gap-1 items-center justify-center m-2">
         <Image
           src={
             user?.role == "client"
@@ -54,52 +76,19 @@ const Card = ({ booking }: { booking: Booking }) => {
               : booking.client.user?.image || avatar
           }
           alt="service-image"
-          width={30}
-          height={30}
-          className="w-[25%] rounded-full object-cover flex-1"
+          width={500}
+          height={500}
+          className="rounded-full object-cover flex-1"
         />
-        <h2 className="font-heading">
+        <p className="font-heading capitalize text-center text-xs">
           {user?.role == "client"
             ? booking.worker.user?.firstName
-            : booking.client.user?.firstName}
-            {" "}
+            : booking.client.user?.firstName}{" "}
           {user?.role == "client"
             ? booking.worker.user?.lastName
             : booking.client.user?.lastName}
-        </h2>
+        </p>
       </div>
-      <div className="flex items-center gap-2 flex-1">
-        <Image
-          src={booking.service.image}
-          alt="service-image"
-          width={400}
-          height={400}
-          className="w-1/2 rounded-md object-cover flex-1"
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <h1 className="font-body font-semibold text-sm">
-          {booking.address.street} - {booking.address.neighbourhood} -{" "}
-          {booking.address.city}
-        </h1>
-        <h1 className="text-xl font-body capitalize font-bold ">
-          {booking.service.name}
-        </h1>
-        <div className="flex items-center justify-between gap-2">
-          <h1 className="text-lg font-body capitalize font-bold ">
-            {new Date(booking.date).toLocaleDateString()}
-          </h1>
-          <h1 className="text-lg font-body capitalize font-bold ">
-            {new Date(booking.time).toLocaleTimeString()}
-          </h1>
-        </div>
-      </div>
-      <button
-        onClick={handleCancelBooking}
-        className="w-full hover:bg-red-700 transition bg-red-500 text-white rounded-full font-semibold font-body mt-2 py-1"
-      >
-        Cancel
-      </button>
     </div>
   );
 };

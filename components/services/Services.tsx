@@ -11,8 +11,8 @@ const Services = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const response = axios.get("/api/categories").then((res) => {
-      setCategories(res.data);
+    axios.get("/api/categories").then((res) => {
+      setCategories(res.data.slice(0, 4));
     });
 
     const timer = setTimeout(() => {
