@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BookingProvider } from "@/contexts/BookingContext";
+import Header from "@/components/header/Header";
 
 export const metadata: Metadata = {
   title: "Kaba",
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className="">
         <AuthProvider>
           <BookingProvider>
+          
             {children}
 
             <Navbar />

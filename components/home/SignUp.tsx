@@ -8,7 +8,7 @@ import axios from "axios";
 import Image from "next/image";
 import calculateAverageRating from "@/utils/avgRating";
 import Review from "@/types/Review";
-import StarRating from "../StarRating";
+import StarRating from "../worker/StarRating";
 import avatar from "/public/assets/avatar.jpg";
 import { motion } from "framer-motion";
 
@@ -107,7 +107,7 @@ const SignUp = () => {
             return (
               <motion.div
                 key={index}
-                className="bg-white shadow-md rounded-md p-4 flex items-center w-[450px] gap-4 cursor-default"
+                className="bg-white shadow-md  rounded-md p-3 flex items-start w-[450px] gap-4 cursor-default"
               >
                 <Image
                   src={review.user?.image || avatar}
@@ -117,22 +117,24 @@ const SignUp = () => {
                 <div className="flex flex-col gap-2">
                   <div className="flex w-full justify-between items-center">
                     <StarRating rating={review.rating} />
-
-                    <p className="font-body text-sm text-gray-400">
-                      {new Date(review.date).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
                   </div>
 
                   <p className="font-heading">{review.comment}</p>
                   <p>
-                    Review of {review.worker.user.firstName}{" "}
-                    {review.worker.user.lastName}
+                    Review about{" "}
+                    <span className="font-semibold">
+                      {review.worker?.user.firstName}{" "}
+                      {review.worker?.user.lastName}
+                    </span>
                   </p>
                 </div>
+                <p className="font-body text-sm text-gray-400 justify-start">
+                  {new Date(review.date).toLocaleDateString("us-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
               </motion.div>
             );
           })}

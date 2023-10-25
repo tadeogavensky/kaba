@@ -37,9 +37,13 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="mx-32 m-6  ">
-      <Header />
-      <FAQs faq={faqs} />
+    <div className=" ">
+      <div className=" mx-32 m-6 hidden md:block">
+        <Header />
+      </div>
+      <div className="p-6">
+        <FAQs faq={faqs} />
+      </div>
     </div>
   );
 };

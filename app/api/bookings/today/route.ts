@@ -23,7 +23,7 @@ export async function GET() {
         { workerId: worker?.id },
       ],
       date: {
-        gte: formattedCurrentDate,
+        equals: formattedCurrentDate,
       },
     },
     include: {
@@ -31,7 +31,6 @@ export async function GET() {
       service: { include: { category: true } },
       user: true,
       review: true,
-
       worker: { include: { user: true } },
       client: { include: { user: true } },
     },

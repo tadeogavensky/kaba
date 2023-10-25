@@ -13,7 +13,7 @@ const BookButton = ({ slug }: { slug: string }) => {
           ? `/auth/worker/book/${slug.replace(/\s+/g, "-").toLowerCase()}`
           : "/"
       }
-      className="w-1/2 px-6 py-2 text-center bg-primary text-white font-body rounded-3xl  hover:bg-blue-800 transition"
+      className="w-1/2 px-6 lg:px-4 py-2 text-center bg-primary text-white font-body rounded-3xl  hover:bg-blue-800 transition"
     >
       Book
     </Link>

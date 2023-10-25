@@ -300,7 +300,7 @@ const AccountDesktopDropDown = ({
       initial="exit"
       animate={openMenuDesktop ? "enter" : "exit"}
       variants={subMenuAnimate}
-      className="bg-white w-[300px] gap-2 absolute top-24 shadow-2xl border-[1px] border-gray-100 flex flex-col items-start rounded-md "
+      className="bg-white w-[300px] gap-2 absolute top-24 z-40 shadow-2xl border-[1px] border-gray-100 flex flex-col items-start rounded-md "
     >
       <Link
         href={`/auth/account/${user.id}`}

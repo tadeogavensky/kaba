@@ -64,7 +64,7 @@ const Card = ({ booking }: { booking: Booking }) => {
             minute: "numeric",
             hour12: true,
           })}{" "}
-          for {booking.workingHours} hours
+          for {booking.workingHours} hour/s
         </p>
         <div className="flex items-center justify-between"></div>
       </div>

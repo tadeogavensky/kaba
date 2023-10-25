@@ -46,7 +46,7 @@ export default function Home() {
 
         {/* Only on mobile */}
         <div className="sm:hidden">
-          <AlertWorker />
+          <AlertWorker/>
           <AddressSelector />
           <InputSearch />
           <BannerSlider />

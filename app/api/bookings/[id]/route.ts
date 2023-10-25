@@ -9,8 +9,9 @@ export async function DELETE(
   const booking = await prisma.booking.findFirst({
     where: { id: params.id },
     include: {
-      worker: { include: { user: true } },
-      client: { include: { user: true } },
+      worker: { include: { user: true, reviews: true } },
+      client: { include: { user: true, reviews: true } },
+      review: true,
       service: true,
     },
   });
