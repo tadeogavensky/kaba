@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import Pill from "./Pill";
@@ -10,7 +10,7 @@ import ServiceType from "@/types/Service";
 import axios from "axios";
 
 const PopularServices = () => {
-  const [selectedCategory, setSelectedCategory] = useState("repairing");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [servicesByCategory, setServicesByCategory] = useState<ServiceType[]>(
@@ -23,7 +23,8 @@ const PopularServices = () => {
 
   const fetchCategories = () => {
     axios.get("/api/categories").then((res) => {
-      setCategories(res.data);
+      const categoriesWithAll = [{ name: "all" }, ...res.data];
+      setCategories(categoriesWithAll);
       setIsLoadingCategories(false); // Loading for categories is complete
     });
   };
@@ -45,6 +46,7 @@ const PopularServices = () => {
 
   useEffect(() => {
     fetchCategories();
+
     handleClick(selectedCategory);
     const timer = setTimeout(() => {
       setIsLoadingCategories(false); // Loading for categories is complete

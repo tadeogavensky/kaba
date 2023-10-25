@@ -8,6 +8,7 @@ type Booking = {
   id: number;
   date: Date;
   time: string;
+  total: number;
   workingHours: number;
   service: Service;
   address: Address;

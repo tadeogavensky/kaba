@@ -22,7 +22,7 @@ const Worker = () => {
       toast(`An email has been sent to ${user?.email}`, {
         icon: "✉️",
       });
-      const response = await axios.post("/api/activate", user);
+      await axios.post("/api/activate", user);
     } catch (error) {}
   };
   return (
@@ -125,7 +125,7 @@ const Worker = () => {
           </div>
         </div>
 
-        <IoIosArrowForward size={20} />
+        <IoIosArrowForward size={30} />
       </Link>
 
       <div className="mr-auto">

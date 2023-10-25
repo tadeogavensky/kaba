@@ -15,22 +15,23 @@ const Address = () => {
 
       <select
         onChange={(e) => {
+          console.log("e.target.value", e.target.value);
           setAddressId(e.target.value);
         }}
         className="bg-primary shadow-md rounded-full p-3 text-sm font-body font-semibold text-white text-center capitalize"
       >
-        <option disabled value="">
-          {"Select an address"}
-        </option>
+        <option>Select an address</option>
         {user?.client?.addresses.map((address) => {
           return (
-            <option
-              value={address.id}
-              key={address.id}
-              className="font-body capitalize bg-white text-black font-semibold"
-            >
-              {address.fullAddress}
-            </option>
+            <>
+              <option
+                value={address.id}
+                key={address.id}
+                className="font-body capitalize bg-white text-black font-semibold"
+              >
+                {address.fullAddress}
+              </option>
+            </>
           );
         })}
       </select>

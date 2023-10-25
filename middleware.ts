@@ -24,14 +24,6 @@ export async function middleware(request: NextRequest) {
   }
 
   return NextResponse.next();
-
-/*   if (!session && request.nextUrl.pathname.startsWith("/auth/worker/book")) {
-    console.log("====================================");
-    console.log("ENTRA ACA");
-    console.log("====================================");
-    const response = NextResponse.rewrite(new URL("/auth/signin", request.url));
-    return response;
-  } */
 }
 
 export const config = {

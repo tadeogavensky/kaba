@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import findClientByEmailAndRole from "./findClientByEmailAndRole";
 import findWorkerByEmailAndRole from "./findWorkerByEmailAndRole";
+import prisma from "@/libs/prismadb";
 
 export default async function login(
   email: string,

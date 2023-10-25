@@ -41,7 +41,7 @@ export async function POST(request: NextRequest, context: any) {
     });
   } catch (error) {}
 
-  return NextResponse.redirect("http://localhost:3000/");
+  return NextResponse.redirect(`${apiUrl}`);
 }
 
 function isExpired(createdAt: Date) {

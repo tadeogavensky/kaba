@@ -280,7 +280,6 @@ export default function AccountInfo({
                 <IoArrowBack size={25} className="text-gray-500" />
               </button>
               <h1 className="font-bold font-heading text-xl">Edit Account</h1>
-              <span></span>
             </div>
 
             <form

@@ -5,7 +5,7 @@ import { Loader } from "../Loader";
 import axios from "axios";
 import { useBooking } from "@/contexts/BookingContext";
 import { useAuth } from "@/contexts/AuthContext";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const Button = ({
@@ -34,6 +34,24 @@ const Button = ({
       addressId,
     };
 
+    console.log(object);
+    
+
+    if (!object.selectedDate) {
+      toast.error("You need to select a date");
+      return;
+    }
+
+    if (object.workingHours <= 0) {
+      toast.error("You need to add working hours");
+      return;
+    }
+
+    if (!object.addressId) {
+      toast.error("You need to select an address");
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/checkout", object);
 
@@ -61,6 +79,7 @@ const Button = ({
     <div className="mt-10 lg:mt-0 w-full">
       {loading ? (
         <button>
+          <Toaster />
           <Loader />
         </button>
       ) : (

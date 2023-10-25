@@ -18,6 +18,11 @@ export async function POST(request: Request) {
     addressId,
   } = body;
 
+  const worker = await prisma.worker.findFirst({
+    where: { id: workerId },
+    include: { rate: true },
+  });
+
   const startDateTime = new Date(selectedDate); // Start with the selected date
   const timeComponents = startTime.match(/(\d+):(\d+) (AM|PM)/); // Parse time components
   if (timeComponents) {
@@ -39,6 +44,9 @@ export async function POST(request: Request) {
 
   const isoStartTime = startDateTime.toISOString();
 
+  const workerRate = worker && worker.rate?.rate;
+  const total = workerRate ? workingHours * workerRate : 0;
+
   const booking = await prisma.booking.create({
     data: {
       id: randomUUID(),
@@ -50,31 +58,8 @@ export async function POST(request: Request) {
       workerId: workerId,
       addressId: addressId,
       serviceId: serviceId,
-      /*   address: {
-        connect: {
-          id: addressId,
-        },
-      },
-      service: {
-        connect: {
-          id: serviceId,
-        },
-      },
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-      worker: {
-        connect: {
-          id: workerId,
-        },
-      },
-      client: {
-        connect: {
-          id: clientId,
-        },
-      }, */
+      active: false,
+      total: total,
     },
   });
 

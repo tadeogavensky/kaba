@@ -74,7 +74,7 @@ const Dashboard = () => {
     const isAvailable = e.target.checked;
     setAvailable(isAvailable);
 
-    const response = await axios.put("/api/available", {
+    await axios.put("/api/available", {
       available: isAvailable,
     });
 
@@ -116,8 +116,8 @@ const Dashboard = () => {
                 }}
                 className="bg-primary shadow-md rounded-full p-3 text-sm font-body font-semibold text-white text-center capitalize"
               >
-                <option defaultValue={service.value} disabled>
-                  {service.label}
+                <option selected disabled>
+                  Select a service
                 </option>
 
                 {updatedServices.map((service) => (
@@ -174,15 +174,23 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="w-full flex justify-between items-center  gap-3">
-          <h1 className="text-xl font-body font-semibold text-center">
-            Set as available to work
-          </h1>
+          <div className="flex flex-col">
+            <h1 className="text-xl font-body font-semibold text-center">
+              Set as available to work
+            </h1>
+            {user?.active == false && (
+              <p className="font-heading text-xs">
+                Verify your email to able this
+              </p>
+            )}
+          </div>
 
           <label className="relative flex items-center cursor-pointer">
             <input
               type="checkbox"
               onChange={handleAvailability}
               checked={available}
+              disabled={user?.active === false}
               className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-red-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-400"></div>

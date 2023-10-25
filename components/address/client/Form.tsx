@@ -238,7 +238,6 @@ const Form: React.FC<FormProps> = ({ closeForm }) => {
           <IoArrowBack size={25} className="text-gray-500" />
         </button>
         <h1 className="font-bold font-heading text-xl">New Address</h1>
-        <span></span>
       </div>
       <form
         className="flex flex-col justify-start items-start gap-6 w-full mt-12"

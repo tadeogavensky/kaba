@@ -32,9 +32,12 @@ const Header = () => {
 
   const { user, logout } = useAuth();
 
+  console.log(user);
+  
+
   useEffect(() => {
     setNotificationModalOpen(false);
-  }, [user?.notifications]);
+  }, [user?.notifications?.length == 0]);
 
   return (
     <header className="flex flex-col items-center justify-between gap-4">
