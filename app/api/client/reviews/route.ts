@@ -6,6 +6,7 @@ export async function GET() {
     include: {
       client: true,
       worker: { include: { user: true } },
+      booking: { include: { service: true } },
     },
   });
 

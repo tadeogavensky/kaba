@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   const session = request.cookies.get("user");
   const role = request.cookies.get("role")?.value;
+  
 
   if (!session) {
     const response = NextResponse.rewrite(new URL("/auth/signin", request.url));

@@ -57,5 +57,15 @@ export async function GET(
     },
   });
 
-  return NextResponse.redirect("/auth/signin");
+  let apiUrl;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("es develop");
+
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
+  } else {
+    apiUrl = process.env.API_URL!;
+  }
+
+  return NextResponse.redirect(`${apiUrl}/auth/signin`);
 }

@@ -10,6 +10,9 @@ export async function POST(request: Request) {
     where: { workerId: workerId },
   });
 
+  console.log(existingRate);
+  
+
   if (!existingRate) {
     await prisma.rate.create({
       data: {

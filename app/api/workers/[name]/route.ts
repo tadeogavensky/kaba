@@ -7,9 +7,22 @@ export async function GET(
 ) {
   const workers = await prisma.worker.findMany({
     where: {
-      service: {
-        name: params.name.replace(/-/g, " "),
-      },
+      OR: [
+        {
+          service: {
+            name: params.name.replace(/-/g, " "),
+          },
+        },
+        {
+          service: {
+            category: {
+              name: params.name.replace(/-/g, " "),
+            },
+          },
+        },
+      ],
+      rateId: { not: null },
+      serviceId: { not: null },
       available: true,
     },
     include: {

@@ -11,40 +11,22 @@ import toast, { Toaster } from "react-hot-toast";
 const Card = ({ booking }: { booking: Booking }) => {
   const { user, updateSession } = useAuth();
 
-  const handleCancelBooking = async () => {
-    Swal.fire({
-      title: `Cancel booking with ${
-        user?.role == "client"
-          ? booking.worker.user?.firstName
-          : booking.client.user?.firstName
-      }  ${
-        user?.role == "client"
-          ? booking.worker.user?.lastName
-          : booking.client.user?.lastName
-      }`,
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#005DFF",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, cancel it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await axios.delete(`/api/bookings/${booking.id}`);
 
-        toast.success("Booking canceled!");
-      }
-    });
-
-    const responseUser = await axios.get("/api/me");
-
-    updateSession(responseUser.data);
-  };
 
   return (
-    <div className="w-full relative sm:w-[350px] flex flex-row items-center justify-between gap-2 rounded-md mt-4  bg-white border-2 p-4">
+    <div className="w-full relative sm:w-[350px] flex flex-row cursor-pointer items-center justify-between gap-2 rounded-md mt-4  bg-white border-2 p-4">
       <div className="flex flex-col justify-start gap-1  max-w-[70%]">
         <div className="flex flex-wrap items-center gap-2">
+          {booking.canceled && (
+            <p className="px-2 py-1 bg-red-100 text-red-500 font-bold text-xs rounded-2xl capitalize">
+              Canceled
+            </p>
+          )}
+          {booking.completed && (
+            <p className="px-2 py-1 bg-green-100 text-green-500 font-bold text-xs rounded-2xl capitalize">
+              Completed
+            </p>
+          )}
           <h1 className="capitalize font-body font-bold text-lg">
             {booking.service.name}
           </h1>
@@ -57,14 +39,8 @@ const Card = ({ booking }: { booking: Booking }) => {
           {booking.address.neighbourhood}
         </p>
         <p className="text-gray-600 text-sm">
-          {new Date(booking.date).toLocaleString("en-US", {
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          })}{" "}
-          for {booking.workingHours} hour/s
+          { new Date(booking.date).toISOString().slice(0, 10)}
+          , {booking.time} for {booking.workingHours} hour/s
         </p>
         <div className="flex items-center justify-between"></div>
       </div>

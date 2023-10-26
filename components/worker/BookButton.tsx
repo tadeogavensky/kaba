@@ -9,7 +9,7 @@ const BookButton = ({ slug }: { slug: string }) => {
   return (
     <Link
       href={
-        user?.role === "client"
+        user?.role === "client" && user.active
           ? `/auth/worker/book/${slug.replace(/\s+/g, "-").toLowerCase()}`
           : "/"
       }

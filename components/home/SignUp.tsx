@@ -107,7 +107,7 @@ const SignUp = () => {
             return (
               <motion.div
                 key={index}
-                className="bg-white shadow-md  rounded-md p-3 flex items-start w-[450px] gap-4 cursor-default"
+                className="bg-white shadow-md  rounded-md p-3  flex items-start w-[500px] gap-4 cursor-default"
               >
                 <Image
                   src={review.user?.image || avatar}
@@ -120,21 +120,18 @@ const SignUp = () => {
                   </div>
 
                   <p className="font-heading">{review.comment}</p>
-                  <p>
+                  <p className="whitespace-nowrap text-sm">
                     Review about{" "}
                     <span className="font-semibold">
                       {review.worker?.user.firstName}{" "}
                       {review.worker?.user.lastName}
+                    </span>{" "}
+                    on{" "}
+                    <span className="capitalize">
+                      {review.booking.service.name}
                     </span>
                   </p>
                 </div>
-                <p className="font-body text-sm text-gray-400 justify-start">
-                  {new Date(review.date).toLocaleDateString("us-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </p>
               </motion.div>
             );
           })}

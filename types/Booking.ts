@@ -10,6 +10,8 @@ type Booking = {
   date: Date;
   time: string;
   total: number;
+  canceled: boolean;
+  completed: boolean;
   workingHours: number;
   service: Service;
   address: Address;

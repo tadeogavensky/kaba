@@ -2,7 +2,7 @@ import prisma from "@/libs/prismadb";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function DELETE(
+export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
@@ -16,14 +16,28 @@ export async function DELETE(
     },
   });
 
-  await prisma.booking.delete({ where: { id: params.id } });
+  await prisma.booking.update({
+    data: { completed: true },
+    where: { id: params.id },
+  });
+
+  await prisma.worker.update({
+    data: {
+      totalJobs: {
+        increment: 1,
+      },
+    },
+    where: {
+      userId: booking?.worker.userId,
+    },
+  });
 
   if (cookies().get("role")?.value === "client") {
     await prisma.notification.create({
       data: {
         text: `The job booked by ${booking?.client.user.firstName} ${
           booking?.client.user.lastName
-        } for ${booking?.service.name.toLocaleUpperCase()} has been canceled`,
+        } for ${booking?.service.name.toLocaleUpperCase()} has been completed`,
         user: {
           connect: {
             id: booking?.worker.userId,
@@ -34,7 +48,7 @@ export async function DELETE(
   } else {
     await prisma.notification.create({
       data: {
-        text: `The job you booked for ${booking?.service.name.toLocaleUpperCase()} has been canceled by the KabaProp`,
+        text: `The job you booked for ${booking?.service.name.toLocaleUpperCase()} has been completed by the KabaProp`,
         user: {
           connect: {
             id: booking?.client.userId,
@@ -44,5 +58,5 @@ export async function DELETE(
     });
   }
 
-  return NextResponse.json({ msg: "Booking canceled" });
+  return NextResponse.json({ msg: "Booking completed" });
 }

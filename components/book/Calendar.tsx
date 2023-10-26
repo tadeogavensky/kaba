@@ -30,7 +30,7 @@ const Calendar = () => {
     } else {
       setCurrentMonth(currentMonth - 1);
     }
-    setSelectedDate(null); // Clear selected date when changing months
+    setSelectedDate(null); 
   };
 
   const goToNextMonth = () => {
@@ -40,18 +40,20 @@ const Calendar = () => {
     } else {
       setCurrentMonth(currentMonth + 1);
     }
-    setSelectedDate(null); // Clear selected date when changing months
+    setSelectedDate(null);
   };
 
   const handleDateClick = (day: number) => {
-    const selectedDay = new Date(currentYear, currentMonth, day);
-    setSelectedDate(selectedDay); 
+    const selectedDay = new Date(currentYear, currentMonth, day, 0, 0, 0);
+    console.log("====================================");
+    console.log(selectedDay);
+    console.log("====================================");
+    setSelectedDate(selectedDay);
   };
-  
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-  const dayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
+  const dayOfWeek = firstDayOfMonth.getDay();
 
   return (
     <div className=" w-full flex flex-col mt-10 lg:mt-0 bg-sky-50 rounded-xl shadow-md p-4">
@@ -118,7 +120,9 @@ const Calendar = () => {
                       className={`rounded-full ${
                         isToday ? " bg-blue-200" : ""
                       } ${
-                        selectedDate && isCurrentMonth && selectedDate.getDate() === cellIndex
+                        selectedDate &&
+                        isCurrentMonth &&
+                        selectedDate.getDate() === cellIndex
                           ? "bg-primary text-white"
                           : ""
                       } cursor-pointer`}

@@ -126,9 +126,11 @@ model Category {
 model Booking {
   id           String   @id @default(cuid())
   date         DateTime @default(now()) @db.Date
-  time         DateTime @db.Time()
+  time         String
   workingHours Int
   total        Float
+  completed    Boolean  @default(false)
+  canceled     Boolean  @default(false)
   active       Boolean  @default(true)
   clientId     String
   workerId     String

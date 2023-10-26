@@ -23,27 +23,6 @@ export async function POST(request: Request) {
     include: { rate: true },
   });
 
-  const startDateTime = new Date(selectedDate); // Start with the selected date
-  const timeComponents = startTime.match(/(\d+):(\d+) (AM|PM)/); // Parse time components
-  if (timeComponents) {
-    let hours = parseInt(timeComponents[1]);
-    let minutes = parseInt(timeComponents[2]);
-    let isPM = timeComponents[3] === "PM";
-
-    if (isPM && hours !== 12) {
-      // Convert to 24-hour format
-      hours += 12;
-    } else if (!isPM && hours === 12) {
-      // 12:00 AM should be 00:00 in 24-hour format
-      hours = 0;
-    }
-
-    startDateTime.setHours(hours);
-    startDateTime.setMinutes(minutes);
-  }
-
-  const isoStartTime = startDateTime.toISOString();
-
   const workerRate = worker && worker.rate?.rate;
   const total = workerRate ? workingHours * workerRate : 0;
 
@@ -51,7 +30,7 @@ export async function POST(request: Request) {
     data: {
       id: randomUUID(),
       date: selectedDate,
-      time: isoStartTime,
+      time: startTime,
       workingHours: workingHours,
       clientId: clientId,
       userId: userId,
@@ -62,6 +41,8 @@ export async function POST(request: Request) {
       total: total,
     },
   });
+
+  console.log("booking", booking);
 
   if (booking) {
     const worker = await prisma.worker.findFirst({
@@ -93,14 +74,14 @@ export async function POST(request: Request) {
           )} at ${new Date(booking.time)}, was successfull.` +
           `You can check it out all your bookings at https://kaba-livid.vercel.app/auth/bookings.\n\n`,
         html: `
-        <h1>Hi ${client?.user.firstName} ${client?.user.lastName}!!</h1>
-        <p>We want to notify you that your attempt to book a service with ${
-          worker?.user.firstName
-        } ${
+          <h1>Hi ${client?.user.firstName} ${client?.user.lastName}!!</h1>
+          <p>We want to notify you that your attempt to book a service with ${
+            worker?.user.firstName
+          } ${
           worker?.user.lastName
         } for ${worker?.service?.name.toLocaleUpperCase()} was successfull.</p>
-        <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
-      `,
+          <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
+        `,
       });
     } catch (error) {}
 
@@ -133,14 +114,13 @@ export async function POST(request: Request) {
           `We want to notify you that a client booked a service with you.` +
           `You can check it out all your bookings at https://kaba-livid.vercel.app/auth/bookings.\n\n`,
         html: `
-        <h1>Hi ${worker?.user.firstName} ${worker?.user.lastName}!!</h1>
-        <p>We want to notify you that a client booked a service with you.</p>
-        <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
-      `,
+          <h1>Hi ${worker?.user.firstName} ${worker?.user.lastName}!!</h1>
+          <p>We want to notify you that a client booked a service with you.</p>
+          <p>You can check it out all your bookings at <a href="https://kaba-livid.vercel.app/auth/bookings">Bookings</a>.</p>
+        `,
       });
     } catch (error) {}
 
-    //Worker notification
     await prisma.notification.create({
       data: {
         text: `A job for ${client?.user.firstName} has been booked, you can check out the details at Bookings tab`,
@@ -154,4 +134,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json("Booking created successfully");
   }
+
+  return NextResponse.json("Error creating booking");
 }

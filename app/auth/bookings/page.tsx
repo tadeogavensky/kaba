@@ -30,10 +30,12 @@ import { IoIosArrowForward } from "react-icons/io";
 import Review from "@/types/Review";
 import StarRating from "@/components/book/StarRating";
 import Header from "@/components/header/Header";
+import Swal from "sweetalert2";
+
+import { useRouter } from "next/navigation";
 
 const Bookings = () => {
   const { user, updateSession } = useAuth();
-  console.log("user", user);
 
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
@@ -48,6 +50,7 @@ const Bookings = () => {
   );
   const [pastBookings, setPastBookings] = useState<Booking[] | null>([]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchUpcomingBookings();
@@ -60,7 +63,7 @@ const Bookings = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   const fetchUpcomingBookings = async () => {
     axios.get("/api/bookings/upcoming").then((response) => {
@@ -206,6 +209,7 @@ const Bookings = () => {
               closeBookingModal={closeBookingModal}
               setReviewModalOpen={setReviewModalOpen}
               booking={selectedBooking}
+              updateSession={updateSession}
               user={user}
             />
           )}
@@ -230,11 +234,13 @@ const BookingModal = ({
   setReviewModalOpen,
   booking,
   user,
+  updateSession,
 }: {
   closeBookingModal: () => void;
   setReviewModalOpen: (isOpen: boolean) => void;
   booking: Booking | null;
   user: User | null;
+  updateSession: (user: User) => void;
 }) => {
   const container = {
     exit: {
@@ -246,21 +252,60 @@ const BookingModal = ({
     },
   };
 
-  console.log('booking', booking)
+  console.log("booking", booking);
 
-  // Function to handle job confirmation
   const confirmJob = () => {
-    // You can perform any necessary actions when confirming the job here
-    // For example, you can update the job status in your database
-    // You can show a confirmation message to the user
-    // You can close the modal, etc.
+    Swal.fire({
+      title: `Confirm completed job with ${booking?.worker.user?.firstName} ${booking?.worker.user?.lastName}`,
+      text: "By confirming the job, the money will be deliver to the worker",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#005DFF",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axios.put(`/api/bookings/confirm/${booking?.id}`);
+
+        toast.success("Booking canceled!");
+        closeBookingModal();
+
+        const responseUser = await axios.get("/api/me");
+
+        updateSession(responseUser.data);
+      }
+    });
   };
 
-  // Function to cancel the job
-  const cancelJob = () => {
-    // You can perform any necessary actions when canceling the job here
-    // For example, you can show a confirmation message to the user
-    // You can close the modal, etc.
+  const handleCancelBooking = async () => {
+    Swal.fire({
+      title: `Cancel booking with ${
+        user?.role == "client"
+          ? booking?.worker.user?.firstName
+          : booking?.client.user?.firstName
+      }  ${
+        user?.role == "client"
+          ? booking?.worker.user?.lastName
+          : booking?.client.user?.lastName
+      }`,
+      text: "By canceling the job we will refund you your money",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#005DFF",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axios.put(`/api/bookings/cancel/${booking?.id}`);
+
+        toast.success("Booking canceled!");
+        closeBookingModal();
+
+        const responseUser = await axios.get("/api/me");
+
+        updateSession(responseUser.data);
+      }
+    });
   };
 
   return (
@@ -272,7 +317,7 @@ const BookingModal = ({
       }}
       transition={{ duration: 0.3 }}
       exit={"exit"}
-      className="h-screen w-screen left-0 top-0 bg-white z-40 p-4 fixed overflow-hidden lg:overflow-auto"
+      className="h-screen w-screen left-0 top-0 bg-white z-40 p-4 fixed overflow-x-hidden "
     >
       <Toaster />
 
@@ -329,64 +374,63 @@ const BookingModal = ({
               </div>
             </div>
 
+            {booking.canceled && (
+              <p className="px-2 py-1 bg-red-100 text-red-500 xs:w-full  sm:w-[100px] my-3 text-center font-bold text-xs rounded-2xl capitalize">
+                Canceled
+              </p>
+            )}
+            {booking.completed && (
+              <p className="px-2 py-1 bg-green-100 text-green-500 w-[25%] sm:w-[100px] my-3 text-center font-bold text-xs rounded-2xl capitalize">
+                Completed
+              </p>
+            )}
+
             <p className="text-gray-600 text-base">
-              {new Date(booking.date).toLocaleString("en-US", {
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              })}{" "}
-              for {booking.workingHours} hours
+              {new Date(booking.date).toISOString().slice(0, 10)},{" "}
+              {booking.time} for {booking.workingHours} hour/s
             </p>
 
             <p className="text-gray-600 text-base">ARS${booking.total}</p>
 
             <div className="flex items-center flex-wrap justify-start gap-4 my-4">
-              <button className="flex items-center bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
+              <button className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
                 <BiSolidReceipt size={15} />
                 <p>Receipt</p>
               </button>
-              <button className="flex items-center bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
+              <button className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
                 <MdTextsms size={15} />
                 <p>Message</p>
               </button>
-              {new Date(booking.date) < new Date() &&
-                user?.role == "client" && (
-                  <Link
-                    href={`/auth/worker/book/${
-                      booking.worker.id
-                    }-service-${booking.service.name
-                      .replace(/\s+/g, "-")
-                      .toLowerCase()}`}
-                    className="flex items-center bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm"
-                  >
-                    <FaRedoAlt size={15} />
-                    <p>Rebook</p>
-                  </Link>
-                )}
             </div>
 
-            {new Date(booking.date) <= new Date() &&
+            {new Date(booking.date).toISOString().slice(0, 10) ==
+              new Date().toISOString().slice(0, 10) &&
+              booking.canceled == false &&
+              booking.completed == false &&
               user?.role === "client" && (
                 <div>
                   <button
-                    className="font-bolder font-body bg-black text-white p-1 rounded-full"
+                    className="font-body font-semibold p-2 bg-green-400 text-white rounded-full"
                     onClick={confirmJob}
                   >
                     Confirm Job
                   </button>
-                  <button
-                    className="font-bolder font-body bg-red-500 text-white p-1 rounded-full"
-                    onClick={cancelJob}
-                  >
-                    Cancel Job
-                  </button>
                 </div>
               )}
 
+            {new Date(booking.date) >= new Date() && !booking.canceled && (
+              <div className="w-1/2">
+                <button
+                  className="font-bolder w-full lg:w-[150px] hover:bg-red-600 transition p-2 font-body bg-red-500 text-white  rounded-full"
+                  onClick={handleCancelBooking}
+                >
+                  Cancel Job
+                </button>
+              </div>
+            )}
+
             {new Date(booking.date) <= new Date() && (
-              <div className="w-full flex items-center gap-4">
+              <div className="w-full flex items-center gap-4 mt-4">
                 <BsStarFill size={25} />
                 <div className="font-heading flex items-center justify-between font-semibold py-3 border-y-[1px] w-full text-sm">
                   {booking.review?.rating ? (
@@ -473,6 +517,9 @@ const ReviewModal = ({
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
 
+  const router = useRouter();
+
+
   const handleSubmitReview = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -489,6 +536,10 @@ const ReviewModal = ({
 
     const responseUser = await axios.get("/api/me");
     updateSession(responseUser.data);
+
+    closeReviewModal();
+
+    router.push("/auth/bookings")
   };
 
   const container = {
@@ -509,8 +560,7 @@ const ReviewModal = ({
       }}
       transition={{ duration: 0.3 }}
       exit={"exit"}
-      className="h-screen w-screen left-0 top-0 bg-white  z-50  p-4 fixed overflow-hidden lg:overflow-auto"
-      style={{ overflow: "hidden" }}
+      className="h-screen w-screen left-0 top-0 bg-white  z-50  p-4 fixed overflow-x-hidden"
     >
       <Toaster />
 

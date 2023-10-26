@@ -42,12 +42,14 @@ const Client = () => {
 
       <div>
         <div className="flex justify-center items-center gap-2">
-          <h1 className="font-heading text-3xl font-bold capitalize">
-            {user?.firstName}
-          </h1>
-          <h1 className="font-heading text-3xl font-bold capitalize">
-            {user?.lastName}
-          </h1>
+          <div className="text-center">
+            <h1 className="font-heading text-3xl font-bold capitalize">
+              {user?.firstName}
+            </h1>
+            <h1 className="font-heading text-3xl font-bold capitalize">
+              {user?.lastName}
+            </h1>
+          </div>
 
           {user?.active == false ? (
             <MdNewReleases className="text-red-500" size={35} />

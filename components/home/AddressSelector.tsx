@@ -30,7 +30,7 @@ const Address = () => {
                   value=""
                   className="text-ellipsis w-10 text-gray-500"
                 >
-                  {user?.client?.addresses[0]?.fullAddress}
+                  Select one of your address
                 </option>
                 {user?.client?.addresses.map((address) => {
                   return (
