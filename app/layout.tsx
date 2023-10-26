@@ -19,10 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="">
+      <body className="overflow-x-hidden" style={{ overflowX: "hidden" }}>
         <AuthProvider>
           <BookingProvider>
-          
             {children}
 
             <Navbar />

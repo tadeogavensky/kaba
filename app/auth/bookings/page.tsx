@@ -246,9 +246,22 @@ const BookingModal = ({
     },
   };
 
-  console.log("====================================");
-  console.log(booking);
-  console.log("====================================");
+  console.log('booking', booking)
+
+  // Function to handle job confirmation
+  const confirmJob = () => {
+    // You can perform any necessary actions when confirming the job here
+    // For example, you can update the job status in your database
+    // You can show a confirmation message to the user
+    // You can close the modal, etc.
+  };
+
+  // Function to cancel the job
+  const cancelJob = () => {
+    // You can perform any necessary actions when canceling the job here
+    // For example, you can show a confirmation message to the user
+    // You can close the modal, etc.
+  };
 
   return (
     <motion.div
@@ -353,6 +366,24 @@ const BookingModal = ({
                   </Link>
                 )}
             </div>
+
+            {new Date(booking.date) <= new Date() &&
+              user?.role === "client" && (
+                <div>
+                  <button
+                    className="font-bolder font-body bg-black text-white p-1 rounded-full"
+                    onClick={confirmJob}
+                  >
+                    Confirm Job
+                  </button>
+                  <button
+                    className="font-bolder font-body bg-red-500 text-white p-1 rounded-full"
+                    onClick={cancelJob}
+                  >
+                    Cancel Job
+                  </button>
+                </div>
+              )}
 
             {new Date(booking.date) <= new Date() && (
               <div className="w-full flex items-center gap-4">
