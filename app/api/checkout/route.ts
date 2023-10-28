@@ -42,8 +42,6 @@ export async function POST(request: Request) {
     },
   });
 
-  console.log("booking", booking);
-
   if (booking) {
     const worker = await prisma.worker.findFirst({
       where: { id: workerId },
@@ -53,6 +51,13 @@ export async function POST(request: Request) {
     const client = await prisma.client.findFirst({
       where: { id: clientId },
       include: { user: true },
+    });
+
+    await prisma.inbox.create({
+      data: {
+        clientId: client?.id,
+        workerId: worker?.id,
+      },
     });
 
     //Client email

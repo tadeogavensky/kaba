@@ -26,7 +26,6 @@ model User {
   activateTokens ActivateToken[]
   bookings       Booking[]
   client         Client?
-  inbox          Inbox[]
   notifications  Notification[]
   worker         Worker?
   receipts       Receipt[]
@@ -51,6 +50,7 @@ model Client {
   user      User      @relation(fields: [userId], references: [id])
   bookings  Booking[]
   reviews   Review[]
+  inboxes   Inbox[]
 }
 
 model Worker {
@@ -73,6 +73,7 @@ model Worker {
   user          User      @relation(fields: [userId], references: [id])
   bookings      Booking[]
   reviews       Review[]
+  inboxes       Inbox[]
 }
 
 model Address {
@@ -161,11 +162,12 @@ model Review {
 
 model Inbox {
   id       String    @id @default(cuid())
-  clientId String
+  clientId String?
   workerId String?
   userId   String?
-  user     User?     @relation(fields: [userId], references: [id])
   messages Message[]
+  client   Client?   @relation(fields: [clientId], references: [id])
+  worker Worker? @relation(fields: [workerId], references: [id])
 }
 
 model Message {

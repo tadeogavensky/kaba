@@ -50,7 +50,6 @@ const Bookings = () => {
   );
   const [pastBookings, setPastBookings] = useState<Booking[] | null>([]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       await fetchUpcomingBookings();
@@ -403,7 +402,7 @@ const BookingModal = ({
               </button>
             </div>
 
-            {new Date(booking.date).toISOString().slice(0, 10) ==
+            {new Date(booking.date).toISOString().slice(0, 10) <=
               new Date().toISOString().slice(0, 10) &&
               booking.canceled == false &&
               booking.completed == false &&
@@ -429,7 +428,7 @@ const BookingModal = ({
               </div>
             )}
 
-            {new Date(booking.date) <= new Date() && (
+            {new Date(booking.date) <= new Date() && !booking.canceled && (
               <div className="w-full flex items-center gap-4 mt-4">
                 <BsStarFill size={25} />
                 <div className="font-heading flex items-center justify-between font-semibold py-3 border-y-[1px] w-full text-sm">
@@ -441,16 +440,18 @@ const BookingModal = ({
                     <p>No rating</p>
                   )}
                   <p></p>
-                  {!booking.review?.rating && user?.role == "client" && (
-                    <button
-                      className="font-bolder font-body bg-black text-white p-1 rounded-full"
-                      onClick={() => {
-                        setReviewModalOpen(true);
-                      }}
-                    >
-                      <BsPlus size={20} />
-                    </button>
-                  )}
+                  {!booking.review?.rating &&
+                    user?.role == "client" &&
+                    !booking.canceled && (
+                      <button
+                        className="font-bolder font-body bg-black text-white p-1 rounded-full"
+                        onClick={() => {
+                          setReviewModalOpen(true);
+                        }}
+                      >
+                        <BsPlus size={20} />
+                      </button>
+                    )}
                 </div>
               </div>
             )}
@@ -519,7 +520,6 @@ const ReviewModal = ({
 
   const router = useRouter();
 
-
   const handleSubmitReview = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -539,7 +539,7 @@ const ReviewModal = ({
 
     closeReviewModal();
 
-    router.push("/auth/bookings")
+    router.push("/auth/bookings");
   };
 
   const container = {
