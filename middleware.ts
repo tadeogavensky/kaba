@@ -13,6 +13,11 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  if(!session && !request.nextUrl.pathname.startsWith("/auth/signin")){
+    const response = NextResponse.rewrite(new URL("/", request.url));
+    return response;
+  }
+
   if (
     session &&
     role === "worker" &&
