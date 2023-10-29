@@ -8,11 +8,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!session) {
-    const response = NextResponse.rewrite(new URL("/auth/signin", request.url));
-    return response;
-  }
-
   if (session && request.nextUrl.pathname.startsWith("/auth/signin")) {
     const response = NextResponse.rewrite(new URL("/", request.url));
     return response;

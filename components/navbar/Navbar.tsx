@@ -18,13 +18,13 @@ const Navbar = () => {
       icon: BsCalendar,
       label: "Bookings",
       active: pathname === "/auth/bookings",
-      href: "/auth/bookings",
+      href: user ? "/auth/bookings" : "/",
     },
     {
       icon: LuMailMinus,
       label: "Inbox",
       active: pathname === "/auth/inbox",
-      href: "/auth/inbox",
+      href: user ? "/auth/inbox" : "/",
     },
     {
       icon: BiUser,
