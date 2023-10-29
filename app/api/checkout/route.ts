@@ -1,3 +1,4 @@
+import { Chat } from '@/types/Chat';
 import prisma from "@/libs/prismadb";
 import { mailOptions, transporter } from "@/utils/nodemailer";
 import { randomUUID } from "crypto";
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
       include: { user: true },
     });
 
-    await prisma.inbox.create({
+    await prisma.chat.create({
       data: {
         clientId: client?.id,
         workerId: worker?.id,

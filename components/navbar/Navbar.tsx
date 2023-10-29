@@ -22,9 +22,9 @@ const Navbar = () => {
     },
     {
       icon: LuMailMinus,
-      label: "Inbox",
-      active: pathname === "/auth/inbox",
-      href: user ? "/auth/inbox" : "/",
+      label: "Chat",
+      active: pathname === "/auth/chat",
+      href: user ? "/auth/chat" : "/",
     },
     {
       icon: BiUser,

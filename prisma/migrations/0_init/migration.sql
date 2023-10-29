@@ -129,13 +129,13 @@ CREATE TABLE "Review" (
 );
 
 -- CreateTable
-CREATE TABLE "Inbox" (
+CREATE TABLE "Chat" (
     "id" TEXT NOT NULL,
     "clientId" TEXT NOT NULL,
     "workerId" TEXT,
     "userId" TEXT,
 
-    CONSTRAINT "Inbox_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Chat_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -143,7 +143,7 @@ CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "sender" TEXT NOT NULL,
-    "conversationId" TEXT NOT NULL,
+    "chatId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
@@ -217,10 +217,10 @@ ALTER TABLE "Booking" ADD CONSTRAINT "Booking_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Inbox" ADD CONSTRAINT "Inbox_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Chat" ADD CONSTRAINT "Chat_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "Inbox"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Message" ADD CONSTRAINT "Message_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "Chat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

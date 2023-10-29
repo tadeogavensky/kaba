@@ -1,6 +1,6 @@
 import Message from "./Message";
-type Inbox = {
+type Chat = {
   messages: Message[];
 };
 
-export default Inbox;
+export default Chat;

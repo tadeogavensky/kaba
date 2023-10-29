@@ -1,5 +1,5 @@
 import Address from "./Address";
-import Inbox from "./Inbox";
+import Chat from "./Chat";
 import Review from "./Review";
 import User from "./User";
 
@@ -8,7 +8,7 @@ type Client = {
   user: User;
   addresses: Address[];
   reviews?: Review[];
-  inboxes?: Inbox[];
+  chats?: Chat[];
 };
 
 export default Client;

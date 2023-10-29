@@ -1,4 +1,4 @@
-import Inbox from "./Inbox";
+import Chat from "./Chat";
 import Rate from "./Rate";
 import Review from "./Review";
 import Service from "./Service";
@@ -19,7 +19,7 @@ type Worker = {
   totalJobs: number;
   user?: User;
   reviews?: Review[];
-  inboxes?: Inbox[];
+  chats?: Chat[];
 
   about: string;
 };
