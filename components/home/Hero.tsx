@@ -182,7 +182,7 @@ const Hero = () => {
                       id={worker.id}
                       firstName={worker.user?.firstName}
                       lastName={worker.user?.lastName}
-                      profilePicture={worker.profilePicture}
+                      image={worker.image}
                       worker={worker}
                     />
                   </motion.div>

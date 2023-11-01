@@ -2,42 +2,23 @@ import { NextResponse } from "next/server";
 import { ImgurClient } from "imgur";
 import formidable from "formidable";
 import { IncomingMessage, ServerResponse } from "http";
-export async function POST(request: IncomingMessage, response: ServerResponse) {
-  try {
-    const form = new formidable.IncomingForm();
-    form.parse(request, async (err, fields, files) => {
-      if (err) {
-        console.error("Form parsing error:", err);
-        const response = new NextResponse("Form parsing failed.", {
-          status: 500,
-        });
-        return response;
-      }
+import prisma from "@/libs/prismadb";
+import { cookies } from "next/headers";
+export async function POST(request: Request) {
+  const body = await request.json();
 
-      const imageFile = files.image;
+  const { image } = body;
+  
+  console.log('image', image)
 
-      console.log('imageFile', imageFile)
+  const user = await prisma.user.update({
+    where: { id: cookies().get("user")?.value },
+    data: {
+      image: image,
+    },
+  });
 
-      if (!imageFile) {
-        return NextResponse.json({
-          status: 400,
-          msg: "No files were uploaded",
-        });
-      }
+  console.log('user', user)
 
-      const client = new ImgurClient({
-        clientId: process.env.NEXT_PUBLIC_IMGUR_APP_ID,
-        clientSecret: process.env.IMGUR_SECRET,
-      });
-
-    /*   const response = await client.upload({
-        image: imageFile,
-        type: "stream",
-      }); */
-    });
-  } catch (error) {
-    console.error("File upload error:", error);
-    const response = new NextResponse("File upload failed.", { status: 500 });
-    return response;
-  }
+  return NextResponse.json("Image updated")
 }

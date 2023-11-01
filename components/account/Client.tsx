@@ -17,9 +17,10 @@ import { useState } from "react";
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 const Client = () => {
-  const { user } = useAuth();
+  const { user, updateSession } = useAuth();
 
-  const [picture, setPicture] = useState(user?.profilePicture);
+  console.log("user?.profilePicture", user?.image);
+  const [picture, setPicture] = useState(user?.image);
 
   const sendVerificationMail = async () => {
     try {
@@ -30,13 +31,11 @@ const Client = () => {
     } catch (error) {}
   };
 
-  const uploadProfilePicture = async (picture: File) => {
-    let formData = new FormData();
-    formData.append("image", picture);
-    await axios.post("/api/uploadthing", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+  const uploadProfilePicture = (image: string) => {
+    axios.post("/api/picture", { image }).then(() => {
+      axios.get("/api/me").then((response) => {
+        updateSession(response.data);
+      });
     });
   };
 
@@ -45,10 +44,10 @@ const Client = () => {
       <Toaster />
       <div className="flex justify-center relative ">
         <Image
-          src={picture || avatar}
+          src={user?.image || avatar}
           width={500}
           height={500}
-          className="rounded-full w-[65%] sm:w-[40%]  shadow-xl"
+          className=" w-[300px] sm:w-[40%] rounded-full  shadow-xl"
           alt="profilePicture"
         />
         <div className="absolute bg-white p-2 shadow-xl  rounded-full bottom-0 right-16 lg:right-[12rem]">
@@ -75,14 +74,10 @@ const Client = () => {
           <UploadButton<OurFileRouter>
             endpoint="imageUploader"
             onClientUploadComplete={(res: any) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              alert("Upload Completed");
+              console.log("res.fileUrl", res);
+              uploadProfilePicture(res[0].fileUrl);
             }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
+            onUploadError={(error: Error) => {}}
           />
         </div>
       </div>

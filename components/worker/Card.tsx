@@ -13,7 +13,7 @@ const Card: FC<UserTypes> = ({
   id,
   firstName,
   lastName,
-  profilePicture,
+  image,
   worker,
 }) => {
   const avgRating = calculateAverageRating(worker?.reviews || []);
@@ -27,7 +27,7 @@ const Card: FC<UserTypes> = ({
         className="flex justify-center items-center"
       >
         <Image
-          src={profilePicture || avatar}
+          src={image || avatar}
           height={300}
           width={300}
           className="rounded-xl object-cover  h-[100px] w-[100px] "

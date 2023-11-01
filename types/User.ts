@@ -11,7 +11,6 @@ type User = {
   email?: string;
   image?: string;
   phone?: string;
-  profilePicture?: string;
   identity?: string;
   emailVerified?: boolean;
   phoneVerified?: boolean;
