@@ -8,6 +8,9 @@ export async function GET(request: Request) {
       available: true,
       rateId: { not: null },
       serviceId: { not: null },
+      user: {
+        phone: { not: null },
+      },
     },
   });
 

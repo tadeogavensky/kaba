@@ -29,7 +29,6 @@ const Address = () => {
 
           <select
             onChange={(e) => {
-              console.log("e.target.value", e.target.value);
               setAddressId(e.target.value);
             }}
             className="bg-primary shadow-md rounded-full p-3 text-sm font-body font-semibold text-white text-center capitalize"

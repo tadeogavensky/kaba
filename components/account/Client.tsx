@@ -13,8 +13,14 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import SignOut from "../SignOut";
 import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { UploadButton } from "@uploadthing/react";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 const Client = () => {
   const { user } = useAuth();
+
+  const [picture, setPicture] = useState(user?.profilePicture);
+
   const sendVerificationMail = async () => {
     try {
       toast(`An email has been sent to ${user?.email}`, {
@@ -24,25 +30,66 @@ const Client = () => {
     } catch (error) {}
   };
 
+  const uploadProfilePicture = async (picture: File) => {
+    let formData = new FormData();
+    formData.append("image", picture);
+    await axios.post("/api/uploadthing", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
   return (
-    <div className="flex flex-col justify-between items-center gap-8 mb-28">
+    <div className="flex flex-col justify-between items-center  gap-8 mb-28">
       <Toaster />
-      <div className="flex justify-center relative">
+      <div className="flex justify-center relative ">
         <Image
-          src={user?.image || avatar}
-          className="rounded-full w-[65%] shadow-xl"
+          src={picture || avatar}
+          width={500}
+          height={500}
+          className="rounded-full w-[65%] sm:w-[40%]  shadow-xl"
           alt="profilePicture"
         />
-        <div className="absolute bg-white p-2 shadow-xl  rounded-full bottom-0 right-16">
-          <button className="rounded-full p-2  bg-blue-600 text-white">
-            <AiOutlinePlus size={30} />
-          </button>
+        <div className="absolute bg-white p-2 shadow-xl  rounded-full bottom-0 right-16 lg:right-[12rem]">
+          {/*   <div className="bg-blue-600 rounded-full p-2 text-white font-bold">
+            <input
+              type="file"
+              name="picture"
+              id="picture"
+              placeholder=""
+              className=""
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  const selectedFile = e.target.files[0];
+                  uploadProfilePicture(selectedFile);
+                }
+              }}
+            />
+
+            <label htmlFor="picture" className="">
+              <AiOutlinePlus size={30} />
+            </label>
+          </div> */}
+
+          <UploadButton<OurFileRouter>
+            endpoint="imageUploader"
+            onClientUploadComplete={(res: any) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              alert("Upload Completed");
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
         </div>
       </div>
 
       <div>
         <div className="flex justify-center items-center gap-2">
-          <div className="text-center">
+          <div className="text-center whitespace-nowrap flex items-center gap-1">
             <h1 className="font-heading text-3xl font-bold capitalize">
               {user?.firstName}
             </h1>
@@ -110,7 +157,7 @@ const Client = () => {
         <IoIosArrowForward size={20} />
       </Link>
 
-      <Link
+      {/*     <Link
         href={`/auth/account/${user?.id}/cards`}
         className="w-full bg-white px-3 py-2 flex items-center justify-between gap-4 shadow-md rounded-lg cursor-pointer"
       >
@@ -126,8 +173,8 @@ const Client = () => {
 
         <IoIosArrowForward size={20} />
       </Link>
-
-      <div className="font-body">
+ */}
+      <div className="font-body flex flex-col justify-start w-full">
         <p className="font-normal">
           {" "}
           Do you have a skill and want to earn some extra money?

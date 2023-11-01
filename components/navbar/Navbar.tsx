@@ -7,6 +7,9 @@ import { BsCalendar } from "react-icons/bs";
 import { RiSettingsLine } from "react-icons/ri";
 import NabvarItem from "./NavbarItem";
 import { useAuth } from "@/contexts/AuthContext";
+import { MdCleaningServices } from "react-icons/md";
+import { GiBroom } from "react-icons/gi";
+import { PiBroomBold } from "react-icons/pi";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -21,11 +24,17 @@ const Navbar = () => {
       href: user ? "/auth/bookings" : "/",
     },
     {
-      icon: LuMailMinus,
-      label: "Chat",
-      active: pathname === "/auth/chat",
-      href: user ? "/auth/chat" : "/",
+      icon: PiBroomBold,
+      label: "Services",
+      active: pathname === "/services",
+      href: "/services",
     },
+    /* {
+      icon: LuMailMinus,
+      label: "Chats",
+      active: pathname === "/auth/chats",
+      href: user ? "/auth/chats" : "/",
+    }, */
     {
       icon: BiUser,
       label: "Profile",

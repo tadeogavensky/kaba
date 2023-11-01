@@ -29,7 +29,6 @@ model User {
   notifications  Notification[]
   worker         Worker?
   receipts       Receipt[]
-  messages        Message[]
 }
 
 model ActivateToken {
@@ -52,6 +51,7 @@ model Client {
   bookings  Booking[]
   reviews   Review[]
   chats     Chat[]
+  messages   Message[]
 }
 
 model Worker {
@@ -75,6 +75,7 @@ model Worker {
   bookings      Booking[]
   reviews       Review[]
   chats         Chat[]
+  messages       Message[]
 }
 
 model Address {
@@ -166,6 +167,7 @@ model Chat {
   clientId String?
   workerId String?
   userId   String?
+  lastMessageAt DateTime @default(now())
   messages Message[]
   client   Client?   @relation(fields: [clientId], references: [id])
   worker   Worker?   @relation(fields: [workerId], references: [id])
@@ -174,11 +176,14 @@ model Chat {
 model Message {
   id        String   @id @default(cuid())
   text      String
-  user      User?    @relation(fields: [userId], references: [id])
-  chatId    String
+  seen      Boolean  @default(false)
   createdAt DateTime @default(now())
+  worker    Worker?  @relation(fields: [workerId], references: [id])
+  client    Client?  @relation(fields: [clientId], references: [id])
+  chatId    String
   chat      Chat     @relation(fields: [chatId], references: [id])
-  userId    String?
+  workerId  String?
+  clientId  String?
 }
 
 model Notification {

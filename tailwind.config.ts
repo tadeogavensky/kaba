@@ -14,6 +14,9 @@ const config: Config = {
         body: ["Poppins", "sans"],
         heading: ["Montserrat", "sans"],
       },
+      rotate: {
+        "13": "13deg",
+      },
       colors: {
         primary: {
           DEFAULT: "#005DFF",

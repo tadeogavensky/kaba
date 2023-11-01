@@ -24,6 +24,9 @@ export async function GET(
       rateId: { not: null },
       serviceId: { not: null },
       available: true,
+      user: {
+        phone: { not: null },
+      },
     },
     include: {
       service: true,
@@ -35,7 +38,8 @@ export async function GET(
 
   const filteredWorkers = workers.filter((worker) => worker.rate !== null);
 
-  console.log("filtered workers", filteredWorkers);
+  console.log('filteredWorkers', filteredWorkers)
+
 
   return NextResponse.json(filteredWorkers);
 }

@@ -11,7 +11,6 @@ export async function GET(
     return NextResponse.json(services);
   }
 
-  console.log(params.category);
   
   const services = await prisma.service.findMany({
     where: {
@@ -22,7 +21,6 @@ export async function GET(
   });
 
 
-  console.log(services);
 
   return NextResponse.json(services);
 }

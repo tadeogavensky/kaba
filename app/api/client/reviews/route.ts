@@ -10,7 +10,6 @@ export async function GET() {
     },
   });
 
-  console.log(reviews);
 
   return NextResponse.json(reviews);
 }

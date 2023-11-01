@@ -21,6 +21,7 @@ export async function GET() {
         },
       },
       notifications: true,
+      activateTokens: true,
     },
   });
 

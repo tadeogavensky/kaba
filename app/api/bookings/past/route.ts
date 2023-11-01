@@ -39,10 +39,6 @@ export async function GET() {
     },
   });
 
-  console.log("===============pastBookings=====================");
-  console.log(pastBookings);
-  console.log("====================================");
-
   if (pastBookings) {
     return NextResponse.json(pastBookings);
   }

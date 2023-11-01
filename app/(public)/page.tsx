@@ -33,7 +33,6 @@ const faqs = [
   },
 ];
 export default function Home() {
-  console.log(process.env.API_URL);
 
   return (
     <main className="mb-40">

@@ -209,7 +209,7 @@ export default function AccountInfo({
             </div>
           </div>
           <div className="flex items-center justify-start gap-4 ">
-            <div className="flex justify-center items-center border-[1.5px] border-gray-300 rounded-full p-2 relative">
+           {/*  <div className="flex justify-center items-center border-[1.5px] border-gray-300 rounded-full p-2 relative">
               <IoPhonePortraitOutline size={25} className="text-primary" />
               {user?.phoneVerified && (
                 <BsFillCheckCircleFill
@@ -223,7 +223,7 @@ export default function AccountInfo({
                   className="absolute text-orange-600 bg-white right-0 bottom-0"
                 />
               )}
-            </div>
+            </div> */}
             <div className="flex flex-col items-start font-heading">
               <h1 className="text-sm">Phone</h1>
 

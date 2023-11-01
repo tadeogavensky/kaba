@@ -24,6 +24,7 @@ import { BiHistory, BiLogOut } from "react-icons/bi";
 import SignOut from "../SignOut";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiUser } from "react-icons/fi";
+import { LuMailMinus } from "react-icons/lu";
 
 const Header = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -33,7 +34,6 @@ const Header = () => {
   const { user, logout } = useAuth();
 
   console.log(user);
-  
 
   useEffect(() => {
     setNotificationModalOpen(false);
@@ -97,14 +97,14 @@ const Header = () => {
           <div className="flex items-center gap-4 sm:hidden">
             <Link
               href={"/auth/signin"}
-              className="bg-green-400 text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md "
+              className="bg-green-400 hover:bg-green-600 transition text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md "
             >
               Sign In
             </Link>
 
             <Link
               href={"/signup"}
-              className="bg-primary text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md"
+              className="bg-primary hover:bg-blue-800 transition text-white text-sm px-4 py-2 rounded-3xl font-heading font-bold shadow-md"
             >
               Join Now
             </Link>
@@ -119,14 +119,14 @@ const Header = () => {
         </Link>
 
         <ul className="hidden lg:flex items-center gap-8">
-          <li>
+        {/*   <li>
             <Link
               className="font-heading font-semibold text-sm link-item "
               href={"/how-we-work"}
             >
               How we work
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               className="font-heading font-semibold text-sm link-item"
@@ -157,14 +157,14 @@ const Header = () => {
           <div className="flex items-center gap-4">
             <Link
               href={"/auth/signin"}
-              className="bg-green-400 text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
+              className="bg-green-400 hover:bg-green-600 transition text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md "
             >
               Sign In
             </Link>
 
             <Link
               href={"/signup"}
-              className="bg-primary text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
+              className="bg-primary hover:bg-blue-800 transition text-white px-6 py-2 rounded-2xl font-heading font-bold shadow-md"
             >
               Join Now
             </Link>
@@ -316,11 +316,17 @@ const AccountDesktopDropDown = ({
         <BsCalendar size={20} />
         <p className="font-heading font-semibold text-base">Bookings</p>
       </Link>
+{/*       <Link
+        href={"/auth/chats"}
+        className="flex items-center gap-2 hover:bg-gray-200 transition w-full py-3 px-4"
+      >
+        <LuMailMinus size={20} />
+        <p className="font-heading font-semibold text-base">Chats</p>
+      </Link> */}
       <div className="flex items-center gap-2 hover:bg-gray-200 transition w-full  py-3 px-4 cursor-pointer">
         <IoNotificationsOutline size={20} />
         <p className="font-heading font-semibold text-base">Notifications</p>
       </div>
-
       <button
         onClick={() => {
           logout();

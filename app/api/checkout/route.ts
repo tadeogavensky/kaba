@@ -1,4 +1,3 @@
-import { Chat } from '@/types/Chat';
 import prisma from "@/libs/prismadb";
 import { mailOptions, transporter } from "@/utils/nodemailer";
 import { randomUUID } from "crypto";
@@ -25,7 +24,7 @@ export async function POST(request: Request) {
   });
 
   const workerRate = worker && worker.rate?.rate;
-  const total = workerRate ? workingHours * workerRate : 0;
+  const total = workerRate ? workingHours * workerRate + 1200 : 0;
 
   const booking = await prisma.booking.create({
     data: {

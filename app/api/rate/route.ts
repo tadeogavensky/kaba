@@ -1,4 +1,5 @@
 import prisma from "@/libs/prismadb";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -6,12 +7,17 @@ export async function POST(request: Request) {
 
   const { rate, currency, serviceId, workerId } = body;
 
+  const worker = await prisma.worker.findFirst({
+    where: {
+      userId: cookies().get("user")?.value,
+    },
+  });
+
   const existingRate = await prisma.rate.findFirst({
-    where: { workerId: workerId },
+    where: { workerId: worker?.id },
   });
 
   console.log(existingRate);
-  
 
   if (!existingRate) {
     await prisma.rate.create({
@@ -25,17 +31,17 @@ export async function POST(request: Request) {
         },
       },
     });
+    return NextResponse.json("Rate created");
+  } else {
+    await prisma.rate.update({
+      data: {
+        rate: rate,
+        currency: currency,
+      },
+      where: {
+        id: existingRate?.id,
+      },
+    });
+    return NextResponse.json("Rate updated");
   }
-
-  await prisma.rate.update({
-    data: {
-      rate: rate,
-      currency: currency,
-    },
-    where: {
-      id: existingRate?.id,
-    },
-  });
-
-  return NextResponse.json("Rate updated");
 }

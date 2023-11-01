@@ -143,7 +143,6 @@ const Border = () => {
 async function getWorker(slug: string) {
   let apiUrl: string = "";
   if (process.env.NODE_ENV === "development") {
-    console.log("es development");
 
     apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
   } else {

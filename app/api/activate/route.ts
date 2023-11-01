@@ -9,10 +9,10 @@ export async function POST(request: NextRequest, context: any) {
 
   const isTokenExpired = isExpired(body.activateTokens[0].createdAt);
 
-  if (isTokenExpired) {
-    const newToken = refreshToken(id);
+  let newToken;
 
-    body.activateTokens[0].token = newToken;
+  if (isTokenExpired) {
+    newToken = await refreshToken(id);
   }
 
   let apiUrl;
@@ -23,7 +23,9 @@ export async function POST(request: NextRequest, context: any) {
     apiUrl = process.env.API_URL;
   }
 
-  const confirmationLink = `${apiUrl}/api/activate/${body.activateTokens[0].token}`;
+  const confirmationLink = `${apiUrl}api/activate/${newToken}`;
+
+  console.log("confirmationLink", confirmationLink);
 
   try {
     await transporter.sendMail({

@@ -10,7 +10,6 @@ export default async function ServicesByName({
 }) {
   const workers = await getWorkersByServiceCategory(name);
 
-
   return (
     <div className="p-6">
       <GoBack label="Home" />
@@ -45,18 +44,13 @@ async function getWorkersByServiceCategory(name: string) {
   let apiUrl;
 
   if (process.env.NODE_ENV === "development") {
-    console.log("es develop");
-
     apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
   } else {
     apiUrl = process.env.API_URL!;
   }
 
   try {
-    console.log("entra en el try");
-
     const response = await axios.get(`${apiUrl}/api/workers/${name}`);
-    console.log("response data", response.data);
 
     return response.data;
   } catch (error) {

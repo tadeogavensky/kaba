@@ -8,6 +8,14 @@ export async function GET(
 ) {
   const { token } = params;
 
+  let apiUrl;
+
+  if (process.env.NODE_ENV === "development") {
+    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
+  } else {
+    apiUrl = process.env.API_URL!;
+  }
+
   cookies().delete("user");
   const user = await prisma.user.findFirst({
     where: {
@@ -32,21 +40,33 @@ export async function GET(
     include: { activateTokens: true },
   });
 
+  console.log("user token", user?.id);
+
   if (!user) {
     throw new Error("Invalid token");
   }
 
   const tokenExpirationTime = 24 * 60 * 60 * 1000;
-  const tokenCreatedAt = user.activateTokens[0].createdAt;
+  const tokenCreatedAt = user.activateTokens[length - 1].createdAt;
 
   if (Date.now() - new Date(tokenCreatedAt).getTime() > tokenExpirationTime) {
-    return NextResponse.redirect("/auth/expired");
+    console.log("entra aca");
+
+    return NextResponse.redirect(`${apiUrl}/auth/expired`);
   }
 
-  await prisma.user.update({
+  const verifiedUser = await prisma.user.update({
     where: { id: user.id },
     data: { active: true, emailVerified: true },
   });
+
+  if (verifiedUser) {
+    console.log("user Verified");
+  }
+
+  const userVerified = await prisma.user.findFirst({ where: { id: user.id } });
+
+  console.log("userVerified", userVerified);
 
   await prisma.activateToken.update({
     where: {
@@ -56,16 +76,6 @@ export async function GET(
       activatedAt: new Date(),
     },
   });
-
-  let apiUrl;
-
-  if (process.env.NODE_ENV === "development") {
-    console.log("es develop");
-
-    apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
-  } else {
-    apiUrl = process.env.API_URL!;
-  }
 
   return NextResponse.redirect(`${apiUrl}/auth/signin`);
 }

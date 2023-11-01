@@ -11,7 +11,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import avatar from "/public/assets/avatar.jpg";
 
-import { IoArrowBack } from "react-icons/io5";
+import { IoArrowBack, IoCall } from "react-icons/io5";
 import User from "@/types/User";
 import { BiSolidReceipt, BiSolidHelpCircle } from "react-icons/bi";
 import { AiFillClockCircle } from "react-icons/ai";
@@ -24,6 +24,7 @@ import {
   BsFillClipboard2Fill,
   BsFillStarFill,
   BsStar,
+  BsWhatsapp,
 } from "react-icons/bs";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
@@ -39,6 +40,7 @@ const Bookings = () => {
 
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
 
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
@@ -89,6 +91,10 @@ const Bookings = () => {
 
   const closeReviewModal = () => {
     setReviewModalOpen(false);
+  };
+
+  const closeReceiptModal = () => {
+    setReceiptModalOpen(false);
   };
 
   return (
@@ -207,6 +213,7 @@ const Bookings = () => {
             <BookingModal
               closeBookingModal={closeBookingModal}
               setReviewModalOpen={setReviewModalOpen}
+              setReceiptModalOpen={setReceiptModalOpen}
               booking={selectedBooking}
               updateSession={updateSession}
               user={user}
@@ -223,6 +230,16 @@ const Bookings = () => {
             />
           )}
         </AnimatePresence>
+        <AnimatePresence>
+          {isReceiptModalOpen && (
+            <ReceiptModal
+              closeReceiptModal={closeReceiptModal}
+              booking={selectedBooking}
+              updateSession={updateSession}
+              user={user}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
@@ -231,12 +248,14 @@ const Bookings = () => {
 const BookingModal = ({
   closeBookingModal,
   setReviewModalOpen,
+  setReceiptModalOpen,
   booking,
   user,
   updateSession,
 }: {
   closeBookingModal: () => void;
   setReviewModalOpen: (isOpen: boolean) => void;
+  setReceiptModalOpen: (isOpen: boolean) => void;
   booking: Booking | null;
   user: User | null;
   updateSession: (user: User) => void;
@@ -392,14 +411,39 @@ const BookingModal = ({
             <p className="text-gray-600 text-base">ARS${booking.total}</p>
 
             <div className="flex items-center flex-wrap justify-start gap-4 my-4">
-              <button className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
-                <BiSolidReceipt size={15} />
-                <p>Receipt</p>
-              </button>
-              <button className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm">
-                <MdTextsms size={15} />
-                <p>Message</p>
-              </button>
+              {booking.user.role == "client" && (
+                <button
+                  onClick={() => {
+                    setReceiptModalOpen(true);
+                  }}
+                  className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm"
+                >
+                  <BiSolidReceipt size={15} />
+                  <p>Receipt</p>
+                </button>
+              )}
+              <Link
+                href={
+                  booking.user.role == "client"
+                    ? `https://wa.me/${booking.worker.user?.phone}`
+                    : `https://wa.me/${booking.client.user?.phone}`
+                }
+                className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm"
+              >
+                <BsWhatsapp size={15} />
+                <p>WhatsApp</p>
+              </Link>
+              <Link
+                href={
+                  booking.user.role == "client"
+                    ? `tel:${booking.worker.user?.phone}`
+                    : `tel:${booking.client.user?.phone}`
+                }
+                className="flex items-center hover:bg-gray-300 transition bg-gray-200 p-3 rounded-full gap-2 text-black font-semibold font-body text-sm"
+              >
+                <IoCall size={15} />
+                <p>Call</p>
+              </Link>
             </div>
 
             {new Date(booking.date).toISOString().slice(0, 10) <=
@@ -624,6 +668,105 @@ const ReviewModal = ({
             </form>
           </div>
         )}
+      </div>
+    </motion.div>
+  );
+};
+
+const ReceiptModal = ({
+  closeReceiptModal,
+  booking,
+  user,
+  updateSession,
+}: {
+  closeReceiptModal: () => void;
+  booking: Booking | null;
+  user: User | null;
+  updateSession: (user: User) => void;
+}) => {
+  const container = {
+    exit: {
+      y: 500,
+      transition: {
+        ease: "easeInOut",
+        duration: 0.3,
+      },
+    },
+  };
+  return (
+    <motion.div
+      variants={container}
+      initial={{ y: 500 }}
+      animate={{
+        y: 0,
+      }}
+      transition={{ duration: 0.3 }}
+      exit={"exit"}
+      className="h-screen w-screen left-0 top-0 bg-white z-40 p-4 fixed overflow-x-hidden "
+    >
+      <div className="flex w-full items-center justify-between">
+        <button
+          onClick={() => {
+            closeReceiptModal();
+          }}
+        >
+          <IoArrowBack size={25} />
+        </button>
+
+        <h1 className=" font-body font-bold text-xl">Receipt</h1>
+      </div>
+
+      <div className="flex flex-col mt-6">
+        <div className="relative">
+          <Image
+            src={"/assets/receipt.svg"}
+            width={500}
+            height={500}
+            alt="cabin"
+          />
+          <div className="flex flex-col text-xl">
+            <p className="font-body">
+              {booking
+                ? new Date(booking.date).getDate() +
+                  " " +
+                  new Date(booking.date).toLocaleString("en-US", {
+                    month: "long",
+                  }) +
+                  ", " +
+                  new Date(booking.date).getFullYear()
+                : "Booking Date Not Available"}
+            </p>
+
+            <p className="font-body">
+              {booking?.client.user.firstName}, this is your recipe.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col p-4">
+          <div className="flex justify-between items-center w-full border-b-[2px] py-4">
+            <p className="font-heading font-bold text-2xl">Total</p>
+            <p className="font-heading font-bold text-2xl">
+              {booking?.total} ARS
+            </p>
+          </div>
+          <div className="flex justify-between items-center w-full border-b-[2px] py-4">
+            <p className="font-heading  text-lg">Rate of job</p>
+            <p className="font-heading  text-lg">
+              {booking?.total ? (booking?.total - 1200).toString() : "0"} ARS
+            </p>
+          </div>{" "}
+          <div className="flex justify-between items-center w-full py-4">
+            <p className="font-heading font-semibold  text-lg">Subtotal</p>
+            <p className="font-heading font-semibold  text-lg">
+              {booking?.total ? (booking?.total - 1200).toString() : "0"} ARS
+            </p>
+          </div>
+          <div className="flex justify-between items-center w-full ">
+            <p className="font-heading text-lg">Kaba rate</p>
+            <p className="font-heading text-lg">1200 ARS</p>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
