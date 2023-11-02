@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import EditForm from "../client/EditForm";
+import EditForm from "../worker/EditForm";
 import { AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 const Card = ({

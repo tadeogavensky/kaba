@@ -52,3 +52,18 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ msg: "Address saved" });
 }
+
+export async function PUT(request: Request) {
+  const body = await request.json();
+
+  const {
+    fullAddress,
+    street,
+    city,
+    state,
+    postalCode,
+    country,
+    number,
+    neighbourhood,
+  } = body;
+}

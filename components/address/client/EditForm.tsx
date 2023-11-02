@@ -208,7 +208,6 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
         city: { value: "", stateCode: "", label: "" },
       });
     }
-
   };
 
   const handleCityChange = (selectedOption: any) => {
@@ -313,6 +312,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setZipPostalCode(e.target.value);
               }}
+              value={zipPostalCode}
               placeholder="C1425"
               className="bg-transparent w-full p-1 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
@@ -342,6 +342,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setNeighbourhood(e.target.value);
               }}
+              value={neighbourhood}
               placeholder="Palermo"
               className="bg-transparent w-full p-1 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
@@ -371,6 +372,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setStreet(e.target.value);
               }}
+              value={street}
               placeholder="Bulnes"
               className="bg-transparent w-full p-1 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
@@ -398,6 +400,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setStreetNumber(e.target.value);
               }}
+              value={streetNumber}
               placeholder="4624"
               className="bg-transparent w-full p-1 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
@@ -421,6 +424,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setFloorDepartment(e.target.value);
               }}
+              value={floorDepartment}
               placeholder="2A"
               className="bg-transparent w-full p-1 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
@@ -438,6 +442,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
                 type="radio"
                 className="h-4 w-4 rounded-full"
                 checked={type === "home"}
+                value={type}
                 onChange={() => setType("home")}
               />
               <label htmlFor="home-input" className="font-body">
@@ -450,6 +455,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
                 type="radio"
                 className="h-4 w-4 rounded-full"
                 checked={type === "office"}
+                value={type}
                 onChange={() => setType("office")}
               />
               <label htmlFor="office-input" className="font-body">
@@ -463,6 +469,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
                 className="h-4 w-4 rounded-full"
                 checked={type === "other"}
                 onChange={() => setType("other")}
+                value={type}
               />
               <label htmlFor="other-input" className="font-body">
                 Other
@@ -481,6 +488,7 @@ const EditForm: React.FC<EditFormProps> = ({ closeForm }) => {
               onChange={(e) => {
                 setDetails(e.target.value);
               }}
+              value={details}
               placeholder="Description of the house, department, office, like the entrance, reference points, security tips, etc."
               className="bg-transparent w-full p-1 pb-4 placeholder:text-sm placeholder:font-bold shadow-none border-none outline-none  ring-0 focus:border-0"
             />
