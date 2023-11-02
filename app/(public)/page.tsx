@@ -10,6 +10,7 @@ import SignUp from "@/components/home/SignUp";
 import InputSearch from "@/components/InputSearch";
 import PopularServices from "@/components/services/PopularServices";
 import Services from "@/components/services/Services";
+import Steps from "@/components/home/Steps";
 const faqs = [
   {
     question: "How do I sign up as a client?",
@@ -33,7 +34,6 @@ const faqs = [
   },
 ];
 export default function Home() {
-
   return (
     <main className="mb-40">
       <div className="m-6 sm:mx-32">
@@ -42,6 +42,7 @@ export default function Home() {
         <div className="hidden sm:flex flex-col gap-10 mt-10">
           <Hero />
           <SignUp />
+          <Steps />
           <FAQ faq={faqs} />
         </div>
 

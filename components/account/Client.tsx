@@ -19,8 +19,17 @@ import { OurFileRouter } from "@/app/api/uploadthing/core";
 const Client = () => {
   const { user, updateSession } = useAuth();
 
-  console.log("user?.profilePicture", user?.image);
   const [picture, setPicture] = useState(user?.image);
+  const [pictureInput, showChangePictureInput] = useState(false);
+
+  const uploadProfilePicture = (image: string) => {
+    axios.post("/api/picture", { image }).then(() => {
+      axios.get("/api/me").then((response) => {
+        updateSession(response.data);
+      });
+    });
+  };
+
 
   const sendVerificationMail = async () => {
     try {
@@ -31,55 +40,37 @@ const Client = () => {
     } catch (error) {}
   };
 
-  const uploadProfilePicture = (image: string) => {
-    axios.post("/api/picture", { image }).then(() => {
-      axios.get("/api/me").then((response) => {
-        updateSession(response.data);
-      });
-    });
-  };
-
+  
   return (
     <div className="flex flex-col justify-between items-center  gap-8 mb-28">
       <Toaster />
-      <div className="flex justify-center relative ">
+      <div
+        className="flex justify-center relative "
+        onMouseEnter={() => {
+          showChangePictureInput(true);
+        }}
+        onMouseLeave={() => {
+          showChangePictureInput(false);
+        }}
+      >
         <Image
           src={user?.image || avatar}
           width={500}
           height={500}
-          className=" w-[300px] sm:w-[40%] rounded-full  shadow-xl"
+          className=" w-[300px] h-[300px] object-cover  rounded-full  shadow-xl"
           alt="profilePicture"
         />
-        <div className="absolute bg-white p-2 shadow-xl  rounded-full bottom-0 right-16 lg:right-[12rem]">
-          {/*   <div className="bg-blue-600 rounded-full p-2 text-white font-bold">
-            <input
-              type="file"
-              name="picture"
-              id="picture"
-              placeholder=""
-              className=""
-              onChange={(e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                  const selectedFile = e.target.files[0];
-                  uploadProfilePicture(selectedFile);
-                }
+        {pictureInput && (
+          <div className="absolute bg-white p-2 w-full shadow-xl bottom-0 h-full flex justify-center opacity-50  rounded-full ">
+            <UploadButton<OurFileRouter>
+              endpoint="imageUploader"
+              onClientUploadComplete={(res: any) => {
+                console.log("res.fileUrl", res);
+                uploadProfilePicture(res[0].fileUrl);
               }}
             />
-
-            <label htmlFor="picture" className="">
-              <AiOutlinePlus size={30} />
-            </label>
-          </div> */}
-
-          <UploadButton<OurFileRouter>
-            endpoint="imageUploader"
-            onClientUploadComplete={(res: any) => {
-              console.log("res.fileUrl", res);
-              uploadProfilePicture(res[0].fileUrl);
-            }}
-            onUploadError={(error: Error) => {}}
-          />
-        </div>
+          </div>
+        )}
       </div>
 
       <div>

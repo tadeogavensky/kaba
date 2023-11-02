@@ -13,9 +13,23 @@ import { SlLocationPin } from "react-icons/sl";
 import SignOut from "../SignOut";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { UploadButton } from "@uploadthing/react";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 
 const Worker = () => {
   const { updateSession, user } = useAuth();
+
+  const [picture, setPicture] = useState(user?.image);
+  const [pictureInput, showChangePictureInput] = useState(false);
+
+  const uploadProfilePicture = (image: string) => {
+    axios.post("/api/picture", { image }).then(() => {
+      axios.get("/api/me").then((response) => {
+        updateSession(response.data);
+      });
+    });
+  };
 
   const sendVerificationMail = async () => {
     try {
@@ -28,17 +42,33 @@ const Worker = () => {
   return (
     <div className="flex flex-col justify-between items-center gap-8 min-h-full mb-28">
       <Toaster />
-      <div className="flex justify-center relative">
+      <div
+        className="flex justify-center relative "
+        onMouseEnter={() => {
+          showChangePictureInput(true);
+        }}
+        onMouseLeave={() => {
+          showChangePictureInput(false);
+        }}
+      >
         <Image
           src={user?.image || avatar}
-          className="rounded-full w-[65%] shadow-xl"
+          width={500}
+          height={500}
+          className=" w-[300px] h-[300px] object-cover  rounded-full  shadow-xl"
           alt="profilePicture"
         />
-        <div className="absolute bg-white p-2 shadow-xl  rounded-full bottom-0 right-16">
-          <button className="rounded-full p-2  bg-blue-600 text-white">
-            <AiOutlinePlus size={30} />
-          </button>
-        </div>
+        {pictureInput && (
+          <div className="absolute bg-white p-2 w-full shadow-xl bottom-0 h-full flex justify-center opacity-50  rounded-full ">
+            <UploadButton<OurFileRouter>
+              endpoint="imageUploader"
+              onClientUploadComplete={(res: any) => {
+                console.log("res.fileUrl", res);
+                uploadProfilePicture(res[0].fileUrl);
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <div>
