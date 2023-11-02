@@ -30,7 +30,7 @@ const AlertWorker = () => {
 
   return (
     <div className="mt-6">
-      {user && (
+      {user && user.role=="worker" && (
         <h1 className="font-body text-lg text-center">
           Your active service{" "}
           <span className="font-bold">{user?.worker?.service?.name}</span>
