@@ -1,5 +1,6 @@
 import Client from "@/components/account/Client";
 import Worker from "@/components/account/Worker";
+import Header from "@/components/header/Header";
 import axios from "axios";
 
 export default async function Account({
@@ -11,6 +12,9 @@ export default async function Account({
 
   return (
     <div className="p-6 ">
+      <div className="m-6 sm:mx-32">
+        <Header />
+      </div>
       {userData?.role === "client" && <Client />}
       {userData?.role === "worker" && <Worker />}
     </div>

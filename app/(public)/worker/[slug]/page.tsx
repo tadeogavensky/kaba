@@ -40,7 +40,7 @@ export default async function Worker({
       <div className="relative mb-32 lg:mb-0  flex flex-col lg:justify-center lg:items-center lg:flex-row lg:min-h-screen">
         <div className="relative">
           <Image
-            src={worker?.user?.profilePicture || avatar}
+            src={worker?.user?.image || avatar}
             alt="profilePicture"
             width={500}
             height={500}

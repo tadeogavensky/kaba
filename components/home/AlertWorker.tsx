@@ -1,26 +1,46 @@
 "use client";
 import { useAuth } from "@/contexts/AuthContext";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const AlertWorker = () => {
   const { user } = useAuth();
-  console.log("user", user);
+
+  const [alertMessages, setAlertMessages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const newAlertMessages: string[] = [];
+
+    if (user?.role === "worker") {
+      if (user?.worker?.available === false) {
+        newAlertMessages.push("Set yourself as available for working.");
+      }
+      if (!user?.phone) {
+        newAlertMessages.push("Add a phone number.");
+      }
+      if (!user?.worker?.rate) {
+        newAlertMessages.push("Add a rate.");
+      }
+      if (!user?.worker?.service) {
+        newAlertMessages.push("Add a service.");
+      }
+    }
+
+    setAlertMessages(newAlertMessages);
+  }, [user]);
+
   return (
     <div className="mt-6">
-    {user?.role === "worker" && (
-      (user?.worker?.available === false) ||
-      (!user?.phone) ||
-      (!user?.worker?.rate) ||
-      (!user?.worker.service) ? (
-        <h1 className="text-center font-body font-semibold text-xs bg-primary text-white shadow-lg p-6 rounded-lg">
-          Hi {user.firstName}, to be visible for our Kaba Clients please add a
-          rate, a service, a phone number, and set yourself as available for
-          working!
-        </h1>
-      ) : null
-    )}
-  </div>
-  
+      {alertMessages.length > 0 && (
+        <div className="text-center font-body font-semibold text-xs bg-primary text-white shadow-lg p-6 rounded-lg">
+          Hi {user?.firstName}, to be visible for our Kaba Clients, please:
+          <ul>
+            {alertMessages.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 

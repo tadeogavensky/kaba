@@ -17,6 +17,7 @@ const SignUp = () => {
 
   const fetchReviews = () => {
     axios.get("/api/client/reviews").then((response) => {
+      console.log("response.data", response.data[0].worker.user.image);
       const limitedReviews = response.data.slice(0, 6);
       setReviews(limitedReviews);
     });
@@ -110,9 +111,11 @@ const SignUp = () => {
                 className="bg-white shadow-md  rounded-md p-3  flex items-start w-[500px] gap-4 cursor-default"
               >
                 <Image
-                  src={review.user?.image || avatar}
+                  src={review.worker.user?.image || avatar}
                   alt="review-user"
-                  className="w-16 h-16 shadow-lg rounded-full"
+                  width={300}
+                  height={300}
+                  className="w-16 h-16 shadow-lg object-cover rounded-full"
                 />
                 <div className="flex flex-col gap-2">
                   <div className="flex w-full justify-between items-center">

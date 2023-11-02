@@ -22,7 +22,7 @@ export default async function ServicesByName({
                   id={worker.id}
                   firstName={worker.user.firstName}
                   lastName={worker.user.lastName}
-                  image={worker.image}
+                  image={worker.user.image}
                   worker={worker}
                 />
               </div>
@@ -44,14 +44,12 @@ async function getWorkersByService(name: string) {
   let apiUrl;
 
   if (process.env.NODE_ENV === "development") {
-
     apiUrl = process.env.API_URL_DEVELOPMENT_LOCAL!;
   } else {
     apiUrl = process.env.API_URL!;
   }
 
   try {
-
     const response = await axios.get(`${apiUrl}/api/workers/${name}`);
 
     return response.data;

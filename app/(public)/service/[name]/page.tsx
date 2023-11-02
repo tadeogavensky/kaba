@@ -22,7 +22,7 @@ export default async function ServicesByName({
                   id={worker.id}
                   firstName={worker.user.firstName}
                   lastName={worker.user.lastName}
-                  image={worker.image}
+                  image={worker.user.image}
                   worker={worker}
                 />
               </div>
