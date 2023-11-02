@@ -47,7 +47,7 @@ export async function GET(
   }
 
   const tokenExpirationTime = 24 * 60 * 60 * 1000;
-  const tokenCreatedAt = user.activateTokens[length - 1].createdAt;
+  const tokenCreatedAt = user.activateTokens[0].createdAt;
 
   if (Date.now() - new Date(tokenCreatedAt).getTime() > tokenExpirationTime) {
     console.log("entra aca");
