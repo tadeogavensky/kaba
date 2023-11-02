@@ -14,7 +14,7 @@ function Greeting() {
   }
 
   return (
-    <p className="font-normal font-heading text-sm text-gray-600">
+    <p className="font-normal font-heading text-base text-gray-600">
       {greetingMessage}
     </p>
   );
