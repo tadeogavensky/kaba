@@ -12,7 +12,7 @@ export default async function Account({
 
   return (
     <div className="p-6 ">
-      <div className="m-6 sm:mx-32">
+      <div className="m-6 sm:mx-32 hidden lg:block">
         <Header />
       </div>
       {userData?.role === "client" && <Client />}
