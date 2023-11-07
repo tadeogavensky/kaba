@@ -9,11 +9,13 @@ const BookButton = ({ slug }: { slug: string }) => {
   return (
     <Link
       href={
-        user?.role === "client" && user.active
-          ? `/auth/worker/book/${slug.replace(/\s+/g, "-").toLowerCase()}`
-          : "/"
+        user
+          ? user.role === "client" && user.active
+            ? `/auth/worker/book/${slug.replace(/\s+/g, "-").toLowerCase()}`
+            : "/"
+          : "/auth/signin" 
       }
-      className="w-1/2 px-6 lg:px-4 py-2 text-center bg-primary text-white font-body rounded-3xl  hover:bg-blue-800 transition"
+      className="w-1/2 px-6 lg:px-4 py-2 text-center bg-primary text-white font-body rounded-3xl hover:bg-blue-800 transition"
     >
       Book
     </Link>
