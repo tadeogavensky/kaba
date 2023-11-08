@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 
 const StarRating = ({ onRatingChange }: { onRatingChange: any }) => {
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState<number>(3);
 
-  const handleStar = (rating: React.SetStateAction<number>) => {
-    setRating(rating);
-    onRatingChange(rating);
+  const handleStar = (newRating: number) => {
+    setRating(newRating);
+    onRatingChange(newRating);
   };
 
   const stars = [1, 2, 3, 4, 5].map((starValue) => {
@@ -18,9 +18,7 @@ const StarRating = ({ onRatingChange }: { onRatingChange: any }) => {
         <div
           className="star"
           onClick={() => handleStar(isHalfStar ? starValue - 0.5 : starValue)}
-          onMouseLeave={() =>
-            handleStar(isHalfStar ? starValue - 0.5 : starValue)
-          }
+          onMouseLeave={() => handleStar(0)} // Reset the rating on mouse leave
           onMouseEnter={() =>
             handleStar(isHalfStar ? starValue - 0.5 : starValue)
           }
