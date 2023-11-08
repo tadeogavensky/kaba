@@ -17,6 +17,7 @@ export async function GET(
   }
 
   cookies().delete("user");
+  cookies().delete("role");
   const user = await prisma.user.findFirst({
     where: {
       activateTokens: {
@@ -52,7 +53,7 @@ export async function GET(
   if (Date.now() - new Date(tokenCreatedAt).getTime() > tokenExpirationTime) {
     console.log("entra aca");
 
-    return NextResponse.redirect(`${apiUrl}/auth/expired`);
+    return NextResponse.redirect(`${apiUrl}auth/expired`);
   }
 
   const verifiedUser = await prisma.user.update({
@@ -77,5 +78,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.redirect(`${apiUrl}/auth/signin`);
+  return NextResponse.redirect(`${apiUrl}auth/signin`);
 }
